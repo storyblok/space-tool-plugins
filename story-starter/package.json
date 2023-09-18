@@ -1,0 +1,11 @@
+{
+  "name": "story-starter",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev:nuxt": "pnpm -F nuxt dev"
+  },
+  "author": "",
+  "license": "MIT"
+}
