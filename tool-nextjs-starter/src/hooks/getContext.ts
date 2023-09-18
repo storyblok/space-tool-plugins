@@ -1,24 +1,24 @@
-import {useEffect, useState} from "react";
-import {APP_ORIGIN, TOOL_ID} from "@/hooks/shared";
+import { useEffect, useState } from 'react'
+import { APP_ORIGIN, TOOL_ID } from '@/hooks/shared'
 
 type Story = {
-    name: string,
-    updated_at: string,
-    content: unknown,
-    published: boolean,
+    name: string
+    updated_at: string
+    content: unknown
+    published: boolean
     slug: string
     // partial type definition
 }
 
 type ToolContext = {
-    action: 'get-context',
-    language: string,
+    action: 'get-context'
+    language: string
     story: Story
 }
 
 export function useToolContext() {
     const [context, setContext] = useState<ToolContext | undefined>(undefined)
-    const handleContext = ({data}: MessageEvent<ToolContext>) => {
+    const handleContext = ({ data }: MessageEvent<ToolContext>) => {
         if (data.action === 'get-context') {
             setContext(data)
         }
