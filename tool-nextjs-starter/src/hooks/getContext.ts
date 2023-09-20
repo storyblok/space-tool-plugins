@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { APP_ORIGIN, TOOL_ID } from "@/hooks/shared";
+import { useEffect, useState } from 'react';
+import { APP_ORIGIN, TOOL_ID } from '@/hooks/shared';
 
 type Story = {
 	name: string;
@@ -11,7 +11,7 @@ type Story = {
 };
 
 type ToolContext = {
-	action: "get-context";
+	action: 'get-context';
 	language: string;
 	story: Story;
 };
@@ -19,7 +19,7 @@ type ToolContext = {
 export function useToolContext() {
 	const [context, setContext] = useState<ToolContext | undefined>(undefined);
 	const handleContext = ({ data }: MessageEvent<ToolContext>) => {
-		if (data.action === "get-context") {
+		if (data.action === 'get-context') {
 			setContext(data);
 		}
 	};
@@ -27,17 +27,17 @@ export function useToolContext() {
 	useEffect(() => {
 		window.parent.postMessage(
 			{
-				action: "tool-changed",
+				action: 'tool-changed',
 				tool: TOOL_ID,
-				event: "getContext",
+				event: 'getContext',
 			},
 			APP_ORIGIN,
 		);
 
-		window.addEventListener("message", handleContext);
+		window.addEventListener('message', handleContext);
 
 		return () => {
-			window.removeEventListener("message", handleContext);
+			window.removeEventListener('message', handleContext);
 		};
 	}, []);
 

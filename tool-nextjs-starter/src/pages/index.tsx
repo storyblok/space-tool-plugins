@@ -1,10 +1,10 @@
-import Head from "next/head";
-import { GetServerSideProps } from "next";
-import { isAppSessionQuery } from "@storyblok/app-extension-auth";
-import { appSessionCookies } from "@/auth";
-import { useAutoHeight, useToolContext } from "@/hooks";
-import { isAdmin } from "@/utils";
-import { useEffect, useState } from "react";
+import Head from 'next/head';
+import { GetServerSideProps } from 'next';
+import { isAppSessionQuery } from '@storyblok/app-extension-auth';
+import { appSessionCookies } from '@/auth';
+import { useAutoHeight, useToolContext } from '@/hooks';
+import { isAdmin } from '@/utils';
+import { useEffect, useState } from 'react';
 
 type HomeProps = {
 	accessToken: string;
@@ -29,7 +29,7 @@ export default function Home(props: HomeProps) {
 			.then((res) => res.json())
 			.then((userInfo) => setUserInfo(userInfo))
 			.catch((error) => {
-				console.error("Failed to fetch user information:", error);
+				console.error('Failed to fetch user information:', error);
 				setUserInfo(undefined);
 			});
 	}, []);
@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return {
 			redirect: {
 				permanent: false,
-				destination: process.env.BASE_URL + "/api/connect/storyblok",
+				destination: process.env.BASE_URL + '/api/connect/storyblok',
 			},
 		};
 	}
@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return {
 			redirect: {
 				permanent: false,
-				destination: process.env.BASE_URL + "/api/connect/storyblok",
+				destination: process.env.BASE_URL + '/api/connect/storyblok',
 			},
 		};
 	}

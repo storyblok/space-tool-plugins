@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { APP_ORIGIN, TOOL_ID } from "@/hooks/shared";
+import { useEffect } from 'react';
+import { APP_ORIGIN, TOOL_ID } from '@/hooks/shared';
 
 export function useAutoHeight() {
 	useEffect(() => {
 		const observer = new MutationObserver(() => {
 			window.parent.postMessage(
 				{
-					action: "tool-changed",
+					action: 'tool-changed',
 					tool: TOOL_ID,
-					event: "heightChange",
+					event: 'heightChange',
 					height: document.body.scrollHeight,
 				},
 				APP_ORIGIN,
