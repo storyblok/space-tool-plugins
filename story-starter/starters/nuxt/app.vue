@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { XPTO, Hello } from "common";
+import { XPTO, Hello } from 'common';
 const a: number = XPTO;
 
 console.log(a);

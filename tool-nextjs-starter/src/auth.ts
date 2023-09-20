@@ -1,4 +1,8 @@
-import { authHandler, AuthHandlerParams, sessionCookieStore } from '@storyblok/app-extension-auth';
+import {
+	authHandler,
+	AuthHandlerParams,
+	sessionCookieStore,
+} from '@storyblok/app-extension-auth';
 ['CLIENT_ID', 'CLIENT_SECRET', 'BASE_URL'].forEach((key) => {
 	if (!process.env[key]) {
 		throw new Error(`Environment variable "${key}" is missing.`);
