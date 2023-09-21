@@ -1,9 +1,9 @@
-import { handleConnect } from '@/auth'
+import { handleConnect } from '@/auth';
 
 export const config = {
-    api: {
-        externalResolver: true,
-    },
-}
+	api: {
+		externalResolver: true,
+	},
+};
 
-export default handleConnect
+export default handleConnect;
