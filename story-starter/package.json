@@ -4,7 +4,7 @@
 	"description": "",
 	"private": true,
 	"scripts": {
-		"dev:nuxt": "pnpm -F nuxt dev"
+		"dev:nuxt": "pnpm -F @story-starter/nuxt dev"
 	},
 	"author": "",
 	"license": "MIT"
