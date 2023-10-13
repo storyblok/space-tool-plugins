@@ -1,6 +1,6 @@
 {
 	"version": "0.0.1",
-	"name": "@story-starter/nuxt",
+	"name": "nuxt",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -11,7 +11,7 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"@story-starter/common": "*",
+		"common": "workspace:*",
 		"@storyblok/app-extension-auth": "1.0.0-alpha.1"
 	},
 	"devDependencies": {
