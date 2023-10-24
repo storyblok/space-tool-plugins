@@ -3,7 +3,7 @@ import {
 	sessionCookieStore,
 } from '@storyblok/app-extension-auth';
 
-type H3Event = Parameters<Parameters<typeof defineEventHandler>[0]>[0];
+import type { H3Event } from 'h3';
 
 export const getAppSession = async (event: H3Event) => {
 	const query = getQuery(event);
