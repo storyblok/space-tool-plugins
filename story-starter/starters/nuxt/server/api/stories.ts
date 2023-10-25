@@ -1,14 +1,10 @@
 import StoryblokClient, { type ISbStoryData } from 'storyblok-js-client';
 
 export default defineEventHandler(async (event) => {
-	const appSession = await getAppSession(event);
-	if (!appSession) {
-		throw createError({ statusCode: 401 });
-	}
+	const { spaceId, accessToken } = event.context.appSession;
 
-	const { spaceId } = getQuery(event);
 	const client = new StoryblokClient({
-		oauthToken: `bearer ${appSession.accessToken}`,
+		oauthToken: `bearer ${accessToken}`,
 	});
 	const { data, perPage, total } = await client.get(
 		`spaces/${spaceId}/stories`,
