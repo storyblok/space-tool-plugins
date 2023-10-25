@@ -1,12 +1,5 @@
 <script setup lang="ts">
-const route = useRoute();
-
-const { data } = await useFetch(`/api/stories`, {
-	query: {
-		spaceId: route.query.spaceId,
-		userId: route.query.userId,
-	},
-});
+const { data } = await useFetch(`/api/stories`);
 </script>
 
 <template>

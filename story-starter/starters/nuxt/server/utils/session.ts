@@ -5,10 +5,18 @@ import {
 
 import type { H3Event } from 'h3';
 
-export const getAppSession = async (event: H3Event) => {
-	const query = getQuery(event);
+type AppSessionQuery = {
+	spaceId: number;
+	userId: number;
+};
 
-	if (!isAppSessionQuery(query)) {
+export const getAppSession = async (
+	event: H3Event,
+	query?: AppSessionQuery
+) => {
+	const appSessionQuery = query ?? getQuery(event);
+
+	if (!isAppSessionQuery(appSessionQuery)) {
 		return;
 	}
 
@@ -17,5 +25,5 @@ export const getAppSession = async (event: H3Event) => {
 		res: event.node.res,
 	});
 
-	return await sessionStore.get(query);
+	return await sessionStore.get(appSessionQuery);
 };
