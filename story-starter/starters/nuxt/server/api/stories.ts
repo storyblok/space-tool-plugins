@@ -10,14 +10,18 @@ export default defineEventHandler(async (event) => {
 	const client = new StoryblokClient({
 		oauthToken: `bearer ${appSession.accessToken}`,
 	});
-	const {
-		data: { stories },
-	} = await client.get(`spaces/${spaceId}/stories`, {
-		version: 'published',
-		per_page: 25,
-		page: 1,
-	});
+	const { data, perPage, total } = await client.get(
+		`spaces/${spaceId}/stories`,
+		{
+			version: 'published',
+			per_page: 25,
+			page: 1,
+		}
+	);
+
 	return {
-		stories: stories as ISbStoryData[],
+		stories: data.stories as ISbStoryData<unknown>[],
+		perPage,
+		total,
 	};
 });

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const route = useRoute();
 
 const { data } = await useFetch(`/api/stories`, {
@@ -10,7 +10,7 @@ const { data } = await useFetch(`/api/stories`, {
 </script>
 
 <template>
-	<div>
+	<div v-if="data">
 		<div v-for="(item, index) in data.stories" :key="index">
 			<pre>{{ item.name }} (/{{ item.slug }})</pre>
 		</div>
