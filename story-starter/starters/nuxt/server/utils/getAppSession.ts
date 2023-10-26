@@ -27,7 +27,7 @@ const getAppSessionQuery = (event: H3Event): AppSessionQuery | undefined => {
 
 	const { space_id, user_id } = getQuery(event);
 	if (space_id && user_id) {
-		// if the current request **is** /?space_id=xxx&user_id=yyy
+		// if this is a page request (/?space_id=xxx&user_id=yyy)
 		return {
 			spaceId: Number(space_id),
 			userId: Number(user_id),
@@ -38,7 +38,7 @@ const getAppSessionQuery = (event: H3Event): AppSessionQuery | undefined => {
 	if (!referer) {
 		return;
 	}
-	// if the current request is **coming from** /?space_id=xxx&user_id=yyy
+	// if this is an API request that is coming from a page (/?space_id=xxx&user_id=yyy)
 	const refererSearchParams = new URL(referer).searchParams;
 	const spaceId = refererSearchParams.get('space_id');
 	const userId = refererSearchParams.get('user_id');
