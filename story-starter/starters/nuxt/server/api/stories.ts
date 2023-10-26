@@ -4,9 +4,7 @@ import { parseQuery } from '../utils/parse';
 
 export default defineEventHandler(async (event) => {
 	const { spaceId, accessToken } = event.context.appSession;
-	// We're using `coerce(number(), Number)`,
-	// while we could've used just `number()`.
-	//
+	// We're using `coerce(number(), Number)` instead of `number()`.
 	// When requesting with query parameters like:
 	// /stories?perPage=10&page=4
 	// the parsed result is just strings like '10' and '4'.
