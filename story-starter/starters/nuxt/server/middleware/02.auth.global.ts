@@ -6,17 +6,7 @@ export default defineEventHandler(async (event) => {
 		return;
 	}
 
-	// If user is already authenticated, there is a chance that
-	// spaceId and userId exist in the `event.context`.
-	// In this case, we don't need to read ?userId=&spaceId=
-	// to query the app session. We can just use the ones from `event.context`.
-	const appSessionQuery = event.context.appSession
-		? {
-				spaceId: event.context.appSession.spaceId,
-				userId: event.context.appSession.userId,
-		  }
-		: undefined;
-	const appSession = await getAppSession(event, appSessionQuery);
+	const appSession = await getAppSession(event);
 
 	if (!appSession) {
 		if (event.path.startsWith('/api/')) {
