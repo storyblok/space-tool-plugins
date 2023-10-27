@@ -4,35 +4,27 @@ import { isAppSessionQuery } from '@storyblok/app-extension-auth';
 import { appSessionCookies } from '@/auth';
 import { useAutoHeight, useToolContext } from '@/hooks';
 import { isAdmin } from '@/utils';
-import { useEffect, useState } from 'react';
+
+type User = {
+	id: number;
+	friendly_name: string;
+};
+
+type UserInfo = {
+	user: User;
+};
 
 type HomeProps = {
-	accessToken: string;
+	userInfo: UserInfo;
 	spaceId: string;
 	userId: string;
 	isAdmin: boolean;
 };
 
 export default function Home(props: HomeProps) {
-	//TODO: add types
-	const [userInfo, setUserInfo] = useState<any | undefined>(undefined);
 	const toolContext = useToolContext();
 
 	useAutoHeight();
-
-	useEffect(() => {
-		fetch(`https://api.storyblok.com/oauth/user_info`, {
-			headers: {
-				Authorization: `Bearer ${props.accessToken}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((userInfo) => setUserInfo(userInfo))
-			.catch((error) => {
-				console.error('Failed to fetch user information:', error);
-				setUserInfo(undefined);
-			});
-	}, []);
 
 	return (
 		<>
@@ -42,7 +34,9 @@ export default function Home(props: HomeProps) {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
 			<main>
-				{userInfo && <span>Hello {userInfo.user.friendly_name}</span>}
+				{props.userInfo && (
+					<span>Hello {props.userInfo.user.friendly_name}</span>
+				)}
 				{toolContext && (
 					<>
 						<h2>Story Information</h2>
@@ -82,7 +76,30 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	const { accessToken, spaceId, userId } = appSession;
+
+	const userInfo = await fetchUserInfo(accessToken);
+
 	return {
-		props: { accessToken, spaceId, userId, isAdmin: isAdmin(appSession) },
+		props: { userInfo, spaceId, userId, isAdmin: isAdmin(appSession) },
 	};
+};
+
+const fetchUserInfo = async (accessToken: string) => {
+	try {
+		const response = await fetch(`https://api.storyblok.com/oauth/user_info`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error(`Request failed with status: ${response.status}`);
+		}
+
+		return await response.json();
+	} catch (error) {
+		console.error('Failed to fetch user information:', error);
+	}
+
+	return null;
 };
