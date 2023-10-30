@@ -26,7 +26,7 @@ const isLoadedAll = computed(
 );
 
 const loadMore = () => {
-	pageLoaded.value = pageLoaded.value += 1;
+	pageLoaded.value += 1;
 };
 </script>
 
