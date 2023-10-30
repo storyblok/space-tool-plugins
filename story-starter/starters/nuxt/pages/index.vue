@@ -10,18 +10,16 @@ const { data } = await useFetch(`/api/stories`, {
 });
 
 const totalStoryCount = computed(() => data?.value?.total);
-const allStories = ref<ISbStoryData[]>([]);
-
-watch(
-	data,
-	(newData) => {
-		allStories.value = [
-			...allStories.value,
-			...((newData?.stories || []) as ISbStoryData[]),
-		];
-	},
-	{ immediate: true }
+const allStories = ref<ISbStoryData[]>(
+	(data.value?.stories ?? []) as ISbStoryData[]
 );
+
+watch(data, (newData) => {
+	allStories.value = [
+		...allStories.value,
+		...((newData?.stories || []) as ISbStoryData[]),
+	];
+});
 
 const isLoadedAll = computed(
 	() => allStories.value.length >= (totalStoryCount.value ?? 0)
