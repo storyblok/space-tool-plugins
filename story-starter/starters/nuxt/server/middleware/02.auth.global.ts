@@ -1,30 +1,22 @@
-import {
-	isAppSessionQuery,
-	sessionCookieStore,
-} from '@storyblok/app-extension-auth';
-import { authHandlerParams } from '../utils/auth';
 import { OAUTH_FLOW_URL, ENDPOINT_PREFIX } from '~/shared/auth';
 
 export default defineEventHandler(async (event) => {
+	// do not enforce authentication for oauth-related APIs
 	if (event.path.startsWith(ENDPOINT_PREFIX)) {
 		return;
 	}
 
-	const query = getQuery(event);
+	const appSession = await getAppSession(event);
 
-	if (!isAppSessionQuery(query)) {
-		return await sendRedirect(event, OAUTH_FLOW_URL, 302);
-	}
-
-	const sessionStore = sessionCookieStore(authHandlerParams)({
-		req: event.node.req,
-		res: event.node.res,
-	});
-
-	const appSession = await sessionStore.get(query);
 	if (!appSession) {
-		return await sendRedirect(event, OAUTH_FLOW_URL, 302);
+		if (event.path.startsWith('/api/')) {
+			// APIs
+			throw createError({ statusCode: 401 });
+		} else {
+			// pages
+			return await sendRedirect(event, OAUTH_FLOW_URL, 302);
+		}
 	}
 
-	// const { accessToken, region, spaceId } = appSession;
+	event.context.appSession = appSession;
 });
