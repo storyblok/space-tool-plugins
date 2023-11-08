@@ -13,7 +13,8 @@
 	"dependencies": {
 		"@storyblok/app-extension-auth": "1.0.0-alpha.1",
 		"common": "workspace:*",
-		"storyblok-js-client": "^6.2.0"
+		"storyblok-js-client": "^6.2.0",
+		"valibot": "^0.19.0"
 	},
 	"devDependencies": {
 		"@nuxt/devtools": "latest",
