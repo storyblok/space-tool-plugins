@@ -1,4 +1,5 @@
 {
+	"version": "0.0.1",
 	"name": "nuxt",
 	"private": true,
 	"type": "module",
@@ -10,10 +11,13 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"common": "workspace:*"
+		"common": "workspace:*",
+		"@storyblok/app-extension-auth": "1.0.0-alpha.1"
 	},
 	"devDependencies": {
 		"@nuxt/devtools": "latest",
-		"nuxt": "^3.7.3"
+		"nuxt": "^3.7.4",
+		"vue": "^3.3.4",
+		"vue-router": "^4.2.5"
 	}
 }
