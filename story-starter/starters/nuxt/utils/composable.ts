@@ -1,17 +1,18 @@
 import type { ISbStoryData } from 'storyblok-js-client';
 import type { Ref, UnwrapRef } from 'vue';
 
-type Pagination = {
-	currentPage: number;
-	nextPage: undefined | number;
-	perPage: number;
-};
+//TODO: think about selecting multiple stories
+//todo about removing stories from selection
 
-type UseStories = (props?: { perPage: number }) => Promise<{
+type UseStories = (props?: {
+	perPage?: number;
+	page?: number | Ref<number>;
+}) => Promise<{
 	data: Ref<Stories | undefined>;
-	fetchNextPage: () => Promise<void>;
 	hasNextPage: Ref<UnwrapRef<boolean>>;
+	hasPreviousPage: Ref<UnwrapRef<boolean>>;
 	isLoading: Ref<UnwrapRef<boolean>>;
+	nrOfPages: Ref<number>;
 }>;
 
 type Stories = {
@@ -21,57 +22,48 @@ type Stories = {
 };
 
 export const useStories: UseStories = async (props) => {
-	const data = useState<undefined | Stories>('data', () => undefined);
-	const pagination = useState<Pagination>('pagination', () => ({
-		currentPage: 1,
-		nextPage: undefined,
-		perPage: props?.perPage || 10,
-	}));
-	const hasNextPage = ref<boolean>(false);
-	const isLoading = ref<boolean>(false);
+	const perPage = props?.perPage || 10;
+	const data = useState<undefined | Stories>(() => undefined);
+	const hasNextPage = useState(() => false);
+	const hasPreviousPage = useState(() => false);
+	const nrOfPages = useState(() => 0);
+	const isLoading = useState(() => false);
 
 	const getStories = async () => {
 		isLoading.value = true;
+		const currentPage = props?.page ? toValue(props.page) : 1;
 
-		//TODO: error handling
-		const res = await fetchStories(
-			pagination.value.currentPage,
-			pagination.value.perPage,
-		);
+		const storyResponse = await fetchStories(currentPage, perPage);
 
-		const nextPage = getNextPage(
-			pagination.value.currentPage,
-			res.total,
-			pagination.value.perPage,
-		);
-
-		hasNextPage.value = !!nextPage;
-		pagination.value.nextPage = nextPage;
-		data.value = res;
-		isLoading.value = false;
-	};
-
-	const fetchNextPage = async () => {
-		if (pagination.value.nextPage === null) {
+		if (storyResponse === null) {
+			isLoading.value = false;
 			return;
 		}
 
-		pagination.value.currentPage++;
-		await getStories();
+		nrOfPages.value = getNrOfPages(storyResponse.total, perPage);
+
+		const nextPage = getNextPage(toValue(nrOfPages), currentPage);
+		const previousPage = getPreviousPage(currentPage);
+
+		hasPreviousPage.value = !!previousPage;
+		hasNextPage.value = !!nextPage;
+		data.value = storyResponse;
+		isLoading.value = false;
 	};
 
-	onMounted(() => getStories());
+	watchEffect(() => getStories());
 
 	return {
 		data,
-		fetchNextPage,
+		hasPreviousPage,
 		hasNextPage,
 		isLoading,
+		nrOfPages,
 	};
 };
 
-//TODO: checkout useAsyncData or useFetch
-const fetchStories = (page: number, perPage: number = 10) =>
+//TODO: checkout ERROR handling
+const fetchStories = (page: number, perPage: number) =>
 	fetch(
 		`https://bs-custom-app.ngrok.io/api/stories?perPage=${perPage}&page=${page}`,
 		{
@@ -79,11 +71,14 @@ const fetchStories = (page: number, perPage: number = 10) =>
 		},
 	).then((res) => res.json());
 
-const getNextPage = (
-	currentPage: number,
-	totalItems: number,
-	itemsPerPage: number,
-) => {
-	const differenceBetweenNext = totalItems - currentPage * itemsPerPage;
-	return differenceBetweenNext > 0 ? currentPage + 1 : undefined;
+const getNextPage = (nrOfPages: number, currentPage: number) => {
+	return currentPage < nrOfPages ? currentPage + 1 : undefined;
+};
+
+const getPreviousPage = (currentPage: number) => {
+	return currentPage > 1 ? currentPage - 1 : undefined;
+};
+
+const getNrOfPages = (totalItems: number, itemsPerPage: number) => {
+	return Math.ceil(totalItems / itemsPerPage);
 };

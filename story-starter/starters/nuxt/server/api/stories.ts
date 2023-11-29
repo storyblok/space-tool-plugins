@@ -18,21 +18,42 @@ export default defineEventHandler(async (event) => {
 		}),
 	});
 
-	const page = query.page ?? 1;
-	const perPage = query.perPage ?? 25;
+	const response = await storyblokFetch(accessToken).getStories({
+		spaceId,
+		page: query.page,
+		perPage: query.perPage,
+	});
 
-	const client = new StoryblokClient({
+	return response;
+});
+
+const storyblokFetch = (accessToken: string) => {
+	const defaults = {
+		perPage: 25,
+		page: 1,
+		version: 'published',
+	};
+
+	const storyblokClient = new StoryblokClient({
 		oauthToken: `bearer ${accessToken}`,
 	});
-	const { data, total } = await client.get(`spaces/${spaceId}/stories`, {
-		version: 'published',
-		per_page: perPage,
-		page,
-	});
 
-	return {
-		stories: data.stories as ISbStoryData[],
-		perPage,
-		total,
+	const getStories = async ({ spaceId, perPage, page, version }: any) => {
+		const { data, total } = await storyblokClient.get(
+			`spaces/${spaceId}/stories`,
+			{
+				version: 'published',
+				per_page: perPage ?? defaults.perPage,
+				page: page ?? defaults.page,
+			},
+		);
+
+		return {
+			stories: data.stories as ISbStoryData[],
+			perPage,
+			total,
+		};
 	};
-});
+
+	return { getStories };
+};
