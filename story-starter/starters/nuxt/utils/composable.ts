@@ -1,9 +1,7 @@
 import type { ISbStoryData } from 'storyblok-js-client';
 import type { Ref, UnwrapRef } from 'vue';
 
-//TODO: think about selecting multiple stories
-//todo about removing stories from selection
-
+//TODO: think about selecting all stories
 type UseStories = (props?: {
 	perPage?: number;
 	page?: number | Ref<number>;
@@ -13,6 +11,9 @@ type UseStories = (props?: {
 	hasPreviousPage: Ref<UnwrapRef<boolean>>;
 	isLoading: Ref<UnwrapRef<boolean>>;
 	nrOfPages: Ref<number>;
+	selectStory: (id: number) => void;
+	unselectStory: (id: number) => void;
+	selectedStories: Ref<number[]>;
 }>;
 
 type Stories = {
@@ -24,6 +25,7 @@ type Stories = {
 export const useStories: UseStories = async (props) => {
 	const perPage = props?.perPage || 10;
 	const data = useState<undefined | Stories>(() => undefined);
+	const selectedStories = useState<number[]>(() => []);
 	const hasNextPage = useState(() => false);
 	const hasPreviousPage = useState(() => false);
 	const nrOfPages = useState(() => 0);
@@ -51,6 +53,23 @@ export const useStories: UseStories = async (props) => {
 		isLoading.value = false;
 	};
 
+	const unselectStory = (id: number) => {
+		const filteredStories = selectedStories.value.filter(
+			(selectedStory) => selectedStory !== id,
+		);
+
+		if (filteredStories) {
+			selectedStories.value = filteredStories;
+		}
+	};
+
+	const selectStory = (id: number) => {
+		const alreadySelected = selectedStories.value.includes(id);
+		if (!alreadySelected) {
+			selectedStories.value.push(id);
+		}
+	};
+
 	watchEffect(() => getStories());
 
 	return {
@@ -59,6 +78,9 @@ export const useStories: UseStories = async (props) => {
 		hasNextPage,
 		isLoading,
 		nrOfPages,
+		selectedStories,
+		selectStory,
+		unselectStory,
 	};
 };
 

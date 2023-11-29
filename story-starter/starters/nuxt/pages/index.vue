@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { useStories } from '~/utils/composable';
 const page = ref(1);
-const { data, hasNextPage, hasPreviousPage, isLoading, nrOfPages } =
-	await useStories({ page, perPage: 11 });
+const {
+	data,
+	hasNextPage,
+	hasPreviousPage,
+	isLoading,
+	nrOfPages,
+	selectedStories,
+	selectStory,
+	unselectStory,
+} = await useStories({ page, perPage: 11 });
 
 /*
 * const {
@@ -29,6 +37,15 @@ const fetchPage = (newPage: number) => {
 	page.value = newPage;
 };
 
+const onChange = (event: any, id: number) => {
+	if (event.target.checked) {
+		selectStory(id);
+		return;
+	}
+
+	unselectStory(id);
+};
+
 const fetchNextPage = () => {
 	if (hasNextPage) {
 		page.value++;
@@ -39,8 +56,23 @@ const fetchNextPage = () => {
 <template>
 	<span v-if="isLoading">Loading...</span>
 	<div v-if="!isLoading && data">
+		<span>Number of selected stories {{ selectedStories.length }}</span>
+
 		<div v-for="(story, index) in data.stories" :key="index">
-			<pre>{{ story.name }} (/{{ story.slug }})</pre>
+			<input
+				type="checkbox"
+				:id="story.id.toString()"
+				:name="story.id.toString()"
+				@change="(e) => onChange(e, story.id)"
+				:checked="
+					selectedStories.length > 0
+						? selectedStories.includes(story.id)
+						: false
+				"
+			/>
+			<label :for="story.id.toString()"
+				>{{ story.name }} (/{{ story.slug }})</label
+			>
 		</div>
 		<span>Current Page {{ page }}</span>
 
