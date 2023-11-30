@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useStories } from '~/utils/composable';
 const page = ref(1);
 const {
 	data,
 	hasNextPage,
 	hasPreviousPage,
 	isLoading,
-	nrOfPages,
+	numberOfPages,
 	selectedStories,
 	selectStory,
 	unselectStory,
@@ -79,7 +78,7 @@ const fetchNextPage = () => {
 		<button @click="fetchPreviousPage" :disabled="!hasPreviousPage">
 			Previous Page
 		</button>
-		<div v-for="(item, idx) in createPageArray(nrOfPages)">
+		<div v-for="(item, idx) in createPageArray(numberOfPages)">
 			<button @click="fetchPage(idx + 1)">
 				{{ idx + 1 }}
 			</button>

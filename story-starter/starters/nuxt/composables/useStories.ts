@@ -10,7 +10,7 @@ type UseStories = (props?: {
 	hasNextPage: Ref<UnwrapRef<boolean>>;
 	hasPreviousPage: Ref<UnwrapRef<boolean>>;
 	isLoading: Ref<UnwrapRef<boolean>>;
-	nrOfPages: Ref<number>;
+	numberOfPages: Ref<number>;
 	selectStory: (id: number) => void;
 	unselectStory: (id: number) => void;
 	selectedStories: Ref<number[]>;
@@ -28,28 +28,28 @@ export const useStories: UseStories = async (props) => {
 	const selectedStories = useState<number[]>(() => []);
 	const hasNextPage = useState(() => false);
 	const hasPreviousPage = useState(() => false);
-	const nrOfPages = useState(() => 0);
+	const numberOfPages = useState(() => 0);
 	const isLoading = useState(() => false);
 
 	const getStories = async () => {
 		isLoading.value = true;
 		const currentPage = props?.page ? toValue(props.page) : 1;
 
-		const storyResponse = await fetchStories(currentPage, perPage);
+		const { data: storyRes } = await fetchStories(currentPage, perPage);
 
-		if (storyResponse === null) {
+		if (storyRes.value === null) {
 			isLoading.value = false;
 			return;
 		}
 
-		nrOfPages.value = getNrOfPages(storyResponse.total, perPage);
+		numberOfPages.value = getNumberOfPages(storyRes.value.total, perPage);
 
-		const nextPage = getNextPage(toValue(nrOfPages), currentPage);
+		const nextPage = getNextPage(toValue(numberOfPages), currentPage);
 		const previousPage = getPreviousPage(currentPage);
 
 		hasPreviousPage.value = !!previousPage;
 		hasNextPage.value = !!nextPage;
-		data.value = storyResponse;
+		data.value = storyRes.value as Stories;
 		isLoading.value = false;
 	};
 
@@ -77,7 +77,7 @@ export const useStories: UseStories = async (props) => {
 		hasPreviousPage,
 		hasNextPage,
 		isLoading,
-		nrOfPages,
+		numberOfPages,
 		selectedStories,
 		selectStory,
 		unselectStory,
@@ -86,21 +86,21 @@ export const useStories: UseStories = async (props) => {
 
 //TODO: checkout ERROR handling
 const fetchStories = (page: number, perPage: number) =>
-	fetch(
-		`https://bs-custom-app.ngrok.io/api/stories?perPage=${perPage}&page=${page}`,
-		{
-			method: 'GET',
+	useFetch('/api/stories?perPage', {
+		query: {
+			perPage,
+			page,
 		},
-	).then((res) => res.json());
+	});
 
-const getNextPage = (nrOfPages: number, currentPage: number) => {
-	return currentPage < nrOfPages ? currentPage + 1 : undefined;
+const getNextPage = (numberOfPages: number, currentPage: number) => {
+	return currentPage < numberOfPages ? currentPage + 1 : undefined;
 };
 
 const getPreviousPage = (currentPage: number) => {
 	return currentPage > 1 ? currentPage - 1 : undefined;
 };
 
-const getNrOfPages = (totalItems: number, itemsPerPage: number) => {
+const getNumberOfPages = (totalItems: number, itemsPerPage: number) => {
 	return Math.ceil(totalItems / itemsPerPage);
 };
