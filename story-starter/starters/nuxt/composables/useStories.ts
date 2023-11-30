@@ -2,18 +2,17 @@ import type { ISbStoryData } from 'storyblok-js-client';
 import type { Ref, UnwrapRef } from 'vue';
 
 //TODO: think about selecting all stories
-type UseStories = (props?: {
-	perPage?: number;
-	page?: number | Ref<number>;
-}) => Promise<{
+type UseStories = (props?: { perPage?: number }) => Promise<{
 	data: Ref<Stories | undefined>;
 	hasNextPage: Ref<UnwrapRef<boolean>>;
 	hasPreviousPage: Ref<UnwrapRef<boolean>>;
 	isLoading: Ref<UnwrapRef<boolean>>;
 	numberOfPages: Ref<number>;
+	currentPage: Ref<number>;
 	selectStory: (id: number) => void;
 	unselectStory: (id: number) => void;
 	selectedStories: Ref<number[]>;
+	goToPage: (page: number) => void;
 }>;
 
 type Stories = {
@@ -30,12 +29,12 @@ export const useStories: UseStories = async (props) => {
 	const hasPreviousPage = useState(() => false);
 	const numberOfPages = useState(() => 0);
 	const isLoading = useState(() => false);
+	const currentPage = useState(() => 1);
 
 	const getStories = async () => {
 		isLoading.value = true;
-		const currentPage = props?.page ? toValue(props.page) : 1;
 
-		const { data: storyRes } = await fetchStories(currentPage, perPage);
+		const { data: storyRes } = await fetchStories(currentPage.value, perPage);
 
 		if (storyRes.value === null) {
 			isLoading.value = false;
@@ -44,8 +43,10 @@ export const useStories: UseStories = async (props) => {
 
 		numberOfPages.value = getNumberOfPages(storyRes.value.total, perPage);
 
-		const nextPage = getNextPage(toValue(numberOfPages), currentPage);
-		const previousPage = getPreviousPage(currentPage);
+		const nextPage = computed(() =>
+			getNextPage(toValue(numberOfPages), currentPage.value),
+		);
+		const previousPage = computed(() => getPreviousPage(currentPage.value));
 
 		hasPreviousPage.value = !!previousPage;
 		hasNextPage.value = !!nextPage;
@@ -70,7 +71,18 @@ export const useStories: UseStories = async (props) => {
 		}
 	};
 
-	watchEffect(() => getStories());
+	const goToPage = (page: number) => {
+		currentPage.value = page;
+	};
+
+	watch(
+		() => currentPage.value,
+		() => {
+			console.log('watcher');
+		},
+	);
+
+	onMounted(() => getStories());
 
 	return {
 		data,
@@ -81,6 +93,8 @@ export const useStories: UseStories = async (props) => {
 		selectedStories,
 		selectStory,
 		unselectStory,
+		currentPage,
+		goToPage,
 	};
 };
 

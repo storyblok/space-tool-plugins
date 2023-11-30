@@ -9,7 +9,9 @@ const {
 	selectedStories,
 	selectStory,
 	unselectStory,
-} = await useStories({ page, perPage: 11 });
+	currentPage,
+	goToPage,
+} = await useStories({ perPage: 11 });
 
 /*
 * const {
@@ -33,6 +35,7 @@ const fetchPreviousPage = () => {
 };
 
 const fetchPage = (newPage: number) => {
+	goToPage(newPage);
 	page.value = newPage;
 };
 
