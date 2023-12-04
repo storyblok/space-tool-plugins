@@ -1,7 +1,7 @@
 import type { Ref, UnwrapRef } from 'vue';
 import type { Stories } from '~/types/story';
+import { type ISbStoryData } from 'storyblok-js-client';
 
-//TODO: think about selecting all stories
 type UseStories = (props?: { perPage?: number }) => Promise<{
 	data: Ref<Stories | undefined>;
 	hasNextPage: Ref<UnwrapRef<boolean>>;
@@ -9,84 +9,89 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	isLoading: Ref<UnwrapRef<boolean>>;
 	numberOfPages: Ref<number>;
 	currentPage: Ref<number>;
-	selectStory: (id: number) => void;
-	unselectStory: (id: number) => void;
-	selectedStories: Ref<number[]>;
+	selectStories: (id: number | number[]) => void;
+	isStorySelected: (id: number) => boolean;
+	unselectStories: (id: number | number[]) => void;
+	selectedStories: Ref<ISbStoryData[]>;
 	goToPage: (page: number) => void;
 }>;
 
 export const useStories: UseStories = async (props) => {
-	const data = useState<undefined | Stories>(() => undefined);
-	const selectedStories = useState<number[]>(() => []);
-	const hasNextPage = useState(() => false);
-	const hasPreviousPage = useState(() => false);
-	const numberOfPages = useState(() => 0);
-	const isLoading = useState(() => false);
+	const selectedStoryIds = useState<Set<number>>(() => new Set<number>());
+	const selectedStories = useState<Map<number, ISbStoryData>>(() => new Map());
+
 	const currentPage = useState(() => 1);
 
-	const getStories = async () => {
-		isLoading.value = true;
+	const { data, pending } = await useFetch('/api/stories', {
+		server: false,
+		query: {
+			perPage: props?.perPage || 25,
+			page: currentPage,
+		},
+	});
 
-		const storyResponse = await fetchStories(currentPage.value, props?.perPage);
+	const selectedStoriesInArray = computed(() => [
+		...selectedStories.value.values(),
+	]);
 
-		if (storyResponse === null) {
-			isLoading.value = false;
-			return;
+	const numberOfPages = computed(() => {
+		if (data.value !== null) {
+			return getNumberOfPages(data.value.total, data.value.perPage);
 		}
+		return 0;
+	});
 
-		numberOfPages.value = getNumberOfPages(
-			storyResponse.total,
-			storyResponse.perPage,
-		);
+	const nextPage = computed(() =>
+		getNextPage(toValue(numberOfPages), currentPage.value),
+	);
 
-		//Question: should this be extracted to outside off getStories?
-		const nextPage = computed(() =>
-			getNextPage(toValue(numberOfPages), currentPage.value),
-		);
-		const previousPage = computed(() => getPreviousPage(currentPage.value));
+	const previousPage = computed(() => getPreviousPage(currentPage.value));
+	const hasPreviousPage = computed(() => !!previousPage.value);
+	const hasNextPage = computed(() => !!nextPage.value);
 
-		hasPreviousPage.value = !!previousPage.value;
-		hasNextPage.value = !!nextPage.value;
-		data.value = storyResponse;
-		isLoading.value = false;
+	const unselectStories = (id: number | number[]) => {
+		const ids = Array.isArray(id) ? id : [id];
+		ids.forEach((i) => {
+			selectedStoryIds.value.delete(i);
+			selectedStories.value.delete(i);
+		});
 	};
 
-	const unselectStory = (id: number) => {
-		const filteredStories = selectedStories.value.filter(
-			(selectedStory) => selectedStory !== id,
-		);
+	const selectStories = (id: number | number[]) => {
+		const ids = Array.isArray(id) ? id : [id];
 
-		if (filteredStories) {
-			selectedStories.value = filteredStories;
-		}
+		ids.forEach((i) => {
+			if (data.value) {
+				const selectedStory = data.value.stories.find(
+					(story) => story.id === i,
+				);
+				if (selectedStory) {
+					selectedStoryIds.value.add(i);
+					selectedStories.value.set(i, selectedStory as ISbStoryData);
+				}
+			}
+		});
 	};
 
-	const selectStory = (id: number) => {
-		const alreadySelected = selectedStories.value.includes(id);
-		if (!alreadySelected) {
-			selectedStories.value.push(id);
-		}
-	};
+	const isStorySelected = (id: number) => selectedStoryIds.value.has(id);
 
 	const goToPage = (page: number) => {
+		if (page <= 0 || page > numberOfPages.value) {
+			return;
+		}
 		currentPage.value = page;
 	};
 
-	onMounted(() => getStories());
-
-	watch(currentPage, () => {
-		getStories();
-	});
-
 	return {
-		data,
+		data: data as Ref<Stories>,
 		hasPreviousPage,
 		hasNextPage,
-		isLoading,
+		isLoading: pending,
 		numberOfPages,
-		selectedStories,
-		selectStory,
-		unselectStory,
+		selectedStories: selectedStoriesInArray,
+		isStorySelected,
+		selectStories,
+		unselectStories,
 		currentPage,
 		goToPage,
 	};
