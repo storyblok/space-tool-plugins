@@ -27,20 +27,14 @@ export const useStories: UseStories = async (props) => {
 	const getStories = async () => {
 		isLoading.value = true;
 
-		const { data: storyRes } = await fetchStories(
-			currentPage.value,
-			props?.perPage,
-		);
+		const storyRes = await fetchStories(currentPage.value, props?.perPage);
 
-		if (storyRes.value === null) {
+		if (storyRes === null) {
 			isLoading.value = false;
 			return;
 		}
 
-		numberOfPages.value = getNumberOfPages(
-			storyRes.value.total,
-			storyRes.value.perPage,
-		);
+		numberOfPages.value = getNumberOfPages(storyRes.total, storyRes.perPage);
 
 		const nextPage = computed(() =>
 			getNextPage(toValue(numberOfPages), currentPage.value),
@@ -49,7 +43,7 @@ export const useStories: UseStories = async (props) => {
 
 		hasPreviousPage.value = !!previousPage.value;
 		hasNextPage.value = !!nextPage.value;
-		data.value = storyRes.value as Stories;
+		data.value = storyRes as Stories;
 		isLoading.value = false;
 	};
 
@@ -74,12 +68,12 @@ export const useStories: UseStories = async (props) => {
 		currentPage.value = page;
 	};
 
-	watch(
-		() => currentPage.value,
-		() => {
-			console.log('watcher');
-		},
-	);
+	// watch(
+	// 	() => currentPage.value,
+	// 	() => {
+	// 		console.log('watcher');
+	// 	},
+	// );
 
 	onMounted(() => getStories());
 
@@ -100,7 +94,7 @@ export const useStories: UseStories = async (props) => {
 //TODO: checkout ERROR handling
 //todo: check if perpage not set
 const fetchStories = (page: number, perPage?: number) =>
-	useFetch('/api/stories?perPage', {
+	$fetch('/api/stories', {
 		query: {
 			perPage,
 			page,
