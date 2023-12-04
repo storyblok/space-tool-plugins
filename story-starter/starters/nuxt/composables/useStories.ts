@@ -27,15 +27,19 @@ export const useStories: UseStories = async (props) => {
 	const getStories = async () => {
 		isLoading.value = true;
 
-		const storyRes = await fetchStories(currentPage.value, props?.perPage);
+		const storyResponse = await fetchStories(currentPage.value, props?.perPage);
 
-		if (storyRes === null) {
+		if (storyResponse === null) {
 			isLoading.value = false;
 			return;
 		}
 
-		numberOfPages.value = getNumberOfPages(storyRes.total, storyRes.perPage);
+		numberOfPages.value = getNumberOfPages(
+			storyResponse.total,
+			storyResponse.perPage,
+		);
 
+		//Question: should this be extracted to outside off getStories?
 		const nextPage = computed(() =>
 			getNextPage(toValue(numberOfPages), currentPage.value),
 		);
@@ -43,7 +47,7 @@ export const useStories: UseStories = async (props) => {
 
 		hasPreviousPage.value = !!previousPage.value;
 		hasNextPage.value = !!nextPage.value;
-		data.value = storyRes as Stories;
+		data.value = storyResponse;
 		isLoading.value = false;
 	};
 
@@ -68,14 +72,11 @@ export const useStories: UseStories = async (props) => {
 		currentPage.value = page;
 	};
 
-	// watch(
-	// 	() => currentPage.value,
-	// 	() => {
-	// 		console.log('watcher');
-	// 	},
-	// );
-
 	onMounted(() => getStories());
+
+	watch(currentPage, () => {
+		getStories();
+	});
 
 	return {
 		data,
@@ -92,15 +93,16 @@ export const useStories: UseStories = async (props) => {
 };
 
 //TODO: checkout ERROR handling
-//todo: check if perpage not set
-const fetchStories = (page: number, perPage?: number) =>
-	$fetch('/api/stories', {
+//todo: check if perPage not set
+const fetchStories = (page: number, perPage?: number): Promise<Stories> =>
+	$fetch<Stories>('/api/stories', {
 		query: {
 			perPage,
 			page,
 		},
 	});
 
+// TODO: extract to utils -> this can be shared across frameworks
 const getNextPage = (numberOfPages: number, currentPage: number) => {
 	return currentPage < numberOfPages ? currentPage + 1 : undefined;
 };
