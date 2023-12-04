@@ -14,21 +14,24 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	unselectStories: (id: number | number[]) => void;
 	selectedStories: Ref<ISbStoryData[]>;
 	goToPage: (page: number) => void;
+	error: Ref<Error | null>;
 }>;
 
 export const useStories: UseStories = async (props) => {
 	const selectedStoryIds = useState<Set<number>>(() => new Set<number>());
 	const selectedStories = useState<Map<number, ISbStoryData>>(() => new Map());
-
 	const currentPage = useState(() => 1);
 
-	const { data, pending } = await useFetch('/api/stories', {
-		server: false,
-		query: {
-			perPage: props?.perPage || 25,
-			page: currentPage,
+	const { data, pending, error } = await useFetch<Stories, Error>(
+		'/api/stories',
+		{
+			server: false,
+			query: {
+				perPage: props?.perPage || 25,
+				page: currentPage,
+			},
 		},
-	});
+	);
 
 	const selectedStoriesInArray = computed(() => [
 		...selectedStories.value.values(),
@@ -44,33 +47,33 @@ export const useStories: UseStories = async (props) => {
 	const nextPage = computed(() =>
 		getNextPage(toValue(numberOfPages), currentPage.value),
 	);
-
 	const previousPage = computed(() => getPreviousPage(currentPage.value));
 	const hasPreviousPage = computed(() => !!previousPage.value);
 	const hasNextPage = computed(() => !!nextPage.value);
 
 	const unselectStories = (id: number | number[]) => {
-		const ids = Array.isArray(id) ? id : [id];
-		ids.forEach((i) => {
+		const ids = turnNumberToArray(id);
+
+		for (const i of ids) {
 			selectedStoryIds.value.delete(i);
 			selectedStories.value.delete(i);
-		});
+		}
 	};
 
 	const selectStories = (id: number | number[]) => {
-		const ids = Array.isArray(id) ? id : [id];
+		const ids = turnNumberToArray(id);
 
-		ids.forEach((i) => {
-			if (data.value) {
-				const selectedStory = data.value.stories.find(
-					(story) => story.id === i,
-				);
-				if (selectedStory) {
-					selectedStoryIds.value.add(i);
-					selectedStories.value.set(i, selectedStory as ISbStoryData);
-				}
+		if (data.value === null) {
+			return;
+		}
+
+		for (const i of ids) {
+			const selectedStory = data.value.stories.find((story) => story.id === i);
+			if (selectedStory) {
+				selectedStoryIds.value.add(i);
+				selectedStories.value.set(i, selectedStory as ISbStoryData);
 			}
-		});
+		}
 	};
 
 	const isStorySelected = (id: number) => selectedStoryIds.value.has(id);
@@ -88,6 +91,7 @@ export const useStories: UseStories = async (props) => {
 		hasNextPage,
 		isLoading: pending,
 		numberOfPages,
+		error,
 		selectedStories: selectedStoriesInArray,
 		isStorySelected,
 		selectStories,
@@ -96,16 +100,6 @@ export const useStories: UseStories = async (props) => {
 		goToPage,
 	};
 };
-
-//TODO: checkout ERROR handling
-//todo: check if perPage not set
-const fetchStories = (page: number, perPage?: number): Promise<Stories> =>
-	$fetch<Stories>('/api/stories', {
-		query: {
-			perPage,
-			page,
-		},
-	});
 
 // TODO: extract to utils -> this can be shared across frameworks
 const getNextPage = (numberOfPages: number, currentPage: number) => {
@@ -119,3 +113,6 @@ const getPreviousPage = (currentPage: number) => {
 const getNumberOfPages = (totalItems: number, itemsPerPage: number) => {
 	return Math.ceil(totalItems / itemsPerPage);
 };
+
+const turnNumberToArray = (num: number | number[]) =>
+	Array.isArray(num) ? num : [num];

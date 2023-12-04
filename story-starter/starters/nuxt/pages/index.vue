@@ -10,6 +10,7 @@ const {
 	unselectStories,
 	currentPage,
 	isStorySelected,
+	error,
 	goToPage,
 } = await useStories({ perPage: 11 });
 
@@ -35,7 +36,8 @@ const onChange = (event: any, id: number) => {
 <template>
 	<!--	TODO loading progress bar instead of 'Loading...-->
 	<span v-if="isLoading">Loading...</span>
-	<div v-if="!isLoading && data">
+	<span v-if="error">Error: {{ error.message }}</span>
+	<div v-if="data">
 		<span>Number of selected stories {{ selectedStories.length }}</span>
 		<button @click="selectAll">Select All</button>
 		<button @click="unselectAll">Unselect All</button>

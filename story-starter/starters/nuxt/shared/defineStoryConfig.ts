@@ -6,6 +6,4 @@ type StoryConfig = {
 	}[];
 };
 
-export function defineStoryConfig(config: StoryConfig): StoryConfig {
-	return config;
-}
+export const defineStoryConfig = (config: StoryConfig): StoryConfig => config;
