@@ -66,11 +66,7 @@ const fetchNextPage = () => {
 				:id="story.id.toString()"
 				:name="story.id.toString()"
 				@change="(e) => onChange(e, story.id)"
-				:checked="
-					selectedStories.length > 0
-						? selectedStories.includes(story.id)
-						: false
-				"
+				:checked="selectedStories.includes(story.id)"
 			/>
 			<label :for="story.id.toString()"
 				>{{ story.name }} (/{{ story.slug }})</label

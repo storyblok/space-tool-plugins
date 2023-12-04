@@ -1,5 +1,5 @@
-import type { ISbStoryData } from 'storyblok-js-client';
 import type { Ref, UnwrapRef } from 'vue';
+import type { Stories } from '~/types/story';
 
 //TODO: think about selecting all stories
 type UseStories = (props?: { perPage?: number }) => Promise<{
@@ -15,14 +15,7 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	goToPage: (page: number) => void;
 }>;
 
-type Stories = {
-	stories: ISbStoryData[];
-	perPage: number;
-	total: number;
-};
-
 export const useStories: UseStories = async (props) => {
-	const perPage = props?.perPage || 10;
 	const data = useState<undefined | Stories>(() => undefined);
 	const selectedStories = useState<number[]>(() => []);
 	const hasNextPage = useState(() => false);
@@ -34,22 +27,28 @@ export const useStories: UseStories = async (props) => {
 	const getStories = async () => {
 		isLoading.value = true;
 
-		const { data: storyRes } = await fetchStories(currentPage.value, perPage);
+		const { data: storyRes } = await fetchStories(
+			currentPage.value,
+			props?.perPage,
+		);
 
 		if (storyRes.value === null) {
 			isLoading.value = false;
 			return;
 		}
 
-		numberOfPages.value = getNumberOfPages(storyRes.value.total, perPage);
+		numberOfPages.value = getNumberOfPages(
+			storyRes.value.total,
+			storyRes.value.perPage,
+		);
 
 		const nextPage = computed(() =>
 			getNextPage(toValue(numberOfPages), currentPage.value),
 		);
 		const previousPage = computed(() => getPreviousPage(currentPage.value));
 
-		hasPreviousPage.value = !!previousPage;
-		hasNextPage.value = !!nextPage;
+		hasPreviousPage.value = !!previousPage.value;
+		hasNextPage.value = !!nextPage.value;
 		data.value = storyRes.value as Stories;
 		isLoading.value = false;
 	};
@@ -99,7 +98,8 @@ export const useStories: UseStories = async (props) => {
 };
 
 //TODO: checkout ERROR handling
-const fetchStories = (page: number, perPage: number) =>
+//todo: check if perpage not set
+const fetchStories = (page: number, perPage?: number) =>
 	useFetch('/api/stories?perPage', {
 		query: {
 			perPage,
