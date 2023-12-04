@@ -3,6 +3,15 @@ import { object, coerce, optional, number } from 'valibot';
 import { parseQuery } from '../utils/parse';
 import { Stories } from '~/types/story';
 
+type Version = 'published' | 'draft';
+
+type GetStories = (props: {
+	spaceId: number;
+	perPage?: number;
+	page?: number;
+	version?: Version;
+}) => Promise<Stories>;
+
 export default defineEventHandler(async (event): Promise<Stories> => {
 	const { spaceId, accessToken } = event.context.appSession;
 	// We're using `coerce(number(), Number)` instead of `number()`.
@@ -39,17 +48,16 @@ const storyblokFetch = (accessToken: string) => {
 		oauthToken: `bearer ${accessToken}`,
 	});
 
-	//TODO: type the props
-	const getStories = async ({
+	const getStories: GetStories = async ({
 		spaceId,
 		perPage,
 		page,
 		version,
-	}: any): Promise<Stories> => {
+	}) => {
 		const { data, total } = await storyblokClient.get(
 			`spaces/${spaceId}/stories`,
 			{
-				version: version ?? defaults.version,
+				version: version ?? (defaults.version as Version),
 				per_page: perPage ?? defaults.perPage,
 				page: page ?? defaults.page,
 			},
@@ -57,7 +65,7 @@ const storyblokFetch = (accessToken: string) => {
 
 		return {
 			stories: data.stories as ISbStoryData[],
-			perPage,
+			perPage: perPage || data.per_page,
 			total,
 		};
 	};
