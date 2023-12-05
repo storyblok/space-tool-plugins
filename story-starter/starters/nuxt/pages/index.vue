@@ -67,5 +67,4 @@ const onChange = (event: any, id: number) => {
 			Next Page
 		</button>
 	</div>
-	<pre>{{ JSON.stringify(selectedStories, null, 2) }}</pre>
 </template>
