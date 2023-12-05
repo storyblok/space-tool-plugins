@@ -1,38 +1,70 @@
 <script setup lang="ts">
-import type { ISbStoryData } from 'storyblok-js-client';
+const {
+	data,
+	hasNextPage,
+	hasPreviousPage,
+	isLoading,
+	numberOfPages,
+	selectedStories,
+	selectStories,
+	unselectStories,
+	currentPage,
+	isStorySelected,
+	error,
+	goToPage,
+} = await useStories({ perPage: 11 });
 
-const pageLoaded = ref(1);
-const { data } = await useFetch(`/api/stories`, {
-	query: {
-		perPage: 10,
-		page: pageLoaded,
-	},
-});
+const selectAll = () => {
+	const allStoryIdsPerPage = data.value?.stories.map((story) => story.id) || [];
+	selectStories(allStoryIdsPerPage);
+};
 
-const totalStoryCount = computed(() => data?.value?.total);
-const allStories = ref<ISbStoryData[]>(
-	(data.value?.stories ?? []) as ISbStoryData[]
-);
+const unselectAll = () => {
+	const allStoryIdsPerPage = data.value?.stories.map((story) => story.id) || [];
+	unselectStories(allStoryIdsPerPage);
+};
+const onChange = (event: any, id: number) => {
+	if (event.target.checked) {
+		selectStories(id);
+		return;
+	}
 
-watch(data, (newData) => {
-	allStories.value = [
-		...allStories.value,
-		...((newData?.stories || []) as ISbStoryData[]),
-	];
-});
-
-const isLoadedAll = computed(
-	() => allStories.value.length >= (totalStoryCount.value ?? 0)
-);
-
-const loadMore = () => {
-	pageLoaded.value += 1;
+	unselectStories(id);
 };
 </script>
 
 <template>
-	<div v-for="(item, index) in allStories" :key="index">
-		<pre>{{ item.name }} (/{{ item.slug }})</pre>
+	<!--	TODO loading progress bar instead of 'Loading...-->
+	<span v-if="isLoading">Loading...</span>
+	<span v-if="error">Error: {{ error.message }}</span>
+	<div v-if="data">
+		<span>Number of selected stories {{ selectedStories.length }}</span>
+		<button @click="selectAll">Select All</button>
+		<button @click="unselectAll">Unselect All</button>
+		<div v-for="(story, index) in data.stories" :key="index">
+			<input
+				type="checkbox"
+				:id="story.id.toString()"
+				:name="story.id.toString()"
+				@change="(e) => onChange(e, story.id)"
+				:checked="isStorySelected(story.id)"
+			/>
+			<label :for="story.id.toString()"
+				>{{ story.name }} (/{{ story.slug }})</label
+			>
+		</div>
+		<span>Current Page {{ currentPage }}</span>
+
+		<button @click="goToPage(currentPage - 1)" :disabled="!hasPreviousPage">
+			Previous Page
+		</button>
+		<div v-for="(item, idx) in new Array(numberOfPages)">
+			<button @click="goToPage(idx + 1)">
+				{{ idx + 1 }}
+			</button>
+		</div>
+		<button @click="goToPage(currentPage + 1)" :disabled="!hasNextPage">
+			Next Page
+		</button>
 	</div>
-	<button @click="loadMore" v-if="!isLoadedAll">load more</button>
 </template>

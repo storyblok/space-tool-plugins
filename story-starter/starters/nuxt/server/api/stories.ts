@@ -1,8 +1,18 @@
 import StoryblokClient, { type ISbStoryData } from 'storyblok-js-client';
 import { object, coerce, optional, number } from 'valibot';
 import { parseQuery } from '../utils/parse';
+import { Stories } from '~/types/story';
 
-export default defineEventHandler(async (event) => {
+type Version = 'published' | 'draft';
+
+type GetStories = (props: {
+	spaceId: number;
+	perPage?: number;
+	page?: number;
+	version?: Version;
+}) => Promise<Stories>;
+
+export default defineEventHandler(async (event): Promise<Stories> => {
 	const { spaceId, accessToken } = event.context.appSession;
 	// We're using `coerce(number(), Number)` instead of `number()`.
 	// When requesting with query parameters like:
@@ -18,21 +28,47 @@ export default defineEventHandler(async (event) => {
 		}),
 	});
 
-	const page = query.page ?? 1;
-	const perPage = query.perPage ?? 25;
+	const response = await storyblokFetch(accessToken).getStories({
+		spaceId,
+		page: query.page,
+		perPage: query.perPage,
+	});
 
-	const client = new StoryblokClient({
+	return response;
+});
+
+const storyblokFetch = (accessToken: string) => {
+	const defaults = {
+		perPage: 25,
+		page: 1,
+		version: 'published',
+	};
+
+	const storyblokClient = new StoryblokClient({
 		oauthToken: `bearer ${accessToken}`,
 	});
-	const { data, total } = await client.get(`spaces/${spaceId}/stories`, {
-		version: 'published',
-		per_page: perPage,
-		page,
-	});
 
-	return {
-		stories: data.stories as ISbStoryData[],
+	const getStories: GetStories = async ({
+		spaceId,
 		perPage,
-		total,
+		page,
+		version,
+	}) => {
+		const { data, total } = await storyblokClient.get(
+			`spaces/${spaceId}/stories`,
+			{
+				version: version ?? (defaults.version as Version),
+				per_page: perPage ?? defaults.perPage,
+				page: page ?? defaults.page,
+			},
+		);
+
+		return {
+			stories: data.stories as ISbStoryData[],
+			perPage: perPage || data.per_page,
+			total,
+		};
 	};
-});
+
+	return { getStories };
+};
