@@ -48,8 +48,8 @@ export const useStories: UseStories = async (props) => {
 		getNextPage(toValue(numberOfPages), currentPage.value),
 	);
 	const previousPage = computed(() => getPreviousPage(currentPage.value));
-	const hasPreviousPage = computed(() => !!previousPage.value);
-	const hasNextPage = computed(() => !!nextPage.value);
+	const hasPreviousPage = computed(() => Boolean(previousPage.value));
+	const hasNextPage = computed(() => Boolean(nextPage.value));
 
 	const unselectStories = (id: number | number[]) => {
 		const ids = turnNumberToArray(id);
