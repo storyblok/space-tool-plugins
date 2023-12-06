@@ -38,33 +38,53 @@ const onChange = (event: any, id: number) => {
 	<span v-if="isLoading">Loading...</span>
 	<span v-if="error">Error: {{ error.message }}</span>
 	<div v-if="data">
-		<span>Number of selected stories {{ selectedStories.length }}</span>
-		<button @click="selectAll">Select All</button>
-		<button @click="unselectAll">Unselect All</button>
+		<p>Number of selected stories {{ selectedStories.length }}</p>
+		<button class="btn" @click="selectAll">Select All</button>
+		<button class="btn" @click="unselectAll">Unselect All</button>
 		<div v-for="(story, index) in data.stories" :key="index">
-			<input
-				type="checkbox"
-				:id="story.id.toString()"
-				:name="story.id.toString()"
-				@change="(e) => onChange(e, story.id)"
-				:checked="isStorySelected(story.id)"
-			/>
-			<label :for="story.id.toString()"
-				>{{ story.name }} (/{{ story.slug }})</label
-			>
+			<div class="form-control">
+				<label class="label cursor-pointer justify-start gap-2">
+					<input
+						class="checkbox"
+						type="checkbox"
+						:id="story.id.toString()"
+						:name="story.id.toString()"
+						@change="(e) => onChange(e, story.id)"
+						:checked="isStorySelected(story.id)"
+					/>
+					<label class="label-text" :for="story.id.toString()"
+						>{{ story.name }} (/{{ story.slug }})</label
+					>
+				</label>
+			</div>
 		</div>
-		<span>Current Page {{ currentPage }}</span>
 
-		<button @click="goToPage(currentPage - 1)" :disabled="!hasPreviousPage">
-			Previous Page
-		</button>
-		<div v-for="(item, idx) in new Array(numberOfPages)">
-			<button @click="goToPage(idx + 1)">
-				{{ idx + 1 }}
+		<p>Current Page {{ currentPage }}</p>
+
+		<div class="join">
+			<button
+				class="btn btn-ghost btn-sm join-item"
+				@click="goToPage(currentPage - 1)"
+				:disabled="!hasPreviousPage"
+			>
+				Previous Page
+			</button>
+			<div v-for="(_item, idx) in new Array(numberOfPages)">
+				<button
+					class="btn btn-ghost btn-sm join-item"
+					:disabled="currentPage === idx + 1"
+					@click="goToPage(idx + 1)"
+				>
+					{{ idx + 1 }}
+				</button>
+			</div>
+			<button
+				class="btn btn-ghost btn-sm join-item"
+				@click="goToPage(currentPage + 1)"
+				:disabled="!hasNextPage"
+			>
+				Next Page
 			</button>
 		</div>
-		<button @click="goToPage(currentPage + 1)" :disabled="!hasNextPage">
-			Next Page
-		</button>
 	</div>
 </template>
