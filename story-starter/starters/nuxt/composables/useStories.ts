@@ -1,9 +1,8 @@
 import type { Ref, UnwrapRef } from 'vue';
-import type { Stories } from '~/types/story';
-import { type ISbStoryData } from 'storyblok-js-client';
+import type { StoriesResponse, Story } from '~/types/story';
 
 type UseStories = (props?: { perPage?: number }) => Promise<{
-	data: Ref<Stories | undefined>;
+	data: Ref<StoriesResponse | undefined>;
 	hasNextPage: Ref<UnwrapRef<boolean>>;
 	hasPreviousPage: Ref<UnwrapRef<boolean>>;
 	isLoading: Ref<UnwrapRef<boolean>>;
@@ -12,17 +11,17 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	selectStories: (id: number | number[]) => void;
 	isStorySelected: (id: number) => boolean;
 	unselectStories: (id: number | number[]) => void;
-	selectedStories: Ref<ISbStoryData[]>;
+	selectedStories: Ref<Story[]>;
 	goToPage: (page: number) => void;
 	error: Ref<Error | null>;
 }>;
 
 export const useStories: UseStories = async (props) => {
 	const selectedStoryIds = useState<Set<number>>(() => new Set<number>());
-	const selectedStories = useState<Map<number, ISbStoryData>>(() => new Map());
+	const selectedStories = useState<Map<number, Story>>(() => new Map());
 	const currentPage = useState(() => 1);
 
-	const { data, pending, error } = await useFetch<Stories, Error>(
+	const { data, pending, error } = await useFetch<StoriesResponse, Error>(
 		'/api/stories',
 		{
 			server: false,
@@ -30,7 +29,7 @@ export const useStories: UseStories = async (props) => {
 				perPage: props?.perPage || 25,
 				page: currentPage,
 			},
-		},
+		}
 	);
 
 	const selectedStoriesInArray = computed(() => [
@@ -45,7 +44,7 @@ export const useStories: UseStories = async (props) => {
 	});
 
 	const nextPage = computed(() =>
-		getNextPage(toValue(numberOfPages), currentPage.value),
+		getNextPage(toValue(numberOfPages), currentPage.value)
 	);
 	const previousPage = computed(() => getPreviousPage(currentPage.value));
 	const hasPreviousPage = computed(() => Boolean(previousPage.value));
@@ -71,7 +70,7 @@ export const useStories: UseStories = async (props) => {
 			const selectedStory = data.value.stories.find((story) => story.id === i);
 			if (selectedStory) {
 				selectedStoryIds.value.add(i);
-				selectedStories.value.set(i, selectedStory as ISbStoryData);
+				selectedStories.value.set(i, selectedStory);
 			}
 		}
 	};
@@ -86,7 +85,7 @@ export const useStories: UseStories = async (props) => {
 	};
 
 	return {
-		data: data as Ref<Stories>,
+		data: data as Ref<StoriesResponse>,
 		hasPreviousPage,
 		hasNextPage,
 		isLoading: pending,
