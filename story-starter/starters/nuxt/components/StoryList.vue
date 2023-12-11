@@ -55,7 +55,7 @@ const onChange = (event: any, id: number) => {
 		v-if="!data && isLoading"
 		class="absolute inset-0 flex items-center justify-center"
 	>
-		<div><LucideLoader2 class="text-primary animate-spin" /></div>
+		<LucideLoader2 class="text-primary animate-spin" />
 	</div>
 	<div v-if="data">
 		<p>Number of selected stories {{ selectedStories.length }}</p>
