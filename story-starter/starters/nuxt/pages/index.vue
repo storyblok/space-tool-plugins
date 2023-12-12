@@ -38,53 +38,73 @@ const onChange = (event: any, id: number) => {
 	<span v-if="isLoading">Loading...</span>
 	<span v-if="error">Error: {{ error.message }}</span>
 	<div v-if="data">
-		<p>Number of selected stories {{ selectedStories.length }}</p>
-		<button class="btn" @click="selectAll">Select All</button>
-		<button class="btn" @click="unselectAll">Unselect All</button>
-		<div v-for="(story, index) in data.stories" :key="index">
-			<div class="form-control">
-				<label class="label cursor-pointer justify-start gap-2">
-					<input
-						class="checkbox"
-						type="checkbox"
-						:id="story.id.toString()"
-						:name="story.id.toString()"
-						@change="(e) => onChange(e, story.id)"
-						:checked="isStorySelected(story.id)"
-					/>
-					<label class="label-text" :for="story.id.toString()"
-						>{{ story.name }} (/{{ story.slug }})</label
+		<div class="mx-20 my-11">
+			<Header title="Story Starter">
+				<template #icon>
+					<LucideTornado class="text-primary" />
+				</template>
+				<template #description>
+					Dive into the largest keyword research database on the market, get
+					additional keywords to enhance your website contextual background, and
+					improve your SEO.
+				</template>
+				<!-- <template #right-action-bar>
+					<button class="btn btn-outline">
+						<span class="text-base">Settings</span><LucideSettings :size="16" />
+					</button>
+				</template> -->
+			</Header>
+
+			<div class="mt-10">
+				<p>Number of selected stories {{ selectedStories.length }}</p>
+				<button class="btn" @click="selectAll">Select All</button>
+				<button class="btn" @click="unselectAll">Unselect All</button>
+				<div v-for="(story, index) in data.stories" :key="index">
+					<div class="form-control">
+						<label class="justify-start gap-2 cursor-pointer label">
+							<input
+								class="checkbox"
+								type="checkbox"
+								:id="story.id.toString()"
+								:name="story.id.toString()"
+								@change="(e) => onChange(e, story.id)"
+								:checked="isStorySelected(story.id)"
+							/>
+							<label class="label-text" :for="story.id.toString()"
+								>{{ story.name }} (/{{ story.slug }})</label
+							>
+						</label>
+					</div>
+				</div>
+
+				<p>Current Page {{ currentPage }}</p>
+
+				<div class="join">
+					<button
+						class="btn btn-ghost btn-sm join-item"
+						@click="goToPage(currentPage - 1)"
+						:disabled="!hasPreviousPage"
 					>
-				</label>
+						Previous Page
+					</button>
+					<div v-for="(_item, idx) in new Array(numberOfPages)">
+						<button
+							class="btn btn-ghost btn-sm join-item"
+							:disabled="currentPage === idx + 1"
+							@click="goToPage(idx + 1)"
+						>
+							{{ idx + 1 }}
+						</button>
+					</div>
+					<button
+						class="btn btn-ghost btn-sm join-item"
+						@click="goToPage(currentPage + 1)"
+						:disabled="!hasNextPage"
+					>
+						Next Page
+					</button>
+				</div>
 			</div>
-		</div>
-
-		<p>Current Page {{ currentPage }}</p>
-
-		<div class="join">
-			<button
-				class="btn btn-ghost btn-sm join-item"
-				@click="goToPage(currentPage - 1)"
-				:disabled="!hasPreviousPage"
-			>
-				Previous Page
-			</button>
-			<div v-for="(_item, idx) in new Array(numberOfPages)">
-				<button
-					class="btn btn-ghost btn-sm join-item"
-					:disabled="currentPage === idx + 1"
-					@click="goToPage(idx + 1)"
-				>
-					{{ idx + 1 }}
-				</button>
-			</div>
-			<button
-				class="btn btn-ghost btn-sm join-item"
-				@click="goToPage(currentPage + 1)"
-				:disabled="!hasNextPage"
-			>
-				Next Page
-			</button>
 		</div>
 	</div>
 </template>
