@@ -1,7 +1,7 @@
 import StoryblokClient, { type ISbStoryData } from 'storyblok-js-client';
 import { object, coerce, optional, number } from 'valibot';
 import { parseQuery } from '../utils/parse';
-import { Stories } from '~/types/story';
+import { StoriesResponse } from '~/types/story';
 
 type Version = 'published' | 'draft';
 
@@ -10,9 +10,9 @@ type GetStories = (props: {
 	perPage?: number;
 	page?: number;
 	version?: Version;
-}) => Promise<Stories>;
+}) => Promise<StoriesResponse>;
 
-export default defineEventHandler(async (event): Promise<Stories> => {
+export default defineEventHandler(async (event): Promise<StoriesResponse> => {
 	const { spaceId, accessToken } = event.context.appSession;
 	// We're using `coerce(number(), Number)` instead of `number()`.
 	// When requesting with query parameters like:
@@ -60,7 +60,7 @@ const storyblokFetch = (accessToken: string) => {
 				version: version ?? (defaults.version as Version),
 				per_page: perPage ?? defaults.perPage,
 				page: page ?? defaults.page,
-			},
+			}
 		);
 
 		return {
