@@ -4,6 +4,8 @@ import type { Story } from '~/types/story';
 const props = defineProps<{
 	story: Story;
 	checked: boolean;
+	updateStorySelection: (id: number, checked: boolean) => void;
+	enterFolder: (slug: string) => void;
 }>();
 
 const emit = defineEmits<{
@@ -25,17 +27,17 @@ const onChange = (event: Event) => {
 	if (!event.target) {
 		return;
 	}
-	emit('change', {
-		id: props.story.id,
-		checked: (event.target as HTMLInputElement).checked,
-	});
+	props.updateStorySelection(
+		props.story.id,
+		(event.target as HTMLInputElement).checked
+	);
 };
 </script>
 
 <template>
 	<tr class="hover:bg-gray-100">
-		<td>
-			<label class="justify-start gap-4 cursor-pointer label">
+		<td class="flex items-center gap-4">
+			<label class="label">
 				<input
 					class="checkbox checkbox-xs"
 					type="checkbox"
@@ -44,13 +46,24 @@ const onChange = (event: Event) => {
 					@change="onChange"
 					:checked="props.checked"
 				/>
-				<label class="label-text" :for="story.id.toString()"
-					>{{ story.name }}<br />
-					<span class="text-xs font-light text-gray-400"
-						>/{{ story.slug }}</span
-					></label
-				>
+				<span class="sr-only">Toggle Story</span>
 			</label>
+
+			<LucideFolder v-if="story.is_folder" class="text-gray-400" :size="16" />
+			<LucideDisc v-else class="text-gray-300" :size="16" />
+
+			<div
+				v-if="story.is_folder"
+				class="cursor-pointer"
+				@click="enterFolder(story.slug)"
+			>
+				<div class="text-sm">{{ story.name }}</div>
+				<div class="text-xs font-light text-gray-400">{{ story.slug }}</div>
+			</div>
+			<div v-else>
+				<div class="text-sm">{{ story.name }}</div>
+				<div class="text-xs font-light text-gray-400">{{ story.slug }}</div>
+			</div>
 		</td>
 		<td class="text-sm font-light text-gray-500">
 			{{ story.content_type }}
@@ -66,6 +79,6 @@ const onChange = (event: Event) => {
 
 <style scoped>
 td {
-	@apply p-2;
+	@apply p-4;
 }
 </style>
