@@ -8,15 +8,6 @@ const props = defineProps<{
 	enterFolder: (slug: string) => void;
 }>();
 
-const emit = defineEmits<{
-	change: [
-		value: {
-			id: number;
-			checked: boolean;
-		}
-	];
-}>();
-
 const lastUpdate = computed(() => {
 	const timestamp = props.story.updated_at || props.story.created_at;
 	const [date, time] = timestamp.split('T');
@@ -31,6 +22,12 @@ const onChange = (event: Event) => {
 		props.story.id,
 		(event.target as HTMLInputElement).checked
 	);
+};
+
+const onItemClick = (story: Story) => {
+	if (story.is_folder) {
+		props.enterFolder(story.slug);
+	}
 };
 </script>
 
@@ -53,14 +50,9 @@ const onChange = (event: Event) => {
 			<LucideDisc v-else class="text-gray-300" :size="16" />
 
 			<div
-				v-if="story.is_folder"
-				class="cursor-pointer"
-				@click="enterFolder(story.slug)"
+				:class="{ 'cursor-pointer': story.is_folder }"
+				@click="onItemClick(story)"
 			>
-				<div class="text-sm">{{ story.name }}</div>
-				<div class="text-xs font-light text-gray-400">{{ story.slug }}</div>
-			</div>
-			<div v-else>
 				<div class="text-sm">{{ story.name }}</div>
 				<div class="text-xs font-light text-gray-400">{{ story.slug }}</div>
 			</div>

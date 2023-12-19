@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
 	<div class="text-sm text-gray-600 breadcrumbs">
-		<ul>
+		<ol>
 			<li>
 				<BreadcrumbItem
 					:isHome="true"
@@ -24,6 +24,6 @@ defineProps<{
 					@click="setSlugs(slugs.slice(0, index + 1))"
 				/>
 			</li>
-		</ul>
+		</ol>
 	</div>
 </template>
