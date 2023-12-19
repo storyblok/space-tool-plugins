@@ -21,6 +21,12 @@ const {
 	goToPage,
 } = await useStories({ perPage: 10 });
 
+const config = useConfig({
+	selectedStories,
+});
+
+console.log('💡 config', config);
+
 // Show top progress bar on page change.
 watch(isLoading, () => {
 	if (!data.value) {

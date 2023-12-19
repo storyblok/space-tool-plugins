@@ -1,9 +1,7 @@
-//draft for future actions implementations
-type StoryConfig = {
-	actions: {
-		label: string;
-		handler: (selectedStories: any) => void;
-	}[];
-};
+import type { StoryConfig } from '~/types/config';
+import type { Story } from '~/types/story';
 
-export const defineStoryConfig = (config: StoryConfig): StoryConfig => config;
+type StoryConfigGetter = (selectedStories: Story[]) => StoryConfig;
+
+export const defineStoryConfig = (config: StoryConfig | StoryConfigGetter) =>
+	config;
