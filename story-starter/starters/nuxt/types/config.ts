@@ -1,7 +1,8 @@
-//draft for future actions implementations
+export type StoryAction = {
+	label: string;
+	handler: (selectedStories: any) => void;
+};
+
 export type StoryConfig = {
-	actions: {
-		label: string;
-		handler: (selectedStories: any) => void;
-	}[];
+	actions: StoryAction[];
 };
