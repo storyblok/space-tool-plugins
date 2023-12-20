@@ -12,8 +12,8 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	setSlugs: (slugs: string[]) => void;
 	pushSlug: (slug: string) => void;
 	popSlug: () => void;
-	selectedStoryIds: Ref<Set<number>>;
 	selectStories: (id: number | number[]) => void;
+	isStorySelected: (id: number) => boolean;
 	unselectStories: (id: number | number[]) => void;
 	unselectAllStories: () => void;
 	selectedStories: Ref<Story[]>;
@@ -95,6 +95,8 @@ export const useStories: UseStories = async (props) => {
 		}
 	};
 
+	const isStorySelected = (id: number) => selectedStoryIds.value.has(id);
+
 	const goToPage = (page: number) => {
 		if (page <= 0 || page > numberOfPages.value) {
 			return;
@@ -126,7 +128,7 @@ export const useStories: UseStories = async (props) => {
 		numberOfPages,
 		error,
 		selectedStories: selectedStoriesInArray,
-		selectedStoryIds: selectedStoryIds,
+		isStorySelected,
 		selectStories,
 		unselectStories,
 		unselectAllStories,

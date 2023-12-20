@@ -8,10 +8,7 @@ defineProps<{
 </script>
 
 <template>
-	<div
-		v-if="selectedCount > 0"
-		class="rounded-md navbar bg-secondary text-secondary-content"
-	>
+	<div class="rounded-md navbar bg-secondary text-secondary-content">
 		<div class="flex-1">
 			<span class="ml-2 text-sm font-normal"
 				>{{ selectedCount }} items selected</span

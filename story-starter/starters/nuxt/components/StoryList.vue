@@ -16,7 +16,7 @@ const {
 	slugs,
 	pushSlug,
 	setSlugs,
-	selectedStoryIds,
+	isStorySelected,
 	goToPage,
 } = await useStories({ perPage: 10 });
 
@@ -67,6 +67,7 @@ const updateStorySelection = (id: number, checked: boolean) => {
 	<div v-if="data">
 		<Breadcrumbs :slugs="slugs" :setSlugs="setSlugs" class="px-5 py-2" />
 		<StoryActionBar
+			v-if="selectedStories.length > 0"
 			class="mt-4"
 			:actions="config.actions"
 			:selectedCount="selectedStories.length"
@@ -79,7 +80,7 @@ const updateStorySelection = (id: number, checked: boolean) => {
 					v-for="(story, index) in data.stories"
 					:key="index"
 					:story="story"
-					:checked="selectedStoryIds.has(story.id)"
+					:checked="isStorySelected(story.id)"
 					:enterFolder="pushSlug"
 					:updateStorySelection="updateStorySelection"
 					class="even:bg-gray-50"
