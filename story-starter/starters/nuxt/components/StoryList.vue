@@ -72,7 +72,7 @@ const updateStorySelection = (id: number, checked: boolean) => {
 			:selectedCount="selectedStories.length"
 			:unselectAllStories="unselectAllStories"
 		/>
-		<table class="w-full mt-4 table-fixed">
+		<table class="w-full mt-4 overflow-hidden rounded-md table-fixed">
 			<StoryListHeader />
 			<tbody>
 				<StoryListItem

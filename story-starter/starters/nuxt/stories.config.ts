@@ -1,51 +1,30 @@
+import { LucideSettings, LucideTrash } from 'lucide-vue-next';
 import { defineStoryConfig } from '~/shared/defineStoryConfig';
+import type { StoryAction } from './types/config';
 
 // pass a function to generate config based on selected stories
 export default defineStoryConfig((selectedStories) => {
-	if (selectedStories.some((story) => story.is_folder)) {
-		return {
-			actions: [
-				{
-					label: 'Folder & Story action',
-					handler: (selectedStories) => {
-						console.log('💡 stories', selectedStories);
-					},
-				},
-				{
-					label: 'Another action',
-					handler: (selectedStories) => {
-						console.log('💡 stories', selectedStories);
-					},
-				},
-			],
-		};
-	} else {
-		return {
-			actions: [
-				{
-					label: 'Non-folder stories action',
-					handler: (selectedStories) => {
-						console.log('💡 stories', selectedStories);
-					},
-				},
-				{
-					label: 'Another action',
-					handler: (selectedStories) => {
-						console.log('💡 stories', selectedStories);
-					},
-				},
-			],
-		};
+	const actions: StoryAction[] = [];
+
+	if (selectedStories.length === 1) {
+		actions.push({
+			label: 'Settings',
+			icon: LucideSettings,
+			handler: (selectedStories) => {
+				console.log('💡 opening settings modal', selectedStories);
+			},
+		});
 	}
 
-	return {
-		actions: [
-			{
-				label: 'Translate',
-				handler: (selectedStories) => {},
-			},
-		],
-	};
+	actions.push({
+		label: 'Delete',
+		icon: LucideTrash,
+		handler: (selectedStories) => {
+			console.log('💡 deleting the selected stories...', selectedStories);
+		},
+	});
+
+	return { actions };
 });
 
 // or a simple object config
