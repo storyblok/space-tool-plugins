@@ -25,6 +25,6 @@
 
 <style scoped>
 th {
-	@apply font-normal text-sm text-gray-600 text-left p-2;
+	@apply font-normal text-sm text-gray-600 text-left p-4;
 }
 </style>

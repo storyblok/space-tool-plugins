@@ -8,6 +8,10 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	isLoading: Ref<UnwrapRef<boolean>>;
 	numberOfPages: Ref<number>;
 	currentPage: Ref<number>;
+	slugs: Ref<string[]>;
+	setSlugs: (slugs: string[]) => void;
+	pushSlug: (slug: string) => void;
+	popSlug: () => void;
 	selectStories: (id: number | number[]) => void;
 	isStorySelected: (id: number) => boolean;
 	unselectStories: (id: number | number[]) => void;
@@ -19,7 +23,16 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 export const useStories: UseStories = async (props) => {
 	const selectedStoryIds = useState<Set<number>>(() => new Set<number>());
 	const selectedStories = useState<Map<number, Story>>(() => new Map());
-	const currentPage = useState(() => 1);
+	const currentPage = useState<number>(() => 1);
+	const slugs = useState<string[]>(() => []);
+
+	const slugFilter = computed(() => {
+		if (slugs.value.length === 0) {
+			return undefined;
+		} else {
+			return slugs.value.join('/') + '/*';
+		}
+	});
 
 	const { data, pending, error } = await useFetch<StoriesResponse, Error>(
 		'/api/stories',
@@ -28,6 +41,7 @@ export const useStories: UseStories = async (props) => {
 			query: {
 				perPage: props?.perPage || 25,
 				page: currentPage,
+				slug: slugFilter,
 			},
 		}
 	);
@@ -84,6 +98,21 @@ export const useStories: UseStories = async (props) => {
 		currentPage.value = page;
 	};
 
+	const pushSlug = (slug: string) => {
+		slugs.value.push(slug);
+		currentPage.value = 1;
+	};
+
+	const popSlug = () => {
+		slugs.value.pop();
+		currentPage.value = 1;
+	};
+
+	const setSlugs = (newSlugs: string[]) => {
+		slugs.value = newSlugs;
+		currentPage.value = 1;
+	};
+
 	return {
 		data: data as Ref<StoriesResponse>,
 		hasPreviousPage,
@@ -97,6 +126,10 @@ export const useStories: UseStories = async (props) => {
 		unselectStories,
 		currentPage,
 		goToPage,
+		slugs,
+		pushSlug,
+		popSlug,
+		setSlugs,
 	};
 };
 

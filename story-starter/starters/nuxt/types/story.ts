@@ -8,6 +8,7 @@ export type StoriesResponse = {
 
 export type Story = ISbStoryData & {
 	// these are missing from `ISbStoryData`
+	is_folder: boolean;
 	content_type: string;
 	updated_at?: string;
 	last_author: {

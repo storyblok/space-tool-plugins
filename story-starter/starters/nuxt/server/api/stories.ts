@@ -1,7 +1,7 @@
-import StoryblokClient, { type ISbStoryData } from 'storyblok-js-client';
-import { object, coerce, optional, number } from 'valibot';
+import StoryblokClient, { ISbStoriesParams } from 'storyblok-js-client';
+import { object, coerce, optional, number, string } from 'valibot';
 import { parseQuery } from '../utils/parse';
-import { StoriesResponse } from '~/types/story';
+import { StoriesResponse, Story } from '~/types/story';
 
 type Version = 'published' | 'draft';
 
@@ -10,6 +10,7 @@ type GetStories = (props: {
 	perPage?: number;
 	page?: number;
 	version?: Version;
+	slug?: string;
 }) => Promise<StoriesResponse>;
 
 export default defineEventHandler(async (event): Promise<StoriesResponse> => {
@@ -25,6 +26,7 @@ export default defineEventHandler(async (event): Promise<StoriesResponse> => {
 		schema: object({
 			perPage: optional(coerce(number(), Number)),
 			page: optional(coerce(number(), Number)),
+			slug: optional(string()),
 		}),
 	});
 
@@ -32,6 +34,7 @@ export default defineEventHandler(async (event): Promise<StoriesResponse> => {
 		spaceId,
 		page: query.page,
 		perPage: query.perPage,
+		slug: query.slug,
 	});
 
 	return response;
@@ -53,18 +56,23 @@ const storyblokFetch = (accessToken: string) => {
 		perPage,
 		page,
 		version,
+		slug,
 	}) => {
+		const params: ISbStoriesParams = {
+			version: version ?? (defaults.version as Version),
+			per_page: perPage ?? defaults.perPage,
+			page: page ?? defaults.page,
+		};
+		if (slug) {
+			params.by_slugs = slug;
+		}
 		const { data, total } = await storyblokClient.get(
 			`spaces/${spaceId}/stories`,
-			{
-				version: version ?? (defaults.version as Version),
-				per_page: perPage ?? defaults.perPage,
-				page: page ?? defaults.page,
-			}
+			params
 		);
 
 		return {
-			stories: data.stories as ISbStoryData[],
+			stories: data.stories as Story[],
 			perPage: perPage || data.per_page,
 			total,
 		};
