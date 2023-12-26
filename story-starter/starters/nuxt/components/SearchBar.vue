@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import debounce from 'just-debounce-it';
-const query = ref<string>();
+const userInput = ref<string>();
 
 const props = defineProps<{
 	setQuery: (query: string | undefined) => void;
 }>();
 
 watch(
-	query,
+	userInput,
 	debounce((newQuery: string | undefined) => {
 		props.setQuery(newQuery);
 	}, 500)
@@ -20,10 +20,10 @@ watch(
 	>
 		<LucideSearch class="text-gray-500 search-icon" :size="14" />
 		<input
-			type="text"
+			type="search"
 			placeholder="Search"
 			class="flex-1 ml-2 text-gray-700 outline-none"
-			v-model="query"
+			v-model="userInput"
 		/>
 	</div>
 </template>
