@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { StoryAction } from '~/types/config';
+import type { Story } from '~/types/story';
 defineProps<{
 	actions: StoryAction[];
-	selectedCount: number;
+	selectedStories: Story[];
 	unselectAllStories: () => void;
 }>();
 </script>
@@ -11,7 +12,7 @@ defineProps<{
 	<div class="rounded-md navbar bg-secondary text-secondary-content">
 		<div class="flex-1">
 			<span class="ml-2 text-sm font-normal"
-				>{{ selectedCount }} items selected</span
+				>{{ selectedStories.length }} items selected</span
 			>
 			<button
 				class="ml-2 btn btn-sm btn-ghost"
@@ -24,7 +25,11 @@ defineProps<{
 		<div class="flex-none">
 			<ul class="flex gap-2 mr-2">
 				<li v-for="action in actions">
-					<button type="button" class="btn btn-sm btn-ghost">
+					<button
+						type="button"
+						class="btn btn-ghost"
+						@click="action.handler(selectedStories)"
+					>
 						<component :is="action.icon" />
 						<span>{{ action.label }}</span>
 					</button>

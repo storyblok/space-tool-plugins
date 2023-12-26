@@ -10,3 +10,5 @@ export type StoryAction = {
 export type StoryConfig = {
 	actions: StoryAction[];
 };
+
+export type StoryConfigGetter = (selectedStories: Story[]) => StoryConfig;

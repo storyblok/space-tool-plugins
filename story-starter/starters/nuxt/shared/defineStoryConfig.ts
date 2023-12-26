@@ -1,7 +1,4 @@
-import type { StoryConfig } from '~/types/config';
-import type { Story } from '~/types/story';
-
-type StoryConfigGetter = (selectedStories: Story[]) => StoryConfig;
+import type { StoryConfig, StoryConfigGetter } from '~/types/config';
 
 export const defineStoryConfig = (config: StoryConfig | StoryConfigGetter) =>
 	config;

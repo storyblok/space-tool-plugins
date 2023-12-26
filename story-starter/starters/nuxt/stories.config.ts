@@ -20,7 +20,13 @@ export default defineStoryConfig((selectedStories) => {
 		label: 'Delete',
 		icon: LucideTrash,
 		handler: (selectedStories) => {
-			console.log('💡 deleting the selected stories...', selectedStories);
+			if (
+				window.confirm(
+					`Do you want to delete ${selectedStories.length} stories?`
+				)
+			) {
+				console.log(`💡 deleting stories...`, selectedStories);
+			}
 		},
 	});
 

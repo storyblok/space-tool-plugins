@@ -70,7 +70,7 @@ const updateStorySelection = (id: number, checked: boolean) => {
 			v-if="selectedStories.length > 0"
 			class="mt-4"
 			:actions="config.actions"
-			:selectedCount="selectedStories.length"
+			:selectedStories="selectedStories"
 			:unselectAllStories="unselectAllStories"
 		/>
 		<table class="w-full mt-4 overflow-hidden rounded-md table-fixed">
