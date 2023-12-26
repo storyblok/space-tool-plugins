@@ -1,9 +1,10 @@
 import type { DefineComponent } from 'vue';
+import type { Story } from './story';
 
 export type StoryAction = {
 	label: string;
 	icon: DefineComponent;
-	handler: (selectedStories: any) => void;
+	handler: (selectedStories: Story[]) => void;
 };
 
 export type StoryConfig = {
