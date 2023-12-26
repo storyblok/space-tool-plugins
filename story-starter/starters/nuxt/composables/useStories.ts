@@ -44,9 +44,6 @@ export const useStories: UseStories = async (props) => {
 	const { data, pending, error } = await useFetch<StoriesResponse, Error>(
 		'/api/stories',
 		{
-			onRequest: () => {
-				console.log('💡 onRequest of useFetch');
-			},
 			server: false,
 			query: {
 				perPage: props?.perPage || 25,
