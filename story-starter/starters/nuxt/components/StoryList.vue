@@ -19,7 +19,7 @@ const {
 	isStorySelected,
 	goToPage,
 	setQuery,
-} = await useStories({ perPage: 10 });
+} = await useStories({ perPage: 25 });
 
 const config = useConfig({
 	selectedStories,
