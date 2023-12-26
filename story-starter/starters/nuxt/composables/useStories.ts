@@ -44,6 +44,9 @@ export const useStories: UseStories = async (props) => {
 	const { data, pending, error } = await useFetch<StoriesResponse, Error>(
 		'/api/stories',
 		{
+			onRequest: () => {
+				console.log('💡 onRequest of useFetch');
+			},
 			server: false,
 			query: {
 				perPage: props?.perPage || 25,
@@ -111,21 +114,29 @@ export const useStories: UseStories = async (props) => {
 		currentPage.value = page;
 	};
 
-	// when slug changes, the page is reset to 1
 	const pushSlug = (slug: string) => {
 		slugs.value.push(slug);
-		currentPage.value = 1;
 	};
 
 	const popSlug = () => {
 		slugs.value.pop();
-		currentPage.value = 1;
 	};
 
 	const setSlugs = (newSlugs: string[]) => {
 		slugs.value = newSlugs;
-		currentPage.value = 1;
 	};
+
+	// when slug changes, the page is reset to 1
+	watch(
+		slugs,
+		() => {
+			currentPage.value = 1;
+		},
+		{ deep: true }
+	);
+
+	// when page changes, unselect all stories
+	watch(currentPage, unselectAllStories);
 
 	return {
 		data: data as Ref<StoriesResponse>,
