@@ -29,15 +29,15 @@ You need to create a Storyblok extension that will provide you with OAuth creden
 
 1. You can find the "Extensions" menu under either the Partner Portal or the My Organization.
 
-![Storyblok Extensions](./assets/storyblok-extensions.png)
+<img src="./assets/storyblok-extensions.png" alt="Storyblok Extensions" width="200" />
 
 2. Click the "New Extension" button in the top right corner and enter the necessary information.
 
-![New Extension](./assets/new-extensions.png)
+<img src="./assets/new-extensions.png" alt="New Extension" width="600" />
 
 And then you can find the information.
 
-![OAuth information](./assets/oauth.png)
+<img src="./assets/oauth.png" alt="OAuth information" width="600" />
 
 3. Configure the following environment variables in `<ROOT-OF-YOUR-PROJECT>/starters/nuxt/.env`.
 
@@ -45,19 +45,19 @@ And then you can find the information.
 - `CLIENT_SECRET=`: Client Secret
 - `BASE_URL=`: When using this starter, you should expose your local development server. To do this, we suggest using services like [ngrok](https://ngrok.com/). Let's say your hostname is `https://PUT-YOURS.ngrok.io`. Set that as your `BASE_URL`.
 
-4. Configure your extension on Storyblok with base URL and oauth callback URL.
+4. Configure your extension on Storyblok with the index URL and the redirection URL. The redirection URL ends with `/api/connect/callback`.
 
-![Configure URLs for oauth](./assets/urls-for-oauth.png)
+<img src="./assets/urls-for-oauth.png" alt="Configure URLs for oauth" width="300" />
 
 Ensure that "Production" is the section that contains information about the production deployment, while "Preview" refers to your development environment, such as exposing localhost through ngrok.
 
 5. Open the "Install Link" in a new tab and install it in your space for the development and test.
 
-![Install Link](./assets/install-link.png)
+<img src="./assets/install-link.png" alt="Install Link" width="300" />
 
 6. Start developing by running `yarn dev:nuxt`, and open it on Storyblok.
 
-![Open the extension](./assets/open-extension.png)
+<img src="./assets/open-extension.png" alt="Open the extension" width="200" />
 
 7. Open the `starters/nuxt/stories.config.ts` file and implement your own actions. You can refer to the existing sample implementation for guidance.
 
@@ -65,6 +65,6 @@ Ensure that "Production" is the section that contains information about the prod
 
 The starter is set up as a monorepo, and most hosting platforms support it seamlessly. For instance, Vercel recognizes it as a Nuxt project and automatically configures the root directory for you.
 
-![Vercel Deployment](./assets/deploy-subdir.png)
+<img src="./assets/deploy-subdir.png" alt="Vercel Deployment" width="600" />
 
 You should configure the same environment variables on the hosting platform as well.
