@@ -1,11 +1,11 @@
-import type { Ref, UnwrapRef } from 'vue';
+import type { Ref } from 'vue';
 import type { StoriesResponse, Story } from '~/types/story';
 
 type UseStories = (props?: { perPage?: number }) => Promise<{
 	data: Ref<StoriesResponse | undefined>;
-	hasNextPage: Ref<UnwrapRef<boolean>>;
-	hasPreviousPage: Ref<UnwrapRef<boolean>>;
-	isLoading: Ref<UnwrapRef<boolean>>;
+	hasNextPage: Ref<boolean>;
+	hasPreviousPage: Ref<boolean>;
+	isLoading: Ref<boolean>;
 	numberOfPages: Ref<number>;
 	currentPage: Ref<number>;
 	slugs: Ref<string[]>;
@@ -15,6 +15,7 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	selectStories: (id: number | number[]) => void;
 	isStorySelected: (id: number) => boolean;
 	unselectStories: (id: number | number[]) => void;
+	unselectAllStories: () => void;
 	selectedStories: Ref<Story[]>;
 	goToPage: (page: number) => void;
 	error: Ref<Error | null>;
@@ -64,6 +65,11 @@ export const useStories: UseStories = async (props) => {
 	const hasPreviousPage = computed(() => Boolean(previousPage.value));
 	const hasNextPage = computed(() => Boolean(nextPage.value));
 
+	const unselectAllStories = () => {
+		selectedStories.value.clear();
+		selectedStoryIds.value.clear();
+	};
+
 	const unselectStories = (id: number | number[]) => {
 		const ids = turnNumberToArray(id);
 
@@ -98,6 +104,7 @@ export const useStories: UseStories = async (props) => {
 		currentPage.value = page;
 	};
 
+	// when slug changes, the page is reset to 1
 	const pushSlug = (slug: string) => {
 		slugs.value.push(slug);
 		currentPage.value = 1;
@@ -124,6 +131,7 @@ export const useStories: UseStories = async (props) => {
 		isStorySelected,
 		selectStories,
 		unselectStories,
+		unselectAllStories,
 		currentPage,
 		goToPage,
 		slugs,

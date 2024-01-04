@@ -16,7 +16,7 @@
 				</label>
 				<span>Name</span>
 			</th>
-			<th class="w-28">Content Type</th>
+			<th class="w-32">Content Type</th>
 			<th class="w-28">Last Update</th>
 			<th class="w-28">Author</th>
 		</tr>

@@ -11,15 +11,18 @@ const {
 	selectedStories,
 	selectStories,
 	unselectStories,
+	unselectAllStories,
 	currentPage,
 	slugs,
 	pushSlug,
-	popSlug,
 	setSlugs,
 	isStorySelected,
-	error,
 	goToPage,
 } = await useStories({ perPage: 10 });
+
+const config = useConfig({
+	selectedStories,
+});
 
 // Show top progress bar on page change.
 watch(isLoading, () => {
@@ -62,10 +65,15 @@ const updateStorySelection = (id: number, checked: boolean) => {
 		<LucideLoader2 class="text-primary animate-spin" />
 	</div>
 	<div v-if="data">
-		<div class="px-5 py-2">
-			<Breadcrumbs :slugs="slugs" :setSlugs="setSlugs" />
-		</div>
-		<table class="w-full table-fixed">
+		<Breadcrumbs :slugs="slugs" :setSlugs="setSlugs" class="px-5 py-2" />
+		<StoryActionBar
+			v-if="selectedStories.length > 0"
+			class="mt-4"
+			:actions="config.actions"
+			:selectedStories="selectedStories"
+			:unselectAllStories="unselectAllStories"
+		/>
+		<table class="w-full mt-4 overflow-hidden rounded-md table-fixed">
 			<StoryListHeader />
 			<tbody>
 				<StoryListItem
