@@ -19,6 +19,7 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	selectedStories: Ref<Story[]>;
 	goToPage: (page: number) => void;
 	error: Ref<Error | null>;
+	setQuery: (query: string | undefined) => void;
 }>;
 
 export const useStories: UseStories = async (props) => {
@@ -26,6 +27,11 @@ export const useStories: UseStories = async (props) => {
 	const selectedStories = useState<Map<number, Story>>(() => new Map());
 	const currentPage = useState<number>(() => 1);
 	const slugs = useState<string[]>(() => []);
+	const query = useState<string | undefined>();
+
+	const setQuery = (newQuery: string | undefined) => {
+		query.value = newQuery;
+	};
 
 	const slugFilter = computed(() => {
 		if (slugs.value.length === 0) {
@@ -43,6 +49,7 @@ export const useStories: UseStories = async (props) => {
 				perPage: props?.perPage || 25,
 				page: currentPage,
 				slug: slugFilter,
+				query,
 			},
 		}
 	);
@@ -138,6 +145,7 @@ export const useStories: UseStories = async (props) => {
 		pushSlug,
 		popSlug,
 		setSlugs,
+		setQuery,
 	};
 };
 

@@ -11,6 +11,7 @@ type GetStories = (props: {
 	page?: number;
 	version?: Version;
 	slug?: string;
+	query?: string;
 }) => Promise<StoriesResponse>;
 
 export default defineEventHandler(async (event): Promise<StoriesResponse> => {
@@ -27,6 +28,7 @@ export default defineEventHandler(async (event): Promise<StoriesResponse> => {
 			perPage: optional(coerce(number(), Number)),
 			page: optional(coerce(number(), Number)),
 			slug: optional(string()),
+			query: optional(string()),
 		}),
 	});
 
@@ -35,6 +37,7 @@ export default defineEventHandler(async (event): Promise<StoriesResponse> => {
 		page: query.page,
 		perPage: query.perPage,
 		slug: query.slug,
+		query: query.query,
 	});
 
 	return response;
@@ -47,6 +50,7 @@ const storyblokFetch = (accessToken: string) => {
 		version: 'published',
 	};
 
+	// This is a management API instance because of the `oauthToken`.
 	const storyblokClient = new StoryblokClient({
 		oauthToken: `bearer ${accessToken}`,
 	});
@@ -57,6 +61,7 @@ const storyblokFetch = (accessToken: string) => {
 		page,
 		version,
 		slug,
+		query,
 	}) => {
 		const params: ISbStoriesParams = {
 			version: version ?? (defaults.version as Version),
@@ -65,6 +70,10 @@ const storyblokFetch = (accessToken: string) => {
 		};
 		if (slug) {
 			params.by_slugs = slug;
+		}
+		if (query) {
+			// @ts-expect-error there is a typing error from the library
+			params.text_search = query;
 		}
 		const { data, total } = await storyblokClient.get(
 			`spaces/${spaceId}/stories`,

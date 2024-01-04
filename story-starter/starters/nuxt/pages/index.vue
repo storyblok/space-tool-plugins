@@ -5,9 +5,11 @@
 				<LucideTornado class="text-primary" />
 			</template>
 			<template #description>
-				Dive into the largest keyword research database on the market, get
-				additional keywords to enhance your website contextual background, and
-				improve your SEO.
+				Story Starter is a boilerplate project that allows you to quickly
+				implement a space plugin. This plugin displays a list of stories and
+				enables users to perform actions on the selected stories. Open
+				<code class="text-teal-100">stories.config.ts</code> file to configure
+				this project.
 			</template>
 			<!-- <template #right-action-bar>
 					<button class="btn btn-outline">

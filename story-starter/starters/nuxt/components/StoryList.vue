@@ -18,7 +18,8 @@ const {
 	setSlugs,
 	isStorySelected,
 	goToPage,
-} = await useStories({ perPage: 10 });
+	setQuery,
+} = await useStories({ perPage: 25 });
 
 const config = useConfig({
 	selectedStories,
@@ -65,7 +66,8 @@ const updateStorySelection = (id: number, checked: boolean) => {
 		<LucideLoader2 class="text-primary animate-spin" />
 	</div>
 	<div v-if="data">
-		<Breadcrumbs :slugs="slugs" :setSlugs="setSlugs" class="px-5 py-2" />
+		<SearchBar :setQuery="setQuery" />
+		<Breadcrumbs :slugs="slugs" :setSlugs="setSlugs" class="px-5 py-2 mt-4" />
 		<StoryActionBar
 			v-if="selectedStories.length > 0"
 			class="mt-4"
