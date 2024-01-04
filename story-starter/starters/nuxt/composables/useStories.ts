@@ -1,25 +1,45 @@
-import type { Ref, UnwrapRef } from 'vue';
+import type { Ref } from 'vue';
 import type { StoriesResponse, Story } from '~/types/story';
 
 type UseStories = (props?: { perPage?: number }) => Promise<{
 	data: Ref<StoriesResponse | undefined>;
-	hasNextPage: Ref<UnwrapRef<boolean>>;
-	hasPreviousPage: Ref<UnwrapRef<boolean>>;
-	isLoading: Ref<UnwrapRef<boolean>>;
+	hasNextPage: Ref<boolean>;
+	hasPreviousPage: Ref<boolean>;
+	isLoading: Ref<boolean>;
 	numberOfPages: Ref<number>;
 	currentPage: Ref<number>;
+	slugs: Ref<string[]>;
+	setSlugs: (slugs: string[]) => void;
+	pushSlug: (slug: string) => void;
+	popSlug: () => void;
 	selectStories: (id: number | number[]) => void;
 	isStorySelected: (id: number) => boolean;
 	unselectStories: (id: number | number[]) => void;
+	unselectAllStories: () => void;
 	selectedStories: Ref<Story[]>;
 	goToPage: (page: number) => void;
 	error: Ref<Error | null>;
+	setQuery: (query: string | undefined) => void;
 }>;
 
 export const useStories: UseStories = async (props) => {
 	const selectedStoryIds = useState<Set<number>>(() => new Set<number>());
 	const selectedStories = useState<Map<number, Story>>(() => new Map());
-	const currentPage = useState(() => 1);
+	const currentPage = useState<number>(() => 1);
+	const slugs = useState<string[]>(() => []);
+	const query = useState<string | undefined>();
+
+	const setQuery = (newQuery: string | undefined) => {
+		query.value = newQuery;
+	};
+
+	const slugFilter = computed(() => {
+		if (slugs.value.length === 0) {
+			return undefined;
+		} else {
+			return slugs.value.join('/') + '/*';
+		}
+	});
 
 	const { data, pending, error } = await useFetch<StoriesResponse, Error>(
 		'/api/stories',
@@ -28,6 +48,8 @@ export const useStories: UseStories = async (props) => {
 			query: {
 				perPage: props?.perPage || 25,
 				page: currentPage,
+				slug: slugFilter,
+				query,
 			},
 		}
 	);
@@ -49,6 +71,11 @@ export const useStories: UseStories = async (props) => {
 	const previousPage = computed(() => getPreviousPage(currentPage.value));
 	const hasPreviousPage = computed(() => Boolean(previousPage.value));
 	const hasNextPage = computed(() => Boolean(nextPage.value));
+
+	const unselectAllStories = () => {
+		selectedStories.value.clear();
+		selectedStoryIds.value.clear();
+	};
 
 	const unselectStories = (id: number | number[]) => {
 		const ids = turnNumberToArray(id);
@@ -84,6 +111,30 @@ export const useStories: UseStories = async (props) => {
 		currentPage.value = page;
 	};
 
+	const pushSlug = (slug: string) => {
+		slugs.value.push(slug);
+	};
+
+	const popSlug = () => {
+		slugs.value.pop();
+	};
+
+	const setSlugs = (newSlugs: string[]) => {
+		slugs.value = newSlugs;
+	};
+
+	// when slug changes, the page is reset to 1
+	watch(
+		slugs,
+		() => {
+			currentPage.value = 1;
+		},
+		{ deep: true }
+	);
+
+	// when page changes, unselect all stories
+	watch(currentPage, unselectAllStories);
+
 	return {
 		data: data as Ref<StoriesResponse>,
 		hasPreviousPage,
@@ -95,8 +146,14 @@ export const useStories: UseStories = async (props) => {
 		isStorySelected,
 		selectStories,
 		unselectStories,
+		unselectAllStories,
 		currentPage,
 		goToPage,
+		slugs,
+		pushSlug,
+		popSlug,
+		setSlugs,
+		setQuery,
 	};
 };
 

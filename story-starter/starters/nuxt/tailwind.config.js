@@ -13,6 +13,20 @@ export default {
 			fontFamily: {
 				sans: ['Roboto, sans-serif'],
 			},
+			colors: {
+				teal: {
+					25: '#D9F4F3',
+					50: '#7FD9D7',
+					75: '#40C6C4',
+					100: '#00B3B0',
+				},
+				ink: {
+					25: '#C6C8CF',
+					50: '#8D919F',
+					75: '#545B6F',
+					100: '#1B243F',
+				},
+			},
 		},
 	},
 	plugins: [require('daisyui')],
