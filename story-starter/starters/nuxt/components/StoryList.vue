@@ -74,7 +74,12 @@ const updateStorySelection = (id: number, checked: boolean) => {
 			:unselectAllStories="unselectAllStories"
 		/>
 		<table class="w-full mt-4 overflow-hidden rounded-md table-fixed">
-			<StoryListHeader />
+			<StoryListHeader
+				:stories="data.stories"
+				:isStorySelected="isStorySelected"
+				:selectAll="selectAll"
+				:unselectAll="unselectAll"
+			/>
 			<tbody>
 				<StoryListItem
 					v-for="(story, index) in data.stories"
