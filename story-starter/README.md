@@ -53,7 +53,7 @@ Ensure that "Production" is the section that contains information about the prod
 
 5. Open the "Install Link" in a new tab and install it in your space for the development and test.
 
-<img src="./assets/install-link.png" alt="Install Link" width="300" />
+<img src="./assets/install-link.png" alt="Install Link" width="600" />
 
 6. Start developing by running `yarn dev:nuxt`, and open it on Storyblok.
 
