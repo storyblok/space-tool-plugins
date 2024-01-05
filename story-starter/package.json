@@ -3,6 +3,10 @@
 	"version": "0.0.1",
 	"description": "",
 	"private": true,
+	"workspaces": [
+		"starters/*",
+		"packages/*"
+	],
 	"scripts": {
 		"dev:nuxt": "pnpm -F nuxt dev"
 	},
