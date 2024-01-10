@@ -20,6 +20,7 @@ type UseStories = (props?: { perPage?: number }) => Promise<{
 	goToPage: (page: number) => void;
 	error: Ref<Error | null>;
 	setQuery: (query: string | undefined) => void;
+	reloadStories: () => Promise<void>;
 }>;
 
 export const useStories: UseStories = async (props) => {
@@ -41,18 +42,18 @@ export const useStories: UseStories = async (props) => {
 		}
 	});
 
-	const { data, pending, error } = await useFetch<StoriesResponse, Error>(
-		'/api/stories',
-		{
-			server: false,
-			query: {
-				perPage: props?.perPage || 25,
-				page: currentPage,
-				slug: slugFilter,
-				query,
-			},
-		}
-	);
+	const { data, pending, error, refresh } = await useFetch<
+		StoriesResponse,
+		Error
+	>('/api/stories', {
+		server: false,
+		query: {
+			perPage: props?.perPage || 25,
+			page: currentPage,
+			slug: slugFilter,
+			query,
+		},
+	});
 
 	const selectedStoriesInArray = computed(() => [
 		...selectedStories.value.values(),
@@ -123,6 +124,10 @@ export const useStories: UseStories = async (props) => {
 		slugs.value = newSlugs;
 	};
 
+	const reloadStories = async () => {
+		await refresh();
+	};
+
 	// when slug changes, the page is reset to 1
 	watch(
 		slugs,
@@ -154,6 +159,7 @@ export const useStories: UseStories = async (props) => {
 		popSlug,
 		setSlugs,
 		setQuery,
+		reloadStories,
 	};
 };
 
