@@ -5,7 +5,9 @@ defineProps<{
 	actions: StoryAction[];
 	selectedStories: Story[];
 	unselectAllStories: () => void;
+	reloadStories: () => Promise<void>;
 }>();
+const { showLoader, hideLoader } = useLoader();
 </script>
 
 <template>
@@ -28,7 +30,14 @@ defineProps<{
 					<button
 						type="button"
 						class="btn btn-ghost"
-						@click="action.handler(selectedStories)"
+						@click="
+							action.handler({
+								selectedStories,
+								showLoader,
+								hideLoader,
+								reloadStories,
+							})
+						"
 					>
 						<component :is="action.icon" />
 						<span>{{ action.label }}</span>

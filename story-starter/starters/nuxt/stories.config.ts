@@ -10,7 +10,7 @@ export default defineStoryConfig((selectedStories) => {
 		actions.push({
 			label: 'Settings',
 			icon: LucideSettings,
-			handler: (selectedStories) => {
+			handler: ({ selectedStories }) => {
 				console.log('💡 opening settings modal', selectedStories);
 			},
 		});
@@ -19,13 +19,25 @@ export default defineStoryConfig((selectedStories) => {
 	actions.push({
 		label: 'Delete',
 		icon: LucideTrash,
-		handler: (selectedStories) => {
+		handler: async ({
+			selectedStories,
+			showLoader,
+			hideLoader,
+			reloadStories,
+		}) => {
 			if (
 				window.confirm(
 					`Do you want to delete ${selectedStories.length} stories?`
 				)
 			) {
-				console.log(`💡 deleting stories...`, selectedStories);
+				console.log(
+					`You can perform any action on these stories`,
+					selectedStories
+				);
+				showLoader();
+				await sleep(1500);
+				hideLoader();
+				reloadStories();
 			}
 		},
 	});
@@ -42,3 +54,9 @@ export default defineStoryConfig((selectedStories) => {
 // 		},
 // 	],
 // });
+
+function sleep(ms: number) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+}

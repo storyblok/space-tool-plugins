@@ -1,3 +1,8 @@
+<script setup lang="ts">
+const fullScreenLoader = ref(false);
+provide('fullScreenLoader', fullScreenLoader);
+</script>
+
 <template>
 	<div class="mx-20 my-11">
 		<Header title="Story Starter">
@@ -22,4 +27,5 @@
 			<StoryList />
 		</div>
 	</div>
+	<Loader />
 </template>

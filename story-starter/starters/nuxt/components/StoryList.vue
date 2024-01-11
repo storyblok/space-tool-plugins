@@ -19,6 +19,7 @@ const {
 	isStorySelected,
 	goToPage,
 	setQuery,
+	reloadStories,
 } = await useStories({ perPage: 25 });
 
 const config = useConfig({
@@ -74,6 +75,7 @@ const updateStorySelection = (id: number, checked: boolean) => {
 			:actions="config.actions"
 			:selectedStories="selectedStories"
 			:unselectAllStories="unselectAllStories"
+			:reloadStories="reloadStories"
 		/>
 		<table class="w-full mt-4 overflow-hidden rounded-md table-fixed">
 			<StoryListHeader

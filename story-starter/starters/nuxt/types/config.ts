@@ -4,7 +4,12 @@ import type { Story } from './story';
 export type StoryAction = {
 	label: string;
 	icon: DefineComponent;
-	handler: (selectedStories: Story[]) => void;
+	handler: (params: {
+		showLoader: () => void;
+		hideLoader: () => void;
+		reloadStories: () => void;
+		selectedStories: Story[];
+	}) => void;
 };
 
 export type StoryConfig = {
