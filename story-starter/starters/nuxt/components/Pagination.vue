@@ -12,13 +12,13 @@ defineProps<{
 	<div class="join">
 		<button
 			class="btn btn-ghost btn-sm join-item"
-			@click="goToPage(currentPage - 1)"
 			:disabled="!hasPreviousPage"
+			@click="goToPage(currentPage - 1)"
 		>
 			<span class="sr-only">Previous Page</span>
 			<LucideChevronLeft :size="16" />
 		</button>
-		<div v-for="(_item, idx) in new Array(numberOfPages)">
+		<div v-for="(_item, idx) in new Array(numberOfPages)" :key="idx">
 			<button
 				class="font-normal btn btn-ghost btn-sm join-item"
 				:class="{
@@ -32,8 +32,8 @@ defineProps<{
 		</div>
 		<button
 			class="btn btn-ghost btn-sm join-item"
-			@click="goToPage(currentPage + 1)"
 			:disabled="!hasNextPage"
+			@click="goToPage(currentPage + 1)"
 		>
 			<span class="sr-only">Next Page</span>
 			<LucideChevronRight :size="16" />

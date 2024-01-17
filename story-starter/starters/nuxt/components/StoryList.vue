@@ -67,22 +67,22 @@ const updateStorySelection = (id: number, checked: boolean) => {
 		<LucideLoader2 class="text-primary animate-spin" />
 	</div>
 	<div v-if="data">
-		<SearchBar :setQuery="setQuery" />
-		<Breadcrumbs :slugs="slugs" :setSlugs="setSlugs" class="px-5 py-2 mt-4" />
+		<SearchBar :set-query="setQuery" />
+		<Breadcrumbs :slugs="slugs" :set-slugs="setSlugs" class="px-5 py-2 mt-4" />
 		<StoryActionBar
 			v-if="selectedStories.length > 0"
 			class="mt-4"
 			:actions="config.actions"
-			:selectedStories="selectedStories"
-			:unselectAllStories="unselectAllStories"
-			:reloadStories="reloadStories"
+			:selected-stories="selectedStories"
+			:unselect-all-stories="unselectAllStories"
+			:reload-stories="reloadStories"
 		/>
 		<table class="w-full mt-4 overflow-hidden rounded-md table-fixed">
 			<StoryListHeader
 				:stories="data.stories"
-				:isStorySelected="isStorySelected"
-				:selectAll="selectAll"
-				:unselectAll="unselectAll"
+				:is-story-selected="isStorySelected"
+				:select-all="selectAll"
+				:unselect-all="unselectAll"
 			/>
 			<tbody>
 				<StoryListItem
@@ -90,19 +90,19 @@ const updateStorySelection = (id: number, checked: boolean) => {
 					:key="index"
 					:story="story"
 					:checked="isStorySelected(story.id)"
-					:enterFolder="pushSlug"
-					:updateStorySelection="updateStorySelection"
+					:enter-folder="pushSlug"
+					:update-story-selection="updateStorySelection"
 					class="even:bg-gray-50"
 				/>
 			</tbody>
 		</table>
 		<div class="flex justify-center mt-8">
 			<Pagination
-				:goToPage="goToPage"
-				:currentPage="currentPage"
-				:hasPreviousPage="hasPreviousPage"
-				:hasNextPage="hasNextPage"
-				:numberOfPages="numberOfPages"
+				:go-to-page="goToPage"
+				:current-page="currentPage"
+				:has-previous-page="hasPreviousPage"
+				:has-next-page="hasNextPage"
+				:number-of-pages="numberOfPages"
 			/>
 		</div>
 	</div>
