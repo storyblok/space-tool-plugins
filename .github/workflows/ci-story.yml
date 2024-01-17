@@ -12,7 +12,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
-      - run: |
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Run checks
+        run: |
           cd story-starter
           pnpm install
           pnpm -F nuxt run lint
