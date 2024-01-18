@@ -18,15 +18,15 @@ const { showLoader, hideLoader } = useLoader();
 			>
 			<button
 				class="ml-2 btn btn-sm btn-ghost"
-				@click="unselectAllStories"
 				type="button"
+				@click="unselectAllStories"
 			>
 				Clear
 			</button>
 		</div>
 		<div class="flex-none">
 			<ul class="flex gap-2 mr-2">
-				<li v-for="action in actions">
+				<li v-for="(action, index) in actions" :key="index">
 					<button
 						type="button"
 						class="btn btn-ghost"

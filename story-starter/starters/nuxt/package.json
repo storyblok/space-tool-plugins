@@ -6,6 +6,8 @@
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare"
@@ -20,9 +22,12 @@
 	},
 	"devDependencies": {
 		"@nuxt/devtools": "latest",
+		"@nuxt/eslint-config": "^0.2.0",
 		"@nuxtjs/google-fonts": "3.1.0",
 		"autoprefixer": "10.4.16",
 		"daisyui": "^4.4.19",
+		"eslint": "^8.56.0",
+		"eslint-plugin-vuejs-accessibility": "^2.2.1",
 		"h3": "^1.8.2",
 		"just-debounce-it": "3.2.0",
 		"nuxt": "^3.8.0",

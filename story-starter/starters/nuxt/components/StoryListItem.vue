@@ -34,27 +34,38 @@ const onItemClick = (story: Story) => {
 <template>
 	<tr class="hover:bg-gray-100">
 		<td class="flex items-center gap-4">
-			<label class="label">
-				<input
-					class="checkbox checkbox-xs"
-					type="checkbox"
-					:id="story.id.toString()"
-					:name="story.id.toString()"
-					@change="onChange"
-					:checked="props.checked"
-				/>
-				<span class="sr-only">Toggle Story</span>
-			</label>
+			<input
+				:id="story.id.toString()"
+				class="checkbox checkbox-xs"
+				type="checkbox"
+				aria-label="Toggle Story"
+				:name="story.id.toString()"
+				:checked="props.checked"
+				@change="onChange"
+			/>
 
 			<LucideFolder v-if="story.is_folder" class="text-gray-400" :size="16" />
 			<LucideDisc v-else class="text-gray-300" :size="16" />
 
-			<div
-				:class="{ 'cursor-pointer': story.is_folder }"
+			<button
+				v-if="story.is_folder"
+				class="text-left"
 				@click="onItemClick(story)"
 			>
-				<div class="text-sm">{{ story.name }}</div>
-				<div class="text-xs font-light text-gray-400">{{ story.slug }}</div>
+				<div class="text-sm">
+					{{ story.name }}
+				</div>
+				<div class="text-xs font-light text-gray-400">
+					{{ story.slug }}
+				</div>
+			</button>
+			<div v-else>
+				<div class="text-sm">
+					{{ story.name }}
+				</div>
+				<div class="text-xs font-light text-gray-400">
+					{{ story.slug }}
+				</div>
 			</div>
 		</td>
 		<td class="text-sm font-light text-gray-500">

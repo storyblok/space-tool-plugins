@@ -20,10 +20,11 @@ watch(
 	>
 		<LucideSearch class="text-gray-500 search-icon" :size="14" />
 		<input
+			v-model="userInput"
 			type="search"
+			aria-label="Search"
 			placeholder="Search"
 			class="flex-1 ml-2 text-gray-700 outline-none"
-			v-model="userInput"
 		/>
 	</div>
 </template>

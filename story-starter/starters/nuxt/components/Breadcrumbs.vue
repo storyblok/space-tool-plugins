@@ -10,16 +10,16 @@ defineProps<{
 		<ol>
 			<li>
 				<BreadcrumbItem
-					:isHome="true"
-					:isClickable="slugs.length > 0"
+					:is-home="true"
+					:is-clickable="slugs.length > 0"
 					label="Home"
 					@click="setSlugs([])"
 				/>
 			</li>
-			<li v-for="(slug, index) in slugs">
+			<li v-for="(slug, index) in slugs" :key="slug">
 				<BreadcrumbItem
-					:isHome="false"
-					:isClickable="index < slugs.length - 1"
+					:is-home="false"
+					:is-clickable="index < slugs.length - 1"
 					:label="slug"
 					@click="setSlugs(slugs.slice(0, index + 1))"
 				/>
