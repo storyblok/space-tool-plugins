@@ -12,41 +12,42 @@ type AppSessionQuery = {
 
 const getAppSessionQuery = (event: H3Event): AppSessionQuery | undefined => {
 	const appSession = event.context.appSession;
-	if (appSession && appSession.spaceId && appSession.userId) {
+	const query = getQuery(event);
+
+	const candidates = [
 		// When a page is already authenticated on the server side,
 		// and it's rendering a page that includes `useFetch()`,
-		// Nuxt directly runs the serverless functionon the server side
+		// Nuxt directly runs the serverless function on the server side
 		// (without an actual HTTP request).
 		//
 		// In that case `event.context.appSession` exists.
-		return {
-			spaceId: appSession.spaceId,
-			userId: appSession.userId,
-		};
-	}
+		[appSession?.spaceId, appSession?.userId],
 
-	const { space_id, user_id } = getQuery(event);
-	if (space_id && user_id) {
-		// if this is a page request (/?space_id=xxx&user_id=yyy)
-		return {
-			spaceId: Number(space_id),
-			userId: Number(user_id),
-		};
-	}
+		// if this is a page request (/?spaceId=xxx&userId=yyy)
+		[query.spaceId, query.userId],
+		[query.space_id, query.user_id],
+	];
 
 	const referer = getHeader(event, 'referer');
-	if (!referer) {
-		return;
+	if (referer) {
+		const refParams = new URL(referer).searchParams;
+		candidates.push([
+			refParams.get('spaceId') as string,
+			refParams.get('userId') as string,
+		]);
+		candidates.push([
+			refParams.get('space_id') as string,
+			refParams.get('user_id') as string,
+		]);
 	}
-	// if this is an API request that is coming from a page (/?space_id=xxx&user_id=yyy)
-	const refererSearchParams = new URL(referer).searchParams;
-	const spaceId = refererSearchParams.get('space_id');
-	const userId = refererSearchParams.get('user_id');
-	if (spaceId && userId) {
-		return {
-			spaceId: Number(spaceId),
-			userId: Number(userId),
-		};
+
+	for (const candidate of candidates) {
+		if (candidate[0] && candidate[1]) {
+			return {
+				spaceId: toNumber(candidate[0]),
+				userId: toNumber(candidate[1]),
+			};
+		}
 	}
 };
 
@@ -62,4 +63,16 @@ export const getAppSession = async (event: H3Event) => {
 	});
 
 	return await sessionStore.get(appSessionQuery);
+};
+
+const toNumber = (value: any) => {
+	if (typeof value === 'string') {
+		return parseInt(value, 10);
+	} else if (typeof value === 'number') {
+		return value;
+	} else {
+		throw new Error(
+			`Expected to be string or number. Actual value: ${JSON.stringify(value)}`
+		);
+	}
 };

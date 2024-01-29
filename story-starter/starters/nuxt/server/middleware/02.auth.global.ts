@@ -5,6 +5,9 @@ export default defineEventHandler(async (event) => {
 	if (event.path.startsWith(ENDPOINT_PREFIX)) {
 		return;
 	}
+	if (event.path === '/401' || event.path.startsWith('/__nuxt_error')) {
+		return;
+	}
 
 	const appSession = await getAppSession(event);
 
