@@ -1,8 +1,7 @@
-import { OAUTH_FLOW_URL, ENDPOINT_PREFIX } from '~/shared/auth';
-
 export default defineEventHandler(async (event) => {
+	const appConfig = useAppConfig();
 	// do not enforce authentication for oauth-related APIs
-	if (event.path.startsWith(ENDPOINT_PREFIX)) {
+	if (event.path.startsWith(appConfig.auth.endpointPrefix)) {
 		return;
 	}
 	if (event.path === '/401' || event.path.startsWith('/__nuxt_error')) {
@@ -17,7 +16,7 @@ export default defineEventHandler(async (event) => {
 			throw createError({ statusCode: 401 });
 		} else {
 			// pages
-			return await sendRedirect(event, OAUTH_FLOW_URL, 302);
+			return await sendRedirect(event, appConfig.auth.initOauthFlowUrl, 302);
 		}
 	}
 

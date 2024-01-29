@@ -16,10 +16,13 @@ export const getAppSession = async (event: H3Event) => {
 		return;
 	}
 
-	const sessionStore = sessionCookieStore(authHandlerParams)({
-		req: event.node.req,
-		res: event.node.res,
-	});
+	const appConfig = useAppConfig();
+	const sessionStore = sessionCookieStore(getAuthHandlerParams(appConfig.auth))(
+		{
+			req: event.node.req,
+			res: event.node.res,
+		}
+	);
 
 	return await sessionStore.get(appSessionQuery);
 };

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	extends: ['github:storyblok/space-tool-plugins/space-plugin-nuxt-base'],
-	css: ['~/assets/css/main.css'],
+	css: ['~/assets/css/base.css'],
 	modules: ['nuxt-lucide-icons', '@nuxtjs/google-fonts', '@nuxtjs/tailwindcss'],
 	googleFonts: {
 		families: {
