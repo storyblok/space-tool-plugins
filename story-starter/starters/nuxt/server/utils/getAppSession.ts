@@ -11,7 +11,7 @@ type AppSessionQuery = {
 };
 
 export const getAppSession = async (event: H3Event) => {
-	const appSessionQuery = extractSpaceIdAndUserId(event);
+	const appSessionQuery = extractAppSessionQuery(event);
 	if (!isAppSessionQuery(appSessionQuery)) {
 		return;
 	}
@@ -24,7 +24,7 @@ export const getAppSession = async (event: H3Event) => {
 	return await sessionStore.get(appSessionQuery);
 };
 
-function extractSpaceIdAndUserId(event: H3Event): AppSessionQuery | undefined {
+function extractAppSessionQuery(event: H3Event): AppSessionQuery | undefined {
 	const appSession = event.context.appSession;
 	const query = getQuery(event);
 
