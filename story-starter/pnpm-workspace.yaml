@@ -1,4 +1,0 @@
-packages:
-  - 'starters/*'
-  - 'packages/*'
-  - space-plugin-nuxt-base

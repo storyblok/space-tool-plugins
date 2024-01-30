@@ -1,4 +1,4 @@
-# `space-plugin-nuxt-base` layer
+# Space Plugin `nuxt-base` layer
 
 This Nuxt layer adds basic authentication flow to your existing Storyblok's Space Plugin app.
 
@@ -8,7 +8,12 @@ In your `nuxt.config.ts`,
 
 ```js
 export default defineNuxtConfig({
-	extends: ['github:storyblok/space-tool-plugins/space-plugin-nuxt-base'],
+	extends: [
+		[
+			'github:storyblok/space-tool-plugins/space-plugins/nuxt-base',
+			{ install: true },
+		],
+	],
 });
 ```
 

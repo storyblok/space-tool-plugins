@@ -5,7 +5,7 @@ This Nuxt starter is a Storyblok Space Plugin app that includes the basic authen
 ## Getting Started
 
 ```sh
-npx giget@latest gh:storyblok/space-tool-plugins/space-plugin-nuxt-starter YOUR-PROJECT-NAME
+npx giget@latest gh:storyblok/space-tool-plugins/space-plugins/nuxt-starter YOUR-PROJECT-NAME
 ```
 
 This repository is developed using [pnpm](https://pnpm.io/). However, you can also use Yarn or NPM.
@@ -36,7 +36,7 @@ And then you can find the information.
 
 <img src="./docs/oauth.png" alt="OAuth information" width="600" />
 
-3. Configure the following environment variables in `<ROOT-OF-YOUR-PROJECT>/starters/nuxt/.env`.
+3. Configure the following environment variables in `<ROOT-OF-YOUR-PROJECT>/.env`.
 
 - `CLIENT_ID=`: Client Identifer
 - `CLIENT_SECRET=`: Client Secret
@@ -58,10 +58,6 @@ Ensure that "Production" is the section that contains information about the prod
 
 7. Open the `starters/nuxt/stories.config.ts` file and implement your own actions. You can refer to the existing sample implementation for guidance.
 
-8. Deploying
-
-The starter is set up as a monorepo, and most hosting platforms support it seamlessly. For instance, Vercel recognizes it as a Nuxt project and automatically configures the root directory for you.
-
-<img src="./docs/deploy-subdir.png" alt="Vercel Deployment" width="600" />
+8. Deployment
 
 You should configure the same environment variables on the hosting platform as well.
