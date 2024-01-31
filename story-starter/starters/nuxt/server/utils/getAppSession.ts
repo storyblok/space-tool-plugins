@@ -10,48 +10,8 @@ type AppSessionQuery = {
 	userId: number;
 };
 
-const getAppSessionQuery = (event: H3Event): AppSessionQuery | undefined => {
-	const appSession = event.context.appSession;
-	if (appSession && appSession.spaceId && appSession.userId) {
-		// When a page is already authenticated on the server side,
-		// and it's rendering a page that includes `useFetch()`,
-		// Nuxt directly runs the serverless functionon the server side
-		// (without an actual HTTP request).
-		//
-		// In that case `event.context.appSession` exists.
-		return {
-			spaceId: appSession.spaceId,
-			userId: appSession.userId,
-		};
-	}
-
-	const { space_id, user_id } = getQuery(event);
-	if (space_id && user_id) {
-		// if this is a page request (/?space_id=xxx&user_id=yyy)
-		return {
-			spaceId: Number(space_id),
-			userId: Number(user_id),
-		};
-	}
-
-	const referer = getHeader(event, 'referer');
-	if (!referer) {
-		return;
-	}
-	// if this is an API request that is coming from a page (/?space_id=xxx&user_id=yyy)
-	const refererSearchParams = new URL(referer).searchParams;
-	const spaceId = refererSearchParams.get('space_id');
-	const userId = refererSearchParams.get('user_id');
-	if (spaceId && userId) {
-		return {
-			spaceId: Number(spaceId),
-			userId: Number(userId),
-		};
-	}
-};
-
 export const getAppSession = async (event: H3Event) => {
-	const appSessionQuery = getAppSessionQuery(event);
+	const appSessionQuery = extractAppSessionQuery(event);
 	if (!isAppSessionQuery(appSessionQuery)) {
 		return;
 	}
@@ -62,4 +22,64 @@ export const getAppSession = async (event: H3Event) => {
 	});
 
 	return await sessionStore.get(appSessionQuery);
+};
+
+function extractAppSessionQuery(event: H3Event): AppSessionQuery | undefined {
+	const appSession = event.context.appSession;
+	const query = getQuery(event);
+
+	// When a page is already authenticated on the server side,
+	// and it's rendering a page that includes `useFetch()`,
+	// Nuxt directly runs the serverless function on the server side
+	// (without an actual HTTP request).
+	//
+	// In that case `event.context.appSession` exists.
+	if (appSession?.spaceId && appSession?.userId) {
+		return convertToAppSessionQuery(appSession?.spaceId, appSession?.userId);
+	}
+
+	// if this is a page request (/?spaceId=xxx&userId=yyy)
+	if (query.spaceId && query.userId) {
+		return convertToAppSessionQuery(query.spaceId, query.userId);
+	}
+	if (query.space_id && query.user_id) {
+		return convertToAppSessionQuery(query.space_id, query.user_id);
+	}
+
+	const referer = getHeader(event, 'referer');
+	if (referer) {
+		const refererParams = new URL(referer).searchParams;
+		if (refererParams.get('spaceId') && refererParams.get('userId')) {
+			return convertToAppSessionQuery(
+				refererParams.get('spaceId'),
+				refererParams.get('userId')
+			);
+		}
+
+		if (refererParams.get('space_id') && refererParams.get('user_id')) {
+			return convertToAppSessionQuery(
+				refererParams.get('space_id'),
+				refererParams.get('user_id')
+			);
+		}
+	}
+}
+
+function convertToAppSessionQuery(spaceId: any, userId: any): AppSessionQuery {
+	return {
+		spaceId: toNumber(spaceId),
+		userId: toNumber(userId),
+	};
+}
+
+const toNumber = (value: any) => {
+	if (typeof value === 'string') {
+		return parseInt(value, 10);
+	}
+	if (typeof value === 'number') {
+		return value;
+	}
+	throw new Error(
+		`Expected to be string or number. Actual value: ${JSON.stringify(value)}`
+	);
 };
