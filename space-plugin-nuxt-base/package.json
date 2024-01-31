@@ -1,0 +1,24 @@
+{
+	"version": "0.0.1",
+	"name": "@storyblok/space-plugin-nuxt-base",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare"
+	},
+	"dependencies": {
+		"@storyblok/app-extension-auth": "1.0.0-alpha.1"
+	},
+	"devDependencies": {
+		"@nuxt/devtools": "latest",
+		"h3": "^1.8.2",
+		"nuxt": "^3.8.0",
+		"vue": "^3.3.4",
+		"vue-router": "^4.2.5",
+		"typescript": "^5.1.3"
+	}
+}
