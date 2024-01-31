@@ -12,3 +12,9 @@ npx giget@latest gh:storyblok/space-tool-plugins/story-starter YOUR-PROJECT-NAME
 ```
 
 To learn more about the configuration, read the [space-plugin-nuxt-starter's README](https://github.com/storyblok/space-tool-plugins/blob/main/space-plugin-nuxt-starter/README.md#configuration).
+
+## Deployment
+
+The Story Starter is set up as a monorepo, and most hosting platforms support it seamlessly. For instance, Vercel recognizes it as a Nuxt project and automatically configures the root directory for you.
+
+<img src="./docs/deploy-subdir.png" alt="Vercel Deployment" width="600" />

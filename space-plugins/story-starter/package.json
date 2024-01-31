@@ -4,8 +4,7 @@
 	"description": "",
 	"private": true,
 	"workspaces": [
-		"starters/*",
-		"packages/*"
+		"starters/*"
 	],
 	"scripts": {
 		"dev:nuxt": "pnpm -F nuxt dev"

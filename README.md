@@ -6,8 +6,11 @@ This repository is a collection of starters to help developers quickly start bui
 ## Introduction
 Inside each project you will find a detailed README.md file that will provide instructions on how to clone and run the code. Here is a short list of all projects inside of this repository: 
 
-- [Story starter](story-starter/README.md)
-- [Tool Next.js Starter](tool-nextjs-starter/README.md)
+- Space Plugins
+  - [Nuxt Starter](space-plugins/nuxt-starter/README.md)
+  - [Story Starter](space-plugins/story-starter/README.md)
+- Tool Plugins
+  - [Next.js Starter](tool-plugins/nextjs-starter/README.md)
 
 ## Glossary 
 

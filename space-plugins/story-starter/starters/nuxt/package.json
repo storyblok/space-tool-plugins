@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "nuxt build",
-		"dev": "nuxt dev",
+		"dev": "nuxt dev --dotenv ../../.env",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"generate": "nuxt generate",
@@ -15,7 +15,6 @@
 	"dependencies": {
 		"@storyblok/app-extension-auth": "1.0.0-alpha.1",
 		"@types/nprogress": "^0.2.3",
-		"common": "workspace:*",
 		"nprogress": "^0.2.0",
 		"storyblok-js-client": "^6.2.0",
 		"valibot": "^0.19.0"
