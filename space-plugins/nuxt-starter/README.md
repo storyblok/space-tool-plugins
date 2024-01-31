@@ -42,6 +42,11 @@ And then you can find the information.
 - `CLIENT_SECRET=`: Client Secret
 - `BASE_URL=`: When using this starter, you should expose your local development server. To do this, we suggest using services like [ngrok](https://ngrok.com/). Let's say your hostname is `https://PUT-YOURS.ngrok.io`. Set that as your `BASE_URL`.
 
+> [!NOTE]
+> ngrok offers a static domain on the free plan, so you don't have to update the BASE_URL in your `.env` and Storyblok every time you get a new domain while using ngrok CLI.
+
+<img src="./docs/ngrok-static-domain.png" alt="Static domain on ngrok" width="600" />
+
 4. Configure your extension on Storyblok with the index URL and the redirection URL. The redirection URL ends with `/api/connect/callback`.
 
 <img src="./docs/urls-for-oauth.png" alt="Configure URLs for oauth" width="300" />
