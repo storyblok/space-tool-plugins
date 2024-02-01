@@ -13,6 +13,10 @@ npx giget@latest gh:storyblok/space-tool-plugins/space-plugins/story-starter YOU
 
 To learn more about the configuration, read the [space-plugin-nuxt-starter's README](https://github.com/storyblok/space-tool-plugins/blob/main/space-plugin-nuxt-starter/README.md#configuration).
 
+## Customization
+
+Open the `starters/nuxt/stories.config.ts` file and implement your own actions. You can refer to the existing sample implementation for guidance.
+
 ## Deployment
 
 The Story Starter is set up as a monorepo, and most hosting platforms support it seamlessly. For instance, Vercel recognizes it as a Nuxt project and automatically configures the root directory for you.
