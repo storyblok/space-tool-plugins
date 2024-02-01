@@ -2,6 +2,12 @@
 
 This Nuxt starter is a Storyblok Space Plugin app that includes the basic authentication flow.
 
+## Tutorial Video
+
+If you prefer video tutorials over text, this is for you:
+
+https://www.loom.com/share/f56defc5bfcf4fa8bce8682386f8352b?sid=8820f1b2-4229-4b05-9f22-4855e6dfccc5
+
 ## Getting Started
 
 ```sh
@@ -60,6 +66,9 @@ Ensure that "Production" is the section that contains information about the prod
 6. Start developing by running `yarn dev:nuxt`, and open it on Storyblok.
 
 <img src="./docs/open-extension.png" alt="Open the extension" width="200" />
+
+> [!NOTE]
+> If the authentication flow isn't working, please check if you have an ad blocker extension enabled in your browser and disable it.
 
 7. Deployment
 
