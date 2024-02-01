@@ -61,8 +61,6 @@ Ensure that "Production" is the section that contains information about the prod
 
 <img src="./docs/open-extension.png" alt="Open the extension" width="200" />
 
-7. Open the `starters/nuxt/stories.config.ts` file and implement your own actions. You can refer to the existing sample implementation for guidance.
-
-8. Deployment
+7. Deployment
 
 You should configure the same environment variables on the hosting platform as well.
