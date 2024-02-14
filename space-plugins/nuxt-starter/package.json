@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"storyblok-js-client": "^6.2.0",
-		"@storyblok/app-extension-auth": "1.0.0-alpha.1"
+		"@storyblok/app-extension-auth": "1.0.1"
 	},
 	"devDependencies": {
 		"@nuxt/eslint-config": "^0.2.0",
