@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@storyblok/app-extension-auth':
-    specifier: 1.0.1
-    version: 1.0.1
+    specifier: 1.0.2
+    version: 1.0.2
   storyblok-js-client:
     specifier: ^6.2.0
     version: 6.2.0
@@ -1668,8 +1668,8 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@storyblok/app-extension-auth@1.0.1:
-    resolution: {integrity: sha512-J2CYHU6t0UFrJ4ya72mi/uDJnPIpHr3+33JemVne2BE/c3fSeaCPLLbS7mNDc+WNVealWVsP1Nf+6gSiWIoiLw==}
+  /@storyblok/app-extension-auth@1.0.2:
+    resolution: {integrity: sha512-C92bqP1yIv/RgzybfeHYmA7sWxEna46jqqNbaTvWH1gVdZnqMF3afuOFen2QxYLVe5zYWBfxoHOBzdABDX/iXA==}
     engines: {node: '>=14.21.3'}
     dependencies:
       '@storyblok/region-helper': 0.1.0
