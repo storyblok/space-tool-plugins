@@ -33,11 +33,16 @@ const isValidQuery = (query: unknown): query is Query =>
 			'userId' in query &&
 			typeof query.userId === 'string'));
 
-type Query = {
-	space_id: string;
-	user_id: string;
-	user_is_admin: string;
-	space_name: string;
-	space_is_trial: string;
-	user_lang: string;
-};
+type Query =
+	| {
+			space_id: string;
+			user_id: string;
+			user_is_admin: string;
+			space_name: string;
+			space_is_trial: string;
+			user_lang: string;
+	  }
+	| {
+			spaceId: string;
+			userId: string;
+	  };
