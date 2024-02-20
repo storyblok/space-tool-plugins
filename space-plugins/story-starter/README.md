@@ -8,10 +8,14 @@ The Story Starter is a [Space Plugin](https://www.storyblok.com/docs/plugins/cus
 > Currently, the Story Starter is written only in Nuxt. However, please inform us if you would like to have a Next.js version. Feel free to create a GitHub issue to make the request.
 
 ```sh
-npx giget@latest gh:storyblok/space-tool-plugins/story-starter YOUR-PROJECT-NAME
+npx giget@latest gh:storyblok/space-tool-plugins/space-plugins/story-starter YOUR-PROJECT-NAME
 ```
 
 To learn more about the configuration, read the [space-plugin-nuxt-starter's README](https://github.com/storyblok/space-tool-plugins/blob/main/space-plugin-nuxt-starter/README.md#configuration).
+
+## Customization
+
+Open the `starters/nuxt/stories.config.ts` file and implement your own actions. You can refer to the existing sample implementation for guidance.
 
 ## Deployment
 
