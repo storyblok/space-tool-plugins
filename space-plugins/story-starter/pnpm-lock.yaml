@@ -11,8 +11,8 @@ importers:
   starters/nuxt:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: 1.0.0-alpha.1
-        version: 1.0.0-alpha.1
+        specifier: 1.0.2
+        version: 1.0.2
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
@@ -1878,12 +1878,17 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@storyblok/app-extension-auth@1.0.0-alpha.1:
-    resolution: {integrity: sha512-qq5dGPmyGR9+nbRhYNTIN5vSgluGsozEdpXNwFVqVW8a1ZV/vq5aydqmDzua43f/EVcO+UA/CtIgvVnxt+xw8A==}
+  /@storyblok/app-extension-auth@1.0.2:
+    resolution: {integrity: sha512-C92bqP1yIv/RgzybfeHYmA7sWxEna46jqqNbaTvWH1gVdZnqMF3afuOFen2QxYLVe5zYWBfxoHOBzdABDX/iXA==}
     engines: {node: '>=14.21.3'}
     dependencies:
+      '@storyblok/region-helper': 0.1.0
       jsonwebtoken: 9.0.2
       openid-client: 5.6.1
+    dev: false
+
+  /@storyblok/region-helper@0.1.0:
+    resolution: {integrity: sha512-psDn8OrU9y1Y7qWXbUCeNQ1U+8XyumerE5MBTfN+06L/lRlR9DJ4BRWOlx/cjKF6RXd5CnUBjcg1BNM3IupIkA==}
     dev: false
 
   /@tootallnate/once@2.0.0:
@@ -4973,11 +4978,6 @@ packages:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
-  /lru-cache@10.0.1:
-    resolution: {integrity: sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==}
-    engines: {node: 14 || >=16.14}
-    dev: true
-
   /lru-cache@10.1.0:
     resolution: {integrity: sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==}
     engines: {node: 14 || >=16.14}
@@ -7634,7 +7634,7 @@ packages:
       h3: 1.8.2
       ioredis: 5.3.2
       listhen: 1.5.5
-      lru-cache: 10.0.1
+      lru-cache: 10.1.0
       mri: 1.2.0
       node-fetch-native: 1.4.0
       ofetch: 1.3.3
