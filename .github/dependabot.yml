@@ -1,0 +1,23 @@
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'wednesday'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+    reviewers:
+      - 'storyblok/plugins-team'
+    # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#example-1
+    groups:
+      everything:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
