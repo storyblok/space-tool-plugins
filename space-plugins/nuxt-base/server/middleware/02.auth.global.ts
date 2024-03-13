@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 	if (
 		event.path === '/401' ||
 		event.path.startsWith('/__nuxt_error') ||
-		isMiddlewareDisabled(event.path, appConfig.auth.middleware?.ignoredPaths)
+		isMiddlewareIgnored(event.path, appConfig.auth.middleware?.ignoredPaths)
 	) {
 		return;
 	}
@@ -28,8 +28,9 @@ export default defineEventHandler(async (event) => {
 	event.context.appSession = appSession;
 });
 
-const isMiddlewareDisabled = (
-	path: string,
-	disabledPaths: string[] | undefined,
+const isMiddlewareIgnored = (
+	currentPath: string,
+	ignoredPaths: string[] | undefined,
 ): boolean =>
-	Array.isArray(disabledPaths) && disabledPaths.some((p) => path.startsWith(p));
+	Array.isArray(ignoredPaths) &&
+	ignoredPaths.some((p) => currentPath.startsWith(p));
