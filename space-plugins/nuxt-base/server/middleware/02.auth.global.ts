@@ -4,7 +4,11 @@ export default defineEventHandler(async (event) => {
 	if (event.path.startsWith(appConfig.auth.endpointPrefix)) {
 		return;
 	}
-	if (event.path === '/401' || event.path.startsWith('/__nuxt_error')) {
+	if (
+		event.path === '/401' ||
+		event.path.startsWith('/__nuxt_error') ||
+		isMiddlewareDisabled(event.path, appConfig.auth.disabledMiddlewarePaths)
+	) {
 		return;
 	}
 
@@ -22,3 +26,9 @@ export default defineEventHandler(async (event) => {
 
 	event.context.appSession = appSession;
 });
+
+const isMiddlewareDisabled = (
+	path: string,
+	disabledPaths: string[] | undefined,
+): boolean =>
+	Array.isArray(disabledPaths) && disabledPaths.some((p) => path.startsWith(p));

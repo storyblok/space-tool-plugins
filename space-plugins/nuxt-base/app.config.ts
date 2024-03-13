@@ -14,6 +14,7 @@ declare module '@nuxt/schema' {
 			initOauthFlowUrl: string;
 			successCallback: string;
 			errorCallback: string;
+			disabledMiddlewarePaths?: string[]; //e.g.: ['/api/endpoint']
 		};
 	}
 }
