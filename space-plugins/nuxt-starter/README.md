@@ -19,9 +19,9 @@ This repository is developed using [pnpm](https://pnpm.io/). However, you can al
 ```sh
 cd YOUR-PROJECT-NAME
 
-pnpm install && pnpm run dev
+pnpm install && pnpm dev
 # or
-yarn install && yarn run dev
+yarn install && yarn dev
 # or
 npm install && npm run dev
 ```
@@ -63,7 +63,7 @@ Ensure that "Production" is the section that contains information about the prod
 
 <img src="./docs/install-link.png" alt="Install Link" width="600" />
 
-6. Start developing by running `yarn dev:nuxt`, and open it on Storyblok.
+6. Start developing by running `yarn dev`, and open it on Storyblok.
 
 <img src="./docs/open-extension.png" alt="Open the extension" width="200" />
 
