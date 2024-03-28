@@ -26,11 +26,12 @@ export default defineEventHandler(async (event) => {
 	}
 
 	event.context.appSession = appSession;
+	appConfig.auth.middleware?.afterAuth?.({ event, appSession });
 });
 
 const isMiddlewareIgnored = (
 	currentPath: string,
-	ignoredPaths: string[] | undefined,
+	ignoredPaths: string[] | undefined
 ): boolean =>
 	Array.isArray(ignoredPaths) &&
 	ignoredPaths.some((p) => currentPath.startsWith(p));
