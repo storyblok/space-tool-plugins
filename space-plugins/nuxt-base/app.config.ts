@@ -19,7 +19,7 @@ declare module '@nuxt/schema' {
 			errorCallback: string;
 			middleware?: {
 				ignoredPaths?: string[]; //e.g.: ['/api/endpoint']
-				afterAuth?: (context: {
+				afterAuth?: (params: {
 					event: H3Event;
 					appSession: AppSession;
 				}) => EventHandlerResponse | Promise<EventHandlerResponse> | undefined;
