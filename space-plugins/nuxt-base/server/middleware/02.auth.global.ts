@@ -26,7 +26,11 @@ export default defineEventHandler(async (event) => {
 	}
 
 	event.context.appSession = appSession;
-	appConfig.auth.middleware?.afterAuth?.({ event, appSession });
+
+	const afterAuth = appConfig.auth.middleware?.afterAuth;
+	if (typeof afterAuth === 'function') {
+		return await afterAuth({ event, appSession });
+	}
 });
 
 const isMiddlewareIgnored = (

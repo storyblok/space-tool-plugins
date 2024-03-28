@@ -1,5 +1,5 @@
 import type { AppSession } from '@storyblok/app-extension-auth';
-import type { H3Event } from 'h3';
+import type { EventHandlerResponse, H3Event } from 'h3';
 
 export default defineAppConfig({
 	auth: {
@@ -22,7 +22,7 @@ declare module '@nuxt/schema' {
 				afterAuth?: (context: {
 					event: H3Event;
 					appSession: AppSession;
-				}) => void;
+				}) => EventHandlerResponse | Promise<EventHandlerResponse> | undefined;
 			};
 		};
 	}
