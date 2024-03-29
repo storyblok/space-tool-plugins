@@ -1,5 +1,4 @@
-import type { AppSession } from '@storyblok/app-extension-auth';
-import type { EventHandlerResponse, H3Event } from 'h3';
+import type { AuthConfig } from './types/middlewareConfig';
 
 export default defineAppConfig({
 	auth: {
@@ -12,18 +11,6 @@ export default defineAppConfig({
 
 declare module '@nuxt/schema' {
 	interface AppConfigInput {
-		auth: {
-			endpointPrefix: string;
-			initOauthFlowUrl: string;
-			successCallback: string;
-			errorCallback: string;
-			middleware?: {
-				ignoredPaths?: string[]; //e.g.: ['/api/endpoint']
-				afterAuth?: (params: {
-					event: H3Event;
-					appSession: AppSession;
-				}) => EventHandlerResponse | Promise<EventHandlerResponse> | undefined;
-			};
-		};
+		auth: AuthConfig;
 	}
 }
