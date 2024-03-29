@@ -27,9 +27,9 @@ export default defineEventHandler(async (event) => {
 
 	event.context.appSession = appSession;
 
-	const afterAuth = appConfig.auth.middleware?.afterAuth;
-	if (typeof afterAuth === 'function') {
-		return await afterAuth({ event, appSession });
+	const afterAuthenticated = appConfig.auth.middleware?.afterAuthenticated;
+	if (typeof afterAuthenticated === 'function') {
+		return await afterAuthenticated({ event, appSession });
 	}
 });
 
