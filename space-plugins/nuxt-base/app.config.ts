@@ -1,5 +1,3 @@
-import type { AuthConfig } from './types/middlewareConfig';
-
 export default defineAppConfig({
 	auth: {
 		endpointPrefix: '/api/connect',
