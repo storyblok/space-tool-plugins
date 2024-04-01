@@ -9,14 +9,6 @@ export default defineAppConfig({
 
 declare module '@nuxt/schema' {
 	interface AppConfigInput {
-		auth: {
-			endpointPrefix: string;
-			initOauthFlowUrl: string;
-			successCallback: string;
-			errorCallback: string;
-			middleware?: {
-				ignoredPaths?: string[]; //e.g.: ['/api/endpoint']
-			};
-		};
+		auth: AuthConfig;
 	}
 }
