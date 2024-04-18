@@ -11,9 +11,11 @@ body {
 	@apply font-sans;
 }
 
-/*TODO: focus state*/
 .btn-tertiary {
 	@apply bg-white border-ink-15 rounded-lg shadow-none font-medium;
+}
+.btn-tertiary:focus-visible {
+	@apply outline-ink-15;
 }
 
 .btn {
