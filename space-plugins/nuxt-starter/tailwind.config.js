@@ -13,9 +13,6 @@ export default {
 			fontFamily: {
 				sans: ['Roboto, sans-serif'],
 			},
-			boxShadow: {
-				circle: '0px 0px 0px 2px rgb(255,255,255)',
-			},
 			colors: {
 				teal: {
 					25: '#D9F4F3',
