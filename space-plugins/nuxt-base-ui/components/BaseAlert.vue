@@ -5,15 +5,37 @@ defineProps<{
 	type: AlertType;
 	message: string | undefined;
 }>();
+
+const getAlertStyleByType = (type: AlertType) => {
+	switch (type) {
+		case 'success':
+			return 'alert-success border-success-light';
+		case 'error':
+			return 'alert-error border-error-light';
+		case 'warning':
+			return 'alert-warning border-warning-light';
+		case 'info':
+			return 'alert-info border-info-light';
+		default:
+			return '';
+	}
+};
 </script>
 
 <template>
 	<div
 		role="alert"
-		:className="`alert alert-${type} absolute top-5 left-1/2 -translate-x-1/2 w-72 grid grid-cols-[24px,auto] items-start border border-${type}-light`"
+		class="alert absolute top-5 left-1/2 -translate-x-1/2 w-72 grid grid-cols-[24px,auto] items-start border"
+		:class="getAlertStyleByType(type)"
 	>
 		<div
-			:class="`w-4 h-4 rounded bg-${type}-dark justify-self-center grid place-items-center`"
+			class="w-4 h-4 rounded justify-self-center grid place-items-center"
+			:class="{
+				'bg-success-dark': type === 'success',
+				'bg-error-dark': type === 'error',
+				'bg-warning-dark': type === 'warning',
+				'bg-info-dark': type === 'info',
+			}"
 		>
 			<svg
 				v-if="type === 'success'"

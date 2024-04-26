@@ -8,17 +8,6 @@ export default {
 		'./app.vue',
 		'./error.vue',
 	],
-	safelist: [
-		{
-			pattern: /alert-(success|error|info|warning)/,
-		},
-		{
-			pattern: /bg-(success|error|info|warning)-dark/,
-		},
-		{
-			pattern: /border-(success|error|info|warning)-light/,
-		},
-	],
 	theme: {
 		extend: {
 			fontFamily: {
