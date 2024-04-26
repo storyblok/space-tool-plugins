@@ -1,0 +1,27 @@
+node_modules
+
+# Logs
+logs
+*.log
+
+# Nuxt dev/build outputs
+.nitro
+.cache
+.nuxt
+nuxt.d.ts
+.output
+.data
+framework
+dist
+
+# Local History
+.history
+
+# VSCode
+.DS_Store
+.vscode/
+
+# Local env files
+.env
+.env.*
+!.env.example
