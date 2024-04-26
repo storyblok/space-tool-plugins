@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { data } = await useFetch('/api/stories');
+const alert = useAlert();
 </script>
 
 <template>
@@ -34,4 +35,9 @@ const { data } = await useFetch('/api/stories');
 			</div>
 		</div>
 	</div>
+	<BaseAlert
+		v-if="alert.state.show"
+		:message="alert.state.message"
+		:type="alert.state.type"
+	/>
 </template>
