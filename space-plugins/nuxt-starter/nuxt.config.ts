@@ -15,7 +15,7 @@ export default defineNuxtConfig({
 	modules: ['nuxt-lucide-icons', '@nuxtjs/google-fonts', '@nuxtjs/tailwindcss'],
 	googleFonts: {
 		families: {
-			Roboto: [300, 400, 700],
+			Roboto: [300, 400, 500, 700],
 		},
 	},
 });
