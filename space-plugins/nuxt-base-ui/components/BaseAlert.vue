@@ -25,7 +25,7 @@ const getAlertStyleByType = (type: AlertType) => {
 <template>
 	<div
 		role="alert"
-		class="alert absolute top-5 left-1/2 -translate-x-1/2 w-72 grid grid-cols-[24px,auto] items-start border"
+		class="alert fixed top-5 left-1/2 -translate-x-1/2 w-72 grid grid-cols-[24px,auto] items-start border"
 		:class="getAlertStyleByType(type)"
 	>
 		<div
