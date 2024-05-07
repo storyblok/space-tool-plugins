@@ -1,27 +1,14 @@
-import type { Result } from './result';
-import {
-	array,
-	boolean,
-	minLength,
-	number,
-	object,
-	optional,
-	string,
-	url,
-} from 'valibot';
-
 export type StoryblokWebhookCreationError =
 	| 'limit-exceeded'
 	| 'name-already-exists'
-	| 'missing-parameters'
+	| 'invalid-parameters'
 	| 'unknown';
 
-export type CreateStoryblokWebhookResponse = Result<
-	{ webhookId: number },
-	{ type: StoryblokWebhookCreationError; details?: string[] }
->;
+export type CreateStoryblokWebhookResponse =
+	| { ok: true; result: StoryblokWebhookCreationResponse }
+	| { ok: false; error: StoryblokWebhookCreationError };
 
-export type CreateStoryblokWebhook = (params: {
+export type CreateStoryblokWebhookParams = {
 	name: string;
 	description?: string;
 	endpoint: string;
@@ -31,7 +18,11 @@ export type CreateStoryblokWebhook = (params: {
 	secret?: string;
 	spaceId: number;
 	accessToken: string;
-}) => Promise<CreateStoryblokWebhookResponse>;
+};
+
+export type CreateStoryblokWebhook = (
+	params: CreateStoryblokWebhookParams,
+) => Promise<CreateStoryblokWebhookResponse>;
 
 export type StoryblokWebhookCreationResponse = {
 	webhook_endpoint: {
@@ -49,6 +40,10 @@ export type StoryblokWebhookCreationResponse = {
 	};
 };
 
+export type IsValidWebhookCreationParams = (
+	params: CreateStoryblokWebhookParams,
+) => boolean;
+
 export type StoryblokWebhookEventCategory =
 	| 'workflow'
 	| 'datasource'
@@ -57,15 +52,3 @@ export type StoryblokWebhookEventCategory =
 	| 'user'
 	| 'asset'
 	| 'story';
-
-export const CreateStoryblokWebhookSchema = object({
-	name: string([minLength(1)]),
-	description: optional(string()),
-	endpoint: string([url()]),
-	actions: array(string(), [minLength(1)]),
-	activated: optional(boolean()),
-	isLegacy: optional(boolean()),
-	secret: optional(string([minLength(1)])),
-	spaceId: number(),
-	accessToken: string([minLength(1)]),
-});

@@ -1,11 +1,10 @@
 import { randomBytes } from 'node:crypto';
 import { US_CODE, getRegion } from '@storyblok/region-helper';
-import { safeParse } from 'valibot';
 import {
 	CreateStoryblokWebhook,
+	IsValidWebhookCreationParams,
 	StoryblokWebhookCreationResponse,
 	StoryblokWebhookEventCategory,
-	CreateStoryblokWebhookSchema,
 } from '../../types';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
@@ -15,13 +14,13 @@ export const generateSecret = (lengthInBytes: number = 20) => {
 export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 	params,
 ) => {
-	const parsed = safeParse(CreateStoryblokWebhookSchema, params);
+	const isParamsValid = isValidWebhookCreationParams(params);
 
-	if (!parsed.success) {
-		return failure({
-			type: 'missing-parameters',
-			details: parsed.issues.map((issue) => issue.message),
-		});
+	if (!isParamsValid) {
+		return {
+			ok: false,
+			error: 'invalid-parameters',
+		};
 	}
 
 	const apiHost =
@@ -48,24 +47,33 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 			},
 		});
 
-		const webhookId = result.webhook_endpoint.id;
-
-		return success({ webhookId });
+		return {
+			ok: true,
+			result,
+		};
 	} catch (err: any) {
 		if (
 			err.status === 422 &&
 			err.data?.base?.includes('Webhook limit exceeded')
 		) {
-			return failure({ type: 'limit-exceeded' });
+			return {
+				ok: false,
+				error: 'limit-exceeded',
+			};
 		}
 		if (
 			err.status === 422 &&
 			err.data?.name?.includes('has already been taken')
 		) {
-			return failure({ type: 'name-already-exists' });
+			return {
+				ok: false,
+				error: 'name-already-exists',
+			};
 		}
-
-		return failure({ type: 'unknown' });
+		return {
+			ok: false,
+			error: 'unknown',
+		};
 	}
 };
 
@@ -87,4 +95,27 @@ export const inferEventCategoryFromBody = (
 	} else if (body.story_id) {
 		return 'story';
 	}
+};
+
+const isValidWebhookCreationParams: IsValidWebhookCreationParams = ({
+	name,
+	spaceId,
+	accessToken,
+	endpoint,
+	actions,
+}) => {
+	const isNameValid = typeof name === 'string' && name.length > 0;
+	const isSpaceIdValid = typeof spaceId === 'number' && spaceId > 0;
+	const isEndpointValid = typeof endpoint === 'string' && endpoint.length > 0;
+	const isActionsValid = Array.isArray(actions) && actions.length > 0;
+	const isAccessTokenValid =
+		typeof accessToken === 'string' && accessToken.length > 0;
+
+	return (
+		isNameValid &&
+		isSpaceIdValid &&
+		isAccessTokenValid &&
+		isEndpointValid &&
+		isActionsValid
+	);
 };

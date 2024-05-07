@@ -12,8 +12,7 @@
 	},
 	"dependencies": {
 		"@storyblok/app-extension-auth": "1.0.2",
-		"@storyblok/region-helper": "^1.0.0",
-		"valibot": "^0.30.0"
+		"@storyblok/region-helper": "^1.0.0"
 	},
 	"devDependencies": {
 		"@nuxt/devtools": "latest",
