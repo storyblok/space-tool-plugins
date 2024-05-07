@@ -8,6 +8,9 @@ dependencies:
   '@storyblok/app-extension-auth':
     specifier: 1.0.2
     version: 1.0.2
+  '@storyblok/region-helper':
+    specifier: ^1.0.0
+    version: 1.0.0
   storyblok-js-client:
     specifier: ^6.2.0
     version: 6.2.0
@@ -1679,6 +1682,10 @@ packages:
 
   /@storyblok/region-helper@0.1.0:
     resolution: {integrity: sha512-psDn8OrU9y1Y7qWXbUCeNQ1U+8XyumerE5MBTfN+06L/lRlR9DJ4BRWOlx/cjKF6RXd5CnUBjcg1BNM3IupIkA==}
+    dev: false
+
+  /@storyblok/region-helper@1.0.0:
+    resolution: {integrity: sha512-02B4J3XzD6CLK8DAQbK63fSar8oGYqBJxdx+7Ya0C3uJwMU5DzOMix6ShtUo1iDSd9rOl8aA5wDoCC0wh0YHMw==}
     dev: false
 
   /@trysound/sax@0.2.0:

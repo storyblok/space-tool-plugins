@@ -12,8 +12,9 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"storyblok-js-client": "^6.2.0",
-		"@storyblok/app-extension-auth": "1.0.2"
+		"@storyblok/app-extension-auth": "1.0.2",
+		"@storyblok/region-helper": "^1.0.0",
+		"storyblok-js-client": "^6.2.0"
 	},
 	"devDependencies": {
 		"@nuxt/eslint-config": "^0.2.0",
@@ -21,11 +22,11 @@
 		"@nuxtjs/tailwindcss": "^6.11.0",
 		"autoprefixer": "10.4.16",
 		"daisyui": "^4.4.19",
-		"eslint-plugin-vuejs-accessibility": "^2.2.1",
 		"eslint": "^8.56.0",
-		"nuxt-lucide-icons": "1.0.3",
+		"eslint-plugin-vuejs-accessibility": "^2.2.1",
 		"nuxt": "^3.9.3",
-		"vue-router": "^4.2.5",
-		"vue": "^3.4.14"
+		"nuxt-lucide-icons": "1.0.3",
+		"vue": "^3.4.14",
+		"vue-router": "^4.2.5"
 	}
 }
