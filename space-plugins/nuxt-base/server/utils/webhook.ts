@@ -82,7 +82,7 @@ export const inferEventCategoryFromBody = (
 ): StoryblokWebhookEventCategory | undefined => {
 	if (body.workflow_name) {
 		return 'workflow';
-	} else if (body.datasource_slugs) {
+	} else if (body.datasource_slug) {
 		return 'datasource';
 	} else if (body.release_id) {
 		return 'release';
