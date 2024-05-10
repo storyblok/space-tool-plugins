@@ -1,7 +1,5 @@
 <template>
-	<div>
-		<div class="container">This is `@storyblok/space-plugin-nuxt-base`.</div>
-	</div>
+	<div class="container">This is `@storyblok/space-plugin-nuxt-base`.</div>
 </template>
 
 <style scoped>
