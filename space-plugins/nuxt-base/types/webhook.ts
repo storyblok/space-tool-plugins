@@ -26,10 +26,6 @@ export type StoryblokWebhookResponse = {
 	webhook_endpoint: StoryblokWebhook;
 };
 
-export type StoryblokWebhooksListResponse = {
-	webhook_endpoints: StoryblokWebhook[];
-};
-
 /* -- Storyblok Webhook request parameters -- */
 export type StoryblokWebhookParams = {
 	spaceId: number;
@@ -69,17 +65,6 @@ export type CreateStoryblokWebhook = (
 export type IsValidWebhookCreationParams = (
 	params: CreateStoryblokWebhookParams,
 ) => boolean;
-
-// Fetch all
-export type StoryblokWebhookFetchAllError = 'could-not-fetch-webhooks';
-
-export type FetchAllStoryblokWebhookResponse =
-	| { ok: true; result: StoryblokWebhooksListResponse }
-	| { ok: false; error: StoryblokWebhookFetchAllError };
-
-export type FetchAllStoryblokWebhooks = (
-	params: StoryblokWebhookParams,
-) => Promise<FetchAllStoryblokWebhookResponse>;
 
 // Deletion
 export type StoryblokWebhookDeletionError = 'could-not-delete-webhook';

@@ -5,8 +5,6 @@ import {
 	IsValidWebhookCreationParams,
 	StoryblokWebhookResponse,
 	StoryblokWebhookEventCategory,
-	FetchAllStoryblokWebhooks,
-	StoryblokWebhooksListResponse,
 	DeleteStoryblokWebhook,
 } from '../../types';
 
@@ -122,36 +120,6 @@ const isValidWebhookCreationParams: IsValidWebhookCreationParams = ({
 		isActionsValid
 	);
 };
-
-export const fetchAllStoryblokWebhooks: FetchAllStoryblokWebhooks = async (
-	params,
-) => {
-	const apiHost =
-		getRegion(params.spaceId) === US_CODE
-			? 'https://api-us.storyblok.com'
-			: 'https://mapi.storyblok.com'
-
-	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/`
-
-	try {
-		const webhooks: StoryblokWebhooksListResponse = await $fetch(url, {
-			headers: {
-				Authorization: `Bearer ${params.accessToken}`,
-			},
-			method: 'GET',
-		})
-
-		return {
-			ok: true,
-			result: webhooks,
-		}
-	} catch (err: any) {
-		return {
-			ok: false,
-			error: 'could-not-fetch-webhooks',
-		}
-	}
-}
 
 export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
 	params,
