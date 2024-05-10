@@ -3,8 +3,11 @@ import { US_CODE, getRegion } from '@storyblok/region-helper';
 import {
 	CreateStoryblokWebhook,
 	IsValidWebhookCreationParams,
-	StoryblokWebhookCreationResponse,
+	StoryblokWebhookResponse,
 	StoryblokWebhookEventCategory,
+	FetchAllStoryblokWebhooks,
+	StoryblokWebhooksListResponse,
+	DeleteStoryblokWebhook,
 } from '../../types';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
@@ -31,7 +34,7 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints`;
 
 	try {
-		const result: StoryblokWebhookCreationResponse = await $fetch(url, {
+		const result: StoryblokWebhookResponse = await $fetch(url, {
 			headers: {
 				Authorization: `Bearer ${params.accessToken}`,
 			},
@@ -119,3 +122,63 @@ const isValidWebhookCreationParams: IsValidWebhookCreationParams = ({
 		isActionsValid
 	);
 };
+
+export const fetchAllStoryblokWebhooks: FetchAllStoryblokWebhooks = async (
+	params,
+) => {
+	const apiHost =
+		getRegion(params.spaceId) === US_CODE
+			? 'https://api-us.storyblok.com'
+			: 'https://mapi.storyblok.com'
+
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/`
+
+	try {
+		const webhooks: StoryblokWebhooksListResponse = await $fetch(url, {
+			headers: {
+				Authorization: `Bearer ${params.accessToken}`,
+			},
+			method: 'GET',
+		})
+
+		return {
+			ok: true,
+			result: webhooks,
+		}
+	} catch (err: any) {
+		return {
+			ok: false,
+			error: 'could-not-fetch-webhooks',
+		}
+	}
+}
+
+export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
+	params,
+) => {
+	const apiHost =
+		getRegion(params.spaceId) === US_CODE
+			? 'https://api-us.storyblok.com'
+			: 'https://mapi.storyblok.com';
+
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`
+
+	try {
+		await $fetch(url, {
+			headers: {
+				Authorization: `Bearer ${params.accessToken}`,
+			},
+			method: 'DELETE',
+		})
+
+		return {
+			ok: true,
+			result: 'Webhook deleted',
+		}
+	} catch (err: any) {
+		return {
+			ok: false,
+			error: 'could-not-delete-webhook',
+		}
+	}
+}
