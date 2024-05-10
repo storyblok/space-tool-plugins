@@ -1,5 +1,4 @@
 import { randomBytes } from 'node:crypto';
-import { US_CODE, getRegion } from '@storyblok/region-helper';
 import {
 	CreateStoryblokWebhook,
 	IsValidWebhookCreationParams,
@@ -23,10 +22,7 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 		};
 	}
 
-	const apiHost =
-		getRegion(params.spaceId) === US_CODE
-			? 'https://api-us.storyblok.com'
-			: 'https://mapi.storyblok.com';
+	const apiHost = getManagementApiHost(params.spaceId);
 
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints`;
 
