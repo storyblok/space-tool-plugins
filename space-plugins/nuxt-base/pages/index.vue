@@ -1,14 +1,6 @@
-<script setup lang="ts">
-const data = await useFetch('/api/test');
-</script>
-
 <template>
 	<div>
-		<div class="container">
-			This is `@storyblok/space-plugin-nuxt-base`.
-
-			<pre>data: {{ data }}</pre>
-		</div>
+		<div class="container">This is `@storyblok/space-plugin-nuxt-base`.</div>
 	</div>
 </template>
 
