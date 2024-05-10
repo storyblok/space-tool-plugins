@@ -2,8 +2,9 @@ import { randomBytes } from 'node:crypto';
 import {
 	CreateStoryblokWebhook,
 	IsValidWebhookCreationParams,
-	StoryblokWebhookCreationResponse,
+	StoryblokWebhookResponse,
 	StoryblokWebhookEventCategory,
+	DeleteStoryblokWebhook,
 } from '../../types';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
@@ -27,7 +28,7 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints`;
 
 	try {
-		const result: StoryblokWebhookCreationResponse = await $fetch(url, {
+		const result: StoryblokWebhookResponse = await $fetch(url, {
 			headers: {
 				Authorization: `Bearer ${params.accessToken}`,
 			},
@@ -114,4 +115,31 @@ const isValidWebhookCreationParams: IsValidWebhookCreationParams = ({
 		isEndpointValid &&
 		isActionsValid
 	);
+};
+
+export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
+	params,
+) => {
+	const apiHost = getManagementApiHost(params.spaceId);
+
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
+
+	try {
+		await $fetch(url, {
+			headers: {
+				Authorization: `Bearer ${params.accessToken}`,
+			},
+			method: 'DELETE',
+		});
+
+		return {
+			ok: true,
+			result: 'Webhook deleted',
+		};
+	} catch (err: any) {
+		return {
+			ok: false,
+			error: 'could-not-delete-webhook',
+		};
+	}
 };
