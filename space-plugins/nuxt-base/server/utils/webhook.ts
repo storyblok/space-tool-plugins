@@ -1,5 +1,4 @@
 import { randomBytes } from 'node:crypto';
-import { US_CODE, getRegion } from '@storyblok/region-helper';
 import {
 	CreateStoryblokWebhook,
 	IsValidWebhookCreationParams,
@@ -24,10 +23,7 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 		};
 	}
 
-	const apiHost =
-		getRegion(params.spaceId) === US_CODE
-			? 'https://api-us.storyblok.com'
-			: 'https://mapi.storyblok.com';
+	const apiHost = getManagementApiHost(params.spaceId);
 
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints`;
 
@@ -124,12 +120,9 @@ const isValidWebhookCreationParams: IsValidWebhookCreationParams = ({
 export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
 	params,
 ) => {
-	const apiHost =
-		getRegion(params.spaceId) === US_CODE
-			? 'https://api-us.storyblok.com'
-			: 'https://mapi.storyblok.com';
+	const apiHost = getManagementApiHost(params.spaceId);
 
-	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
 
 	try {
 		await $fetch(url, {
@@ -137,16 +130,16 @@ export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
 				Authorization: `Bearer ${params.accessToken}`,
 			},
 			method: 'DELETE',
-		})
+		});
 
 		return {
 			ok: true,
 			result: 'Webhook deleted',
-		}
+		};
 	} catch (err: any) {
 		return {
 			ok: false,
 			error: 'could-not-delete-webhook',
-		}
+		};
 	}
-}
+};
