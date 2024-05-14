@@ -12,7 +12,7 @@ type Status = 'none' | 'some' | 'all';
 
 const status = computed<Status>(() => {
 	const selectedStoryCount = props.stories.filter((story) =>
-		props.isStorySelected(story.id)
+		props.isStorySelected(story.id),
 	).length;
 
 	if (selectedStoryCount === props.stories.length) {

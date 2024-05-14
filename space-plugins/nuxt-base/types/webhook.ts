@@ -30,7 +30,7 @@ export type StoryblokWebhookResponse = {
 export type StoryblokWebhookParams = {
 	spaceId: number;
 	accessToken: string;
-}
+};
 
 export type CreateStoryblokWebhookParams = StoryblokWebhookParams & {
 	name: string;

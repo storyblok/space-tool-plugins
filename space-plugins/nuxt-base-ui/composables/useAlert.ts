@@ -1,4 +1,4 @@
 export const useAlert = () => {
-  const { $alert } = useNuxtApp();
-  return $alert;
+	const { $alert } = useNuxtApp();
+	return $alert;
 };

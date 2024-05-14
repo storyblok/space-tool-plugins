@@ -10,7 +10,7 @@ watch(
 	userInput,
 	debounce((newQuery: string | undefined) => {
 		props.setQuery(newQuery);
-	}, 500)
+	}, 500),
 );
 </script>
 

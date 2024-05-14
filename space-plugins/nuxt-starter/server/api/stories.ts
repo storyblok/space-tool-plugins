@@ -3,7 +3,7 @@ import type { Story } from '~/types/story';
 
 export default defineEventHandler(
 	async (
-		event
+		event,
 	): Promise<{
 		stories: Story[];
 		total: number;
@@ -23,12 +23,12 @@ export default defineEventHandler(
 
 		const { data, total } = await storyblokClient.get(
 			`spaces/${spaceId}/stories`,
-			params
+			params,
 		);
 
 		return {
 			stories: data.stories as Story[],
 			total,
 		};
-	}
+	},
 );
