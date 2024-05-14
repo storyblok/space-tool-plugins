@@ -15,4 +15,7 @@ jobs:
             common
             story
             tool-next
+            space-nuxt-base
+            space-nuxt-base-ui
+            space-nuxt-starter
           requireScope: true
