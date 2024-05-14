@@ -38,8 +38,8 @@ Then add the dependency to their `extends` in `nuxt.config`:
 
 ```ts
 defineNuxtConfig({
-  extends: 'your-theme'
-})
+	extends: 'your-theme',
+});
 ```
 
 ## Development Server

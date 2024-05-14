@@ -27,12 +27,12 @@ export default defineStoryConfig((selectedStories) => {
 		}) => {
 			if (
 				window.confirm(
-					`Do you want to delete ${selectedStories.length} stories?`
+					`Do you want to delete ${selectedStories.length} stories?`,
 				)
 			) {
 				console.log(
 					`You can perform any action on these stories`,
-					selectedStories
+					selectedStories,
 				);
 				showLoader();
 				await sleep(1500);

@@ -20,7 +20,7 @@ const onChange = (event: Event) => {
 	}
 	props.updateStorySelection(
 		props.story.id,
-		(event.target as HTMLInputElement).checked
+		(event.target as HTMLInputElement).checked,
 	);
 };
 

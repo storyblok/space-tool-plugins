@@ -40,7 +40,7 @@ export default defineEventHandler(async (event): Promise<StoriesResponse> => {
 	}
 	const { data, total } = await storyblokClient.get(
 		`spaces/${spaceId}/stories`,
-		params
+		params,
 	);
 
 	return {

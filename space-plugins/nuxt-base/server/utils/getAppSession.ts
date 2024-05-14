@@ -47,7 +47,7 @@ export const getAppSession = async (event: H3Event) => {
 		{
 			req: event.node.req,
 			res: event.node.res,
-		}
+		},
 	);
 
 	return await sessionStore.get(appSessionQuery);
@@ -88,14 +88,14 @@ function extractAppSessionQuery(event: H3Event): AppSessionQuery | undefined {
 		if (refererParams.get('spaceId') && refererParams.get('userId')) {
 			return convertToAppSessionQuery(
 				refererParams.get('spaceId'),
-				refererParams.get('userId')
+				refererParams.get('userId'),
 			);
 		}
 
 		if (refererParams.get('space_id') && refererParams.get('user_id')) {
 			return convertToAppSessionQuery(
 				refererParams.get('space_id'),
-				refererParams.get('user_id')
+				refererParams.get('user_id'),
 			);
 		}
 	}
@@ -116,6 +116,6 @@ const toNumber = (value: any) => {
 		return value;
 	}
 	throw new Error(
-		`Expected to be string or number. Actual value: ${JSON.stringify(value)}`
+		`Expected to be string or number. Actual value: ${JSON.stringify(value)}`,
 	);
 };

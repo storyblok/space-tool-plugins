@@ -67,7 +67,7 @@ export const useStories: UseStories = async (props) => {
 	});
 
 	const nextPage = computed(() =>
-		getNextPage(toValue(numberOfPages), currentPage.value)
+		getNextPage(toValue(numberOfPages), currentPage.value),
 	);
 	const previousPage = computed(() => getPreviousPage(currentPage.value));
 	const hasPreviousPage = computed(() => Boolean(previousPage.value));
@@ -134,7 +134,7 @@ export const useStories: UseStories = async (props) => {
 		() => {
 			currentPage.value = 1;
 		},
-		{ deep: true }
+		{ deep: true },
 	);
 
 	// when page changes, unselect all stories

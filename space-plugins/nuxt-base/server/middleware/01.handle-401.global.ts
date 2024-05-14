@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 		return await sendRedirect(
 			event,
 			'https://app.storyblok.com/oauth/app_redirect',
-			302
+			302,
 		);
 	}
 });

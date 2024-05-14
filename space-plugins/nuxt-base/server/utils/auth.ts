@@ -3,7 +3,7 @@ import type { AppConfigInput } from 'nuxt/schema';
 import { env } from './env';
 
 export const getAuthHandlerParams = (
-	authConfig: AppConfigInput['auth']
+	authConfig: AppConfigInput['auth'],
 ): AuthHandlerParams => ({
 	clientId: env('CLIENT_ID'),
 	clientSecret: env('CLIENT_SECRET'),
