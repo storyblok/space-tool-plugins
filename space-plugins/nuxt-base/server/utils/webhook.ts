@@ -28,21 +28,22 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints`;
 
 	try {
-		const result: StoryblokWebhookResponse = await $fetch(url, {
-			headers: {
-				Authorization: `Bearer ${params.accessToken}`,
-			},
-			method: 'POST',
-			body: {
-				name: params.name,
-				description: params.description,
-				endpoint: params.endpoint,
-				secret: params.secret,
-				actions: params.actions,
-				activated: params.activated ?? true,
-				isLegacy: params.isLegacy ?? false,
-			},
-		});
+		const result: StoryblokWebhookResponse =
+			await $fetch<StoryblokWebhookResponse>(url, {
+				headers: {
+					Authorization: `Bearer ${params.accessToken}`,
+				},
+				method: 'POST',
+				body: {
+					name: params.name,
+					description: params.description,
+					endpoint: params.endpoint,
+					secret: params.secret,
+					actions: params.actions,
+					activated: params.activated ?? true,
+					isLegacy: params.isLegacy ?? false,
+				},
+			});
 
 		return {
 			ok: true,
@@ -69,7 +70,7 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 		}
 		return {
 			ok: false,
-			error: 'unknown',
+			error: err.data ?? 'unknown',
 		};
 	}
 };
