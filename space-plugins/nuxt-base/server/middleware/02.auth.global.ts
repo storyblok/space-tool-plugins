@@ -16,7 +16,6 @@ export default defineEventHandler(async (event) => {
 
 	const appSession = await getAppSession(event);
 
-	console.log('appSession', appSession);
 	if (!appSession) {
 		if (event.path.startsWith('/api/')) {
 			// APIs
@@ -29,8 +28,11 @@ export default defineEventHandler(async (event) => {
 
 	event.context.appSession = appSession;
 
+	console.log('appSession', appSession);
+
 	const afterAuthenticated = appConfig.auth.middleware?.afterAuthenticated;
 	if (typeof afterAuthenticated === 'function') {
+		console.log('afterAuthenticated', afterAuthenticated);
 		return await afterAuthenticated({ event, appSession });
 	}
 });
