@@ -1,6 +1,7 @@
 export default defineEventHandler(async (event) => {
 	const appConfig = useAppConfig();
 
+	console.log('02.auth.global.ts');
 	// do not enforce authentication for oauth-related APIs
 	if (event.path.startsWith(appConfig.auth.endpointPrefix)) {
 		return;
