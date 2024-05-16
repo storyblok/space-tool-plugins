@@ -1,5 +1,7 @@
 export default defineNuxtRouteMiddleware((to, from) => {
+	console.log('persist-query.global.ts');
 	if (isValidQuery(from.query) && !isValidQuery(to.query)) {
+		console.log('persisting query');
 		return navigateTo({
 			...to,
 			path: to.path,
