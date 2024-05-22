@@ -1,3 +1,5 @@
+import { refreshToken } from '@storyblok/app-extension-auth';
+
 export default defineEventHandler(async (event) => {
 	const appConfig = useAppConfig();
 
@@ -14,7 +16,29 @@ export default defineEventHandler(async (event) => {
 	}
 
 	const appSession = await getAppSession(event);
-	console.log('💡 got the appSession', appSession);
+	if (appSession) {
+		console.log(
+			'💡 session already exists',
+			JSON.stringify(appSession, null, 2),
+		);
+		const { clientId, clientSecret, baseUrl, endpointPrefix } =
+			getAuthHandlerParams(useAppConfig().auth);
+
+		try {
+			const refreshResult = await refreshToken(
+				{
+					clientId,
+					clientSecret,
+					baseUrl,
+					endpointPrefix,
+				},
+				appSession.region,
+			);
+			console.log('💡 refresh result', JSON.stringify(refreshResult, null, 2));
+		} catch (err) {
+			console.log('💡 refresh failure', JSON.stringify(err, null, 2));
+		}
+	}
 
 	if (!appSession) {
 		if (event.path.startsWith('/api/')) {
