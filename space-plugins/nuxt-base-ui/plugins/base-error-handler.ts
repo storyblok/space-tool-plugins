@@ -54,7 +54,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 			const nuxtError = err as NuxtError;
 			error(nuxtError.statusMessage || 'Unknown error');
 		} else {
-			error('Unknown error');
+			showError(err as Error);
 		}
 	});
 
