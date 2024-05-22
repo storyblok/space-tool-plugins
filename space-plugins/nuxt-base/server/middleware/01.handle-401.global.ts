@@ -13,4 +13,5 @@ export default defineEventHandler(async (event) => {
 
 	if (event.path === '/401') {
 		console.log('💡 handling /401 - (2)', event.headers.get('Referer'));
+	}
 });
