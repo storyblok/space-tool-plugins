@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	const appSession = await getAppSession(event);
+	console.log('💡 got the appSession', appSession);
 
 	if (!appSession) {
 		if (event.path.startsWith('/api/')) {
