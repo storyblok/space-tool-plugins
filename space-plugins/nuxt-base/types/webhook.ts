@@ -31,7 +31,7 @@ export type StoryblokWebhookParams = {
 };
 
 //#region saving
-export type SaveStoryblokWebhookParams = StoryblokWebhookParams & {
+export type UpsertStoryblokWebhookParams = StoryblokWebhookParams & {
 	id?: number;
 	name?: string;
 	description?: string;
@@ -42,30 +42,30 @@ export type SaveStoryblokWebhookParams = StoryblokWebhookParams & {
 	secret?: string;
 };
 
-export type StoryblokWebhookSaveError =
+export type StoryblokWebhookUpsertError =
 	| 'limit-exceeded'
 	| 'name-already-exists'
 	| 'invalid-parameters'
 	| 'unknown';
 
-export type SaveOperation = 'create' | 'update';
+export type UpsertOperation = 'create' | 'update';
 
-export type SaveStoryblokWebhookResponse =
+export type UpsertStoryblokWebhookResponse =
 	| { ok: true; result: StoryblokWebhookResponse }
-	| { ok: false; error: StoryblokWebhookSaveError };
+	| { ok: false; error: StoryblokWebhookUpsertError };
 
-export type SaveStoryblokWebhook = (
-	operation: SaveOperation,
-	params: SaveStoryblokWebhookParams,
-) => Promise<SaveStoryblokWebhookResponse>;
+export type UpsertStoryblokWebhook = (
+	operation: UpsertOperation,
+	params: UpsertStoryblokWebhookParams,
+) => Promise<UpsertStoryblokWebhookResponse>;
 
 export type CreateStoryblokWebhook = (
-	params: SaveStoryblokWebhookParams,
-) => Promise<SaveStoryblokWebhookResponse>;
+	params: UpsertStoryblokWebhookParams,
+) => Promise<UpsertStoryblokWebhookResponse>;
 
 export type UpdateStoryblokWebhook = (
-	params: SaveStoryblokWebhookParams,
-) => Promise<SaveStoryblokWebhookResponse>;
+	params: UpsertStoryblokWebhookParams,
+) => Promise<UpsertStoryblokWebhookResponse>;
 //#endregion
 
 //#region delete
@@ -85,8 +85,8 @@ export type DeleteStoryblokWebhook = (
 //#endregion
 
 //#region validation
-export type IsValidWebhookSaveParams = (
-	operation: SaveOperation,
-	params: SaveStoryblokWebhookParams,
+export type IsValidWebhookUpsertParams = (
+	operation: UpsertOperation,
+	params: UpsertStoryblokWebhookParams,
 ) => boolean;
 //#endregion

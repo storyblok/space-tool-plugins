@@ -1,10 +1,10 @@
 import { randomBytes } from 'node:crypto';
 import {
-	SaveStoryblokWebhook,
+	UpsertStoryblokWebhook,
 	DeleteStoryblokWebhook,
 	StoryblokWebhookResponse,
 	StoryblokWebhookEventCategory,
-	IsValidWebhookSaveParams,
+	IsValidWebhookUpsertParams,
 	CreateStoryblokWebhook,
 	UpdateStoryblokWebhook,
 } from '../../types';
@@ -14,10 +14,10 @@ export const generateSecret = (lengthInBytes: number = 20) => {
 };
 
 export const createStoryblokWebhook: CreateStoryblokWebhook = async (params) =>
-	saveStoryblokWebhook('create', params);
+	upsertStoryblokWebhook('create', params);
 
 export const updateStoryblokWebhook: UpdateStoryblokWebhook = async (params) =>
-	saveStoryblokWebhook('update', params);
+	upsertStoryblokWebhook('update', params);
 
 export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
 	params,
@@ -66,11 +66,11 @@ export const inferEventCategoryFromBody = (
 	}
 };
 
-const saveStoryblokWebhook: SaveStoryblokWebhook = async (
+const upsertStoryblokWebhook: UpsertStoryblokWebhook = async (
 	operation,
 	params,
 ) => {
-	const isParamsValid = isValidWebhookSaveParams(operation, params);
+	const isParamsValid = isValidWebhookUpsertParams(operation, params);
 
 	if (!isParamsValid) {
 		return {
@@ -133,7 +133,7 @@ const saveStoryblokWebhook: SaveStoryblokWebhook = async (
 	}
 };
 
-const isValidWebhookSaveParams: IsValidWebhookSaveParams = (
+const isValidWebhookUpsertParams: IsValidWebhookUpsertParams = (
 	operation,
 	{ spaceId, accessToken, id, name, endpoint, actions },
 ) => {
