@@ -1,7 +1,5 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-	console.log('persist-query.global.ts', to, from);
 	if (isValidQuery(from.query) && !isValidQuery(to.query)) {
-		console.log('persist-query.global.ts: condition met', from.query, to.path, to.query);
 		return navigateTo({
 			...to,
 			path: to.path,
@@ -11,8 +9,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
 			},
 		});
 	}
-
-	return;
 });
 
 const isValidQuery = (query: unknown): query is Query =>
