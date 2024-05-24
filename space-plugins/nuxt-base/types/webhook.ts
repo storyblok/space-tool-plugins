@@ -1,4 +1,3 @@
-/* -- Storyblok Webhook shapes -- */
 export type StoryblokWebhook = {
 	id: number;
 	name: string;
@@ -26,47 +25,54 @@ export type StoryblokWebhookResponse = {
 	webhook_endpoint: StoryblokWebhook;
 };
 
-/* -- Storyblok Webhook request parameters -- */
 export type StoryblokWebhookParams = {
 	spaceId: number;
 	accessToken: string;
 };
 
-export type CreateStoryblokWebhookParams = StoryblokWebhookParams & {
-	name: string;
+//#region saving
+export type UpsertStoryblokWebhookParams = StoryblokWebhookParams & {
+	id?: number;
+	name?: string;
 	description?: string;
-	endpoint: string;
-	actions: string[];
+	endpoint?: string;
+	actions?: string[];
 	activated?: boolean;
 	isLegacy?: boolean;
 	secret?: string;
 };
 
-export type DeleteStoryblokWebhookParams = StoryblokWebhookParams & {
-	webhookId: number;
-};
-
-/* -- Storyblok Webhook responses -- */
-// Creation
-export type StoryblokWebhookCreationError =
+export type StoryblokWebhookUpsertError =
 	| 'limit-exceeded'
 	| 'name-already-exists'
 	| 'invalid-parameters'
 	| 'unknown';
 
-export type CreateStoryblokWebhookResponse =
+export type UpsertOperation = 'create' | 'update';
+
+export type UpsertStoryblokWebhookResponse =
 	| { ok: true; result: StoryblokWebhookResponse }
-	| { ok: false; error: StoryblokWebhookCreationError };
+	| { ok: false; error: StoryblokWebhookUpsertError };
+
+export type UpsertStoryblokWebhook = (
+	operation: UpsertOperation,
+	params: UpsertStoryblokWebhookParams,
+) => Promise<UpsertStoryblokWebhookResponse>;
 
 export type CreateStoryblokWebhook = (
-	params: CreateStoryblokWebhookParams,
-) => Promise<CreateStoryblokWebhookResponse>;
+	params: UpsertStoryblokWebhookParams,
+) => Promise<UpsertStoryblokWebhookResponse>;
 
-export type IsValidWebhookCreationParams = (
-	params: CreateStoryblokWebhookParams,
-) => boolean;
+export type UpdateStoryblokWebhook = (
+	params: UpsertStoryblokWebhookParams,
+) => Promise<UpsertStoryblokWebhookResponse>;
+//#endregion
 
-// Deletion
+//#region delete
+export type DeleteStoryblokWebhookParams = StoryblokWebhookParams & {
+	webhookId: number;
+};
+
 export type StoryblokWebhookDeletionError = 'could-not-delete-webhook';
 
 export type DeleteStoryblokWebhookResponse =
@@ -76,3 +82,11 @@ export type DeleteStoryblokWebhookResponse =
 export type DeleteStoryblokWebhook = (
 	params: DeleteStoryblokWebhookParams,
 ) => Promise<DeleteStoryblokWebhookResponse>;
+//#endregion
+
+//#region validation
+export type IsValidWebhookUpsertParams = (
+	operation: UpsertOperation,
+	params: UpsertStoryblokWebhookParams,
+) => boolean;
+//#endregion

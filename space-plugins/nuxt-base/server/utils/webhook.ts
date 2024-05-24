@@ -1,20 +1,76 @@
 import { randomBytes } from 'node:crypto';
 import {
-	CreateStoryblokWebhook,
-	IsValidWebhookCreationParams,
+	UpsertStoryblokWebhook,
+	DeleteStoryblokWebhook,
 	StoryblokWebhookResponse,
 	StoryblokWebhookEventCategory,
-	DeleteStoryblokWebhook,
+	IsValidWebhookUpsertParams,
+	CreateStoryblokWebhook,
+	UpdateStoryblokWebhook,
 } from '../../types';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
 	return randomBytes(lengthInBytes).toString('base64url');
 };
 
-export const createStoryblokWebhook: CreateStoryblokWebhook = async (
+export const createStoryblokWebhook: CreateStoryblokWebhook = async (params) =>
+	upsertStoryblokWebhook('create', params);
+
+export const updateStoryblokWebhook: UpdateStoryblokWebhook = async (params) =>
+	upsertStoryblokWebhook('update', params);
+
+export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
 	params,
 ) => {
-	const isParamsValid = isValidWebhookCreationParams(params);
+	const apiHost = getManagementApiHost(params.spaceId);
+
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
+
+	try {
+		await $fetch(url, {
+			headers: {
+				Authorization: `Bearer ${params.accessToken}`,
+			},
+			method: 'DELETE',
+		});
+
+		return {
+			ok: true,
+			result: 'Webhook deleted',
+		};
+	} catch (err: any) {
+		return {
+			ok: false,
+			error: 'could-not-delete-webhook',
+		};
+	}
+};
+
+export const inferEventCategoryFromBody = (
+	body: any,
+): StoryblokWebhookEventCategory | undefined => {
+	if (body.workflow_name) {
+		return 'workflow';
+	} else if (body.datasource_slug) {
+		return 'datasource';
+	} else if (body.release_id) {
+		return 'release';
+	} else if (body.branch_id) {
+		return 'pipeline';
+	} else if (body.user_id) {
+		return 'user';
+	} else if (body.asset_id) {
+		return 'asset';
+	} else if (body.story_id) {
+		return 'story';
+	}
+};
+
+const upsertStoryblokWebhook: UpsertStoryblokWebhook = async (
+	operation,
+	params,
+) => {
+	const isParamsValid = isValidWebhookUpsertParams(operation, params);
 
 	if (!isParamsValid) {
 		return {
@@ -25,7 +81,9 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 
 	const apiHost = getManagementApiHost(params.spaceId);
 
-	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints`;
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${
+		operation === 'update' ? params.id : ''
+	}`;
 
 	try {
 		const result: StoryblokWebhookResponse =
@@ -33,7 +91,7 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 				headers: {
 					Authorization: `Bearer ${params.accessToken}`,
 				},
-				method: 'POST',
+				method: operation === 'create' ? 'POST' : 'PUT',
 				body: {
 					name: params.name,
 					description: params.description,
@@ -75,72 +133,36 @@ export const createStoryblokWebhook: CreateStoryblokWebhook = async (
 	}
 };
 
-export const inferEventCategoryFromBody = (
-	body: any,
-): StoryblokWebhookEventCategory | undefined => {
-	if (body.workflow_name) {
-		return 'workflow';
-	} else if (body.datasource_slug) {
-		return 'datasource';
-	} else if (body.release_id) {
-		return 'release';
-	} else if (body.branch_id) {
-		return 'pipeline';
-	} else if (body.user_id) {
-		return 'user';
-	} else if (body.asset_id) {
-		return 'asset';
-	} else if (body.story_id) {
-		return 'story';
-	}
-};
-
-const isValidWebhookCreationParams: IsValidWebhookCreationParams = ({
-	name,
-	spaceId,
-	accessToken,
-	endpoint,
-	actions,
-}) => {
-	const isNameValid = typeof name === 'string' && name.length > 0;
+const isValidWebhookUpsertParams: IsValidWebhookUpsertParams = (
+	operation,
+	{ spaceId, accessToken, id, name, endpoint, actions },
+) => {
 	const isSpaceIdValid = typeof spaceId === 'number' && spaceId > 0;
-	const isEndpointValid = typeof endpoint === 'string' && endpoint.length > 0;
-	const isActionsValid = Array.isArray(actions) && actions.length > 0;
+
 	const isAccessTokenValid =
 		typeof accessToken === 'string' && accessToken.length > 0;
 
+	const isIdValid =
+		(typeof id === 'number' && id > 0) || operation === 'create';
+
+	const isNameValid =
+		(typeof name === 'string' && name.length > 0) ||
+		(operation === 'update' && typeof name === 'undefined');
+
+	const isEndpointValid =
+		(typeof endpoint === 'string' && endpoint.length > 0) ||
+		(operation === 'update' && typeof endpoint === 'undefined');
+
+	const isActionsValid =
+		(Array.isArray(actions) && actions.length > 0) ||
+		(operation === 'update' && typeof actions === 'undefined');
+
 	return (
-		isNameValid &&
 		isSpaceIdValid &&
 		isAccessTokenValid &&
+		isIdValid &&
+		isNameValid &&
 		isEndpointValid &&
 		isActionsValid
 	);
-};
-
-export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
-	params,
-) => {
-	const apiHost = getManagementApiHost(params.spaceId);
-
-	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
-
-	try {
-		await $fetch(url, {
-			headers: {
-				Authorization: `Bearer ${params.accessToken}`,
-			},
-			method: 'DELETE',
-		});
-
-		return {
-			ok: true,
-			result: 'Webhook deleted',
-		};
-	} catch (err: any) {
-		return {
-			ok: false,
-			error: 'could-not-delete-webhook',
-		};
-	}
 };
