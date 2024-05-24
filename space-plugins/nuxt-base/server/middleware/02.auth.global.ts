@@ -25,7 +25,13 @@ export default defineEventHandler(async (event) => {
 	const appSession = await getAppSession(event);
 
 	if (!appSession) {
-		throw createError({ statusCode: 401 });
+		if (event.path.startsWith('/api/')) {
+			// APIs
+			throw createError({ statusCode: 401 });
+		} else {
+			// pages
+			return await sendRedirect(event, appConfig.auth.initOauthFlowUrl, 302);
+		}
 	}
 
 	event.context.appSession = appSession;
