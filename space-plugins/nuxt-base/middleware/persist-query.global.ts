@@ -1,4 +1,9 @@
 export default defineNuxtRouteMiddleware((to, from) => {
+
+	console.log('to: ', to.fullPath, '\n from:', from.fullPath);
+
+	if (to.fullPath.includes('+')) to.fullPath = to.fullPath.replace(/\+/g, '%20')
+
 	if (isValidQuery(from.query) && !isValidQuery(to.query)) {
 		return navigateTo({
 			...to,
@@ -9,6 +14,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
 			},
 		});
 	}
+
+	return;
 });
 
 const isValidQuery = (query: unknown): query is Query =>
