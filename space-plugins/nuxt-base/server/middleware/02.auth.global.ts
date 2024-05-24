@@ -13,6 +13,18 @@ export default defineEventHandler(async (event) => {
 		return;
 	}
 
+	// Delete cookie and initiated OAuth flow
+	// if the user hasn't been authenticated yet.
+	// (Storyfront attaches this query parameter in that case)
+	if (getQuery(event)['init_oauth'] === 'true') {
+		setCookie(event, 'sb.auth', '', {
+			httpOnly: true,
+			secure: true,
+			sameSite: 'none',
+		});
+		return await sendRedirect(event, appConfig.auth.initOauthFlowUrl, 302);
+	}
+
 	const appSession = await getAppSession(event);
 
 	if (!appSession) {
