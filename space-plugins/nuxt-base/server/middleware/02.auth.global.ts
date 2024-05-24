@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
 			throw createError({ statusCode: 401 });
 		} else {
 			// pages
+			console.log('redirect: ', appConfig.auth.initOauthFlowUrl, ' & event:', event);
 			return await sendRedirect(event, appConfig.auth.initOauthFlowUrl, 302);
 		}
 	}
