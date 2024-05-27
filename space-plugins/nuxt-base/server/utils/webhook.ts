@@ -67,7 +67,7 @@ export const inferEventCategoryFromBody = (
 	}
 };
 
-const getStoryblokWebhookById: GetStoryblokWebhook = async (params) => {
+export const getStoryblokWebhookById: GetStoryblokWebhook = async (params) => {
 	const apiHost = getManagementApiHost(params.spaceId);
 
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
