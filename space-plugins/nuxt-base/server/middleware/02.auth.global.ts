@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 	// if the user hasn't been authenticated yet.
 	// (Storyfront attaches this query parameter in that case)
 	if (getQuery(event)['init_oauth'] === 'true') {
-		setCookie(event, 'sb.auth', '', {
+		setCookie(event, AUTH_COOKIE_NAME, '', {
 			httpOnly: true,
 			secure: true,
 			sameSite: 'none',
