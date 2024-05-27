@@ -32,7 +32,7 @@ export type StoryblokWebhookParams = {
 
 //#region get
 export type GetStoryblokWebhookParams = StoryblokWebhookParams & {
-	webhookId: number;
+	webhookId: string;
 };
 
 export type GetStoryblokWebhookResponse =
