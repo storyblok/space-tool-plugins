@@ -30,6 +30,21 @@ export type StoryblokWebhookParams = {
 	accessToken: string;
 };
 
+//#region get
+export type GetStoryblokWebhookParams = StoryblokWebhookParams & {
+	webhookId: number;
+};
+
+export type GetStoryblokWebhookResponse =
+	| { ok: true; result: StoryblokWebhookResponse }
+	| { ok: false; error: any };
+
+export type GetStoryblokWebhook = (
+	params: GetStoryblokWebhookParams,
+) => Promise<GetStoryblokWebhookResponse>;
+
+//#endregion
+
 //#region saving
 export type UpsertStoryblokWebhookParams = StoryblokWebhookParams & {
 	id?: number;

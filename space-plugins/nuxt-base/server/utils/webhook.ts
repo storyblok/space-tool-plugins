@@ -7,6 +7,7 @@ import {
 	IsValidWebhookUpsertParams,
 	CreateStoryblokWebhook,
 	UpdateStoryblokWebhook,
+	GetStoryblokWebhook,
 } from '../../types';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
@@ -63,6 +64,31 @@ export const inferEventCategoryFromBody = (
 		return 'asset';
 	} else if (body.story_id) {
 		return 'story';
+	}
+};
+
+const getStoryblokWebhookById: GetStoryblokWebhook = async (params) => {
+	const apiHost = getManagementApiHost(params.spaceId);
+
+	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
+
+	try {
+		const result = await $fetch<StoryblokWebhookResponse>(url, {
+			headers: {
+				Authorization: `Bearer ${params.accessToken}`,
+			},
+			method: 'GET',
+		});
+
+		return {
+			ok: true,
+			result,
+		};
+	} catch (err: any) {
+		return {
+			ok: false,
+			error: 'could-not-delete-webhook',
+		};
 	}
 };
 
