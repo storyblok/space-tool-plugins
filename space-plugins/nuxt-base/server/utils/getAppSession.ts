@@ -57,6 +57,9 @@ function extractAppSessionQuery(event: H3Event): AppSessionQuery | undefined {
 	const appSession = event.context.appSession;
 	const query = getQuery(event);
 
+	console.log('query', query);
+	console.log('appSession --> getAppSession.ts', appSession);
+
 	if (appSession?.spaceId && appSession?.userId) {
 		// When a page is already authenticated on the server side,
 		// and it's rendering a page that includes `useFetch('...', { server: true })`,
