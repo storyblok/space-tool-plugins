@@ -85,7 +85,13 @@ export const getStoryblokWebhookById: GetStoryblokWebhook = async (params) => {
 			result,
 		};
 	} catch (err: any) {
-		console.log(err, 'error');
+		if (err.status === 404) {
+			return {
+				ok: false,
+				error: 'webhook-not-found',
+			};
+		}
+
 		return {
 			ok: false,
 			error: 'could-not-retrieve-webhook',
