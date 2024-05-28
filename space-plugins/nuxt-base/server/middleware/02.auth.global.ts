@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
 	const appConfig = useAppConfig();
 
-	console.log('event path', event.path);
+	console.log('Event path ---->', event.path);
 	// do not enforce authentication for oauth-related APIs
 	if (event.path.startsWith(appConfig.auth.endpointPrefix)) {
 		return;
@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
 	// Delete cookie and initiated OAuth flow
 	// if the user hasn't been authenticated yet.
 	// (Storyfront attaches this query parameter in that case)
-	console.log('init_oauth', getQuery(event)['init_oauth']);
 	if (getQuery(event)['init_oauth'] === 'true') {
 		setCookie(event, AUTH_COOKIE_NAME, '', {
 			httpOnly: true,
@@ -29,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
 	const appSession = await getAppSession(event);
 
-	console.log('appSession', appSession);
+	console.log('appSession', appSession?.spaceId);
 	if (!appSession) {
 		if (event.path.startsWith('/api/')) {
 			// APIs
