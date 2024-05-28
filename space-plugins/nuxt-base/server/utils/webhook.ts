@@ -85,9 +85,10 @@ export const getStoryblokWebhookById: GetStoryblokWebhook = async (params) => {
 			result,
 		};
 	} catch (err: any) {
+		console.log(err, 'error');
 		return {
 			ok: false,
-			error: 'could-not-delete-webhook',
+			error: 'could-not-retrieve-webhook',
 		};
 	}
 };
