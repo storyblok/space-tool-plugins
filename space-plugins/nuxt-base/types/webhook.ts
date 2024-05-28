@@ -35,9 +35,13 @@ export type GetStoryblokWebhookParams = StoryblokWebhookParams & {
 	webhookId: string;
 };
 
+export type StoryblokWebhookGetError =
+	| 'webhook-not-found'
+	| 'could-not-retrieve-webhook';
+
 export type GetStoryblokWebhookResponse =
 	| { ok: true; result: StoryblokWebhookResponse }
-	| { ok: false; error: any };
+	| { ok: false; error: StoryblokWebhookGetError };
 
 export type GetStoryblokWebhook = (
 	params: GetStoryblokWebhookParams,
