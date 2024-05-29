@@ -25,11 +25,6 @@ export default defineEventHandler(async (event) => {
 		return await sendRedirect(event, appConfig.auth.initOauthFlowUrl, 302);
 	}
 
-	console.log('💡 auth middleware', {
-		path: event.path,
-		params: getQuery(event),
-		referer: getHeader(event, 'referer'),
-	});
 	const appSession = await getAppSession(event);
 
 	if (!appSession) {
