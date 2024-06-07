@@ -37,7 +37,8 @@ export type GetStoryblokWebhookParams = StoryblokWebhookParams & {
 
 export type StoryblokWebhookGetError =
 	| 'webhook-not-found'
-	| 'could-not-retrieve-webhook';
+	| 'could-not-retrieve-webhook'
+	| 'region-not-identified';
 
 export type GetStoryblokWebhookResponse =
 	| { ok: true; result: StoryblokWebhookResponse }
@@ -65,7 +66,8 @@ export type StoryblokWebhookUpsertError =
 	| 'limit-exceeded'
 	| 'name-already-exists'
 	| 'invalid-parameters'
-	| 'unknown';
+	| 'unknown'
+	| 'region-not-identified';
 
 export type UpsertOperation = 'create' | 'update';
 
@@ -92,7 +94,9 @@ export type DeleteStoryblokWebhookParams = StoryblokWebhookParams & {
 	webhookId: number;
 };
 
-export type StoryblokWebhookDeletionError = 'could-not-delete-webhook';
+export type StoryblokWebhookDeletionError =
+	| 'could-not-delete-webhook'
+	| 'region-not-identified';
 
 export type DeleteStoryblokWebhookResponse =
 	| { ok: true; result: string }

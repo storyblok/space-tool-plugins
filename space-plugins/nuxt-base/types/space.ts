@@ -11,7 +11,9 @@ export type FetchSpaceInfoResponse =
 	| { ok: true; result: SpaceInfo }
 	| { ok: false; error: FetchSpaceInfoError };
 
-export type FetchSpaceInfoError = 'could-not-fetch-space-info';
+export type FetchSpaceInfoError =
+	| 'could-not-fetch-space-info'
+	| 'region-not-identified';
 
 export type SpaceInfo = {
 	space: {

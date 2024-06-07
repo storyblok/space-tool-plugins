@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.3
         version: 1.0.3
       '@storyblok/region-helper':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
     devDependencies:
       '@nuxt/devtools':
         specifier: latest
@@ -1096,8 +1096,8 @@ packages:
   '@storyblok/region-helper@0.1.0':
     resolution: {integrity: sha512-psDn8OrU9y1Y7qWXbUCeNQ1U+8XyumerE5MBTfN+06L/lRlR9DJ4BRWOlx/cjKF6RXd5CnUBjcg1BNM3IupIkA==}
 
-  '@storyblok/region-helper@1.0.0':
-    resolution: {integrity: sha512-02B4J3XzD6CLK8DAQbK63fSar8oGYqBJxdx+7Ya0C3uJwMU5DzOMix6ShtUo1iDSd9rOl8aA5wDoCC0wh0YHMw==}
+  '@storyblok/region-helper@1.1.0':
+    resolution: {integrity: sha512-2NU/GHeaS9vFtkZJk/mNH6E5HvrV3vT3AN/Wrl44L3lwLIfcK4E0orjgCi7gvl0N3Ul5E+y6vJAVjD3bmjSZVg==}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -4664,7 +4664,7 @@ snapshots:
   '@iconify/utils@2.1.23':
     dependencies:
       '@antfu/install-pkg': 0.1.1
-      '@antfu/utils': 0.7.7
+      '@antfu/utils': 0.7.8
       '@iconify/types': 2.0.0
       debug: 4.3.4
       kolorist: 1.8.0
@@ -5536,7 +5536,7 @@ snapshots:
 
   '@storyblok/region-helper@0.1.0': {}
 
-  '@storyblok/region-helper@1.0.0': {}
+  '@storyblok/region-helper@1.1.0': {}
 
   '@trysound/sax@0.2.0': {}
 
@@ -8654,7 +8654,7 @@ snapshots:
 
   unconfig@0.3.13:
     dependencies:
-      '@antfu/utils': 0.7.7
+      '@antfu/utils': 0.7.8
       defu: 6.1.4
       jiti: 1.21.0
 
