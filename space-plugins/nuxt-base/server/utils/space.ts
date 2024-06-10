@@ -1,10 +1,18 @@
+import { getManagementBaseUrl, getRegion } from '@storyblok/region-helper';
 import { FetchSpaceInfo, SpaceInfo } from '~/types/space';
 
 export const fetchSpaceInfo: FetchSpaceInfo = async ({
 	spaceId,
 	accessToken,
 }) => {
-	const apiHost = getManagementApiHost(spaceId);
+	const region = getRegion(spaceId);
+	if (!region) {
+		return {
+			ok: false,
+			error: 'region-not-identified',
+		};
+	}
+	const apiHost = getManagementBaseUrl(region);
 	const url = `${apiHost}/v1/oauth/space_info`;
 
 	try {

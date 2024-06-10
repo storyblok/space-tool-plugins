@@ -9,6 +9,7 @@ import {
 	UpdateStoryblokWebhook,
 	GetStoryblokWebhook,
 } from '../../types';
+import { getManagementBaseUrl, getRegion } from '@storyblok/region-helper';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
 	return randomBytes(lengthInBytes).toString('base64url');
@@ -23,8 +24,14 @@ export const updateStoryblokWebhook: UpdateStoryblokWebhook = async (params) =>
 export const deleteStoryblokWebhookById: DeleteStoryblokWebhook = async (
 	params,
 ) => {
-	const apiHost = getManagementApiHost(params.spaceId);
-
+	const region = getRegion(params.spaceId);
+	if (!region) {
+		return {
+			ok: false,
+			error: 'region-not-identified',
+		};
+	}
+	const apiHost = getManagementBaseUrl(region);
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
 
 	try {
@@ -68,8 +75,14 @@ export const inferEventCategoryFromBody = (
 };
 
 export const getStoryblokWebhookById: GetStoryblokWebhook = async (params) => {
-	const apiHost = getManagementApiHost(params.spaceId);
-
+	const region = getRegion(params.spaceId);
+	if (!region) {
+		return {
+			ok: false,
+			error: 'region-not-identified',
+		};
+	}
+	const apiHost = getManagementBaseUrl(region);
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${params.webhookId}`;
 
 	try {
@@ -112,7 +125,14 @@ const upsertStoryblokWebhook: UpsertStoryblokWebhook = async (
 		};
 	}
 
-	const apiHost = getManagementApiHost(params.spaceId);
+	const region = getRegion(params.spaceId);
+	if (!region) {
+		return {
+			ok: false,
+			error: 'region-not-identified',
+		};
+	}
+	const apiHost = getManagementBaseUrl(region);
 
 	const url = `${apiHost}/v1/spaces/${params.spaceId}/webhook_endpoints/${
 		operation === 'update' ? params.id : ''
