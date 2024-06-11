@@ -1,4 +1,9 @@
+import type { AppBridgeConfig } from './types/appBridge';
+
 export default defineAppConfig({
+	appBridge: {
+		auth: false,
+	},
 	auth: {
 		endpointPrefix: '/api/connect',
 		initOauthFlowUrl: `/api/connect/storyblok`,
@@ -9,6 +14,7 @@ export default defineAppConfig({
 
 declare module '@nuxt/schema' {
 	interface AppConfigInput {
+		appBridge: AppBridgeConfig;
 		auth: AuthConfig;
 	}
 }
