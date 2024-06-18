@@ -1,14 +1,18 @@
+const KEY_PREFIX = 'sb_ab';
 // Is this app using App Bridge?
-const KEY_ENABLED = 'sb_app_bridge_enabled';
-// App Bridge token
-const KEY_TOKEN = 'sb_app_bridge_token';
+const KEY_ENABLED = `${KEY_PREFIX}_enabled`;
+// App Bridge token payload
+const KEY_VALIDATED_PAYLOAD = `${KEY_PREFIX}_validated_payload`;
+
+const QUERY_USE_APP_BRIDGE = 'use_app_bridge';
 
 const useAppBridgeEnabled = () => {
 	const enabled = ref(false);
 
 	onMounted(() => {
 		if (
-			new URLSearchParams(location.search).get('use_app_bridge') === 'true' ||
+			new URLSearchParams(location.search).get(QUERY_USE_APP_BRIDGE) ===
+				'true' ||
 			window.sessionStorage.getItem(KEY_ENABLED) === 'true'
 		) {
 			enabled.value = true;
@@ -19,18 +23,33 @@ const useAppBridgeEnabled = () => {
 };
 
 const useAppBridgeMessages = () => {
-	const status = ref<
-		'idle' | 'authenticating' | 'authenticated' | 'not-in-iframe'
-	>('idle');
+	const status = ref<'initial' | 'authenticating' | 'authenticated' | 'error'>(
+		'initial',
+	);
+	const error = ref<unknown>();
 
 	const eventListener = async (event: MessageEvent) => {
 		if (event.data.action === 'validated') {
-			status.value = 'authenticated';
 			const token = event.data.token;
-			await $fetch('/api/_app_bridge', {
-				method: 'POST',
-				body: JSON.stringify({ token }),
-			});
+			try {
+				const result = await $fetch('/api/_app_bridge', {
+					method: 'POST',
+					body: JSON.stringify({ token }),
+				});
+				if (result.ok) {
+					sessionStorage.setItem(KEY_VALIDATED_PAYLOAD, token);
+					status.value = 'authenticated';
+					error.value = undefined;
+				} else {
+					sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
+					status.value = 'error';
+					error.value = result.error;
+				}
+			} catch (err) {
+				sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
+				status.value = 'error';
+				error.value = err;
+			}
 		}
 	};
 
@@ -46,16 +65,19 @@ const useAppBridgeMessages = () => {
 	const init = () => {
 		const isInIframe = window.top !== window.self;
 		if (!isInIframe) {
-			status.value = 'not-in-iframe';
+			status.value = 'error';
+			error.value = 'not-in-iframe';
 			return;
 		}
 
-		if (sessionStorage.getItem(KEY_TOKEN)) {
+		if (sessionStorage.getItem(KEY_VALIDATED_PAYLOAD)) {
 			status.value = 'authenticated';
+			error.value = undefined;
 			return;
 		}
 
 		status.value = 'authenticating';
+		error.value = undefined;
 		const params = new URLSearchParams(location.search);
 		const protocol = params.get('protocol');
 		const host = params.get('host');
