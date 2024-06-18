@@ -4,4 +4,6 @@ const { status } = useAppBridge();
 
 <template>
 	<slot v-if="status === 'authenticated'" />
+	<div v-else-if="status === 'authenticating'"></div>
+	<div v-else-if="status === 'error'"></div>
 </template>
