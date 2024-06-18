@@ -1,3 +1,5 @@
+import type { DecodedToken } from '~/types/appBridge';
+
 const KEY_PREFIX = 'sb_ab';
 // Is this app using App Bridge?
 const KEY_ENABLED = `${KEY_PREFIX}_enabled`;
@@ -31,24 +33,31 @@ const useAppBridgeMessages = () => {
 
 	const eventListener = async (event: MessageEvent) => {
 		if (event.origin !== config.appBridge.origin) {
+			console.error('postMessage from unknown origin', {
+				actual: event.origin,
+				expected: config.appBridge.origin,
+			});
 			return;
 		}
 
 		if (event.data.action === 'validated') {
 			const token = event.data.token;
 			try {
-				const result = await $fetch('/api/_app_bridge', {
+				const response = await $fetch('/api/_app_bridge', {
 					method: 'POST',
 					body: JSON.stringify({ token }),
 				});
-				if (result.ok) {
-					sessionStorage.setItem(KEY_VALIDATED_PAYLOAD, token);
+				if (response.ok) {
+					sessionStorage.setItem(
+						KEY_VALIDATED_PAYLOAD,
+						JSON.stringify(response.result),
+					);
 					status.value = 'authenticated';
 					error.value = undefined;
 				} else {
 					sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
 					status.value = 'error';
-					error.value = result.error;
+					error.value = response.error;
 				}
 			} catch (err) {
 				sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
@@ -67,6 +76,17 @@ const useAppBridgeMessages = () => {
 		window.addEventListener('message', eventListener);
 	});
 
+	const isAuthenticated = () => {
+		try {
+			const payload: DecodedToken = JSON.parse(
+				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
+			);
+			return payload && new Date().getTime() / 1000 < payload.exp;
+		} catch (err) {
+			return false;
+		}
+	};
+
 	const init = () => {
 		const isInIframe = window.top !== window.self;
 		if (!isInIframe) {
@@ -75,7 +95,7 @@ const useAppBridgeMessages = () => {
 			return;
 		}
 
-		if (sessionStorage.getItem(KEY_VALIDATED_PAYLOAD)) {
+		if (isAuthenticated()) {
 			status.value = 'authenticated';
 			error.value = undefined;
 			return;

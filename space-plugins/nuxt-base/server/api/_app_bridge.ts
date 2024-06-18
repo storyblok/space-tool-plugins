@@ -1,4 +1,5 @@
 import jwt, { type VerifyCallback } from 'jsonwebtoken';
+import { DecodedToken, VerifyResponse } from '~/types/appBridge';
 
 export default defineEventHandler(async (event): Promise<VerifyResponse> => {
 	const { token } = await readBody(event);
@@ -8,18 +9,6 @@ export default defineEventHandler(async (event): Promise<VerifyResponse> => {
 		return { ok: false, error };
 	}
 });
-
-type VerifyResponse =
-	| { ok: true; result: DecodedToken }
-	| { ok: false; error: unknown };
-
-type DecodedToken = {
-	app_id: number;
-	space_id: number;
-	user_id: number;
-	iat: number;
-	exp: number;
-};
 
 async function verifyToken(
 	token: string,
