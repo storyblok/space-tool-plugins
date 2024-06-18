@@ -27,8 +27,13 @@ const useAppBridgeMessages = () => {
 		'initial',
 	);
 	const error = ref<unknown>();
+	const config = useAppConfig();
 
 	const eventListener = async (event: MessageEvent) => {
+		if (event.origin !== config.appBridge.origin) {
+			return;
+		}
+
 		if (event.data.action === 'validated') {
 			const token = event.data.token;
 			try {
