@@ -1,14 +1,17 @@
 import jwt, { type VerifyCallback } from 'jsonwebtoken';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<VerifyResponse> => {
 	const { token } = await readBody(event);
 	try {
-		const decoded = await verifyToken(token, env('CLIENT_SECRET'));
-		console.log('💡 decoded', decoded);
-	} catch (err) {
-		console.log('💡 err', err);
+		return { ok: true, result: await verifyToken(token, env('CLIENT_SECRET')) };
+	} catch (error) {
+		return { ok: false, error };
 	}
 });
+
+type VerifyResponse =
+	| { ok: true; result: DecodedToken }
+	| { ok: false; error: unknown };
 
 type DecodedToken = {
 	app_id: number;
