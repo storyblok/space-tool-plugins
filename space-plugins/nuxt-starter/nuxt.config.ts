@@ -2,10 +2,7 @@
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	extends: [
-		[
-			'github:storyblok/space-tool-plugins/space-plugins/nuxt-base',
-			{ install: true },
-		],
+		['../../space-tool-plugins/space-plugins/nuxt-base', { install: true }],
 		[
 			'github:storyblok/space-tool-plugins/space-plugins/nuxt-base-ui',
 			{ install: true },

@@ -11,10 +11,19 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"@storyblok/app-extension-auth": "1.0.3",
+		"jsonwebtoken": "^9.0.0",
+		"openid-client": "^5.4.2",
 		"@storyblok/region-helper": "^1.1.0"
 	},
 	"devDependencies": {
+		"@types/cookie": "^0.5.1",
+		"@types/cookies": "^0.7.7",
+		"@types/jsonwebtoken": "^8.5.8",
+		"@types/node": "14.18.47",
+		"dotenv": "^16.0.0",
+		"require": "^2.4.20",
+		"typescript": "^5.0.4",
+
 		"@nuxt/devtools": "latest",
 		"h3": "^1.8.2",
 		"nuxt": "3.11.1",

@@ -1,4 +1,4 @@
-import type { AppSession } from '@storyblok/app-extension-auth';
+import type { AppSession } from '~/app-extension-auth';
 
 declare module 'h3' {
 	interface H3EventContext {

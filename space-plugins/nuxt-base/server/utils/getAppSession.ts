@@ -1,9 +1,5 @@
-import {
-	isAppSessionQuery,
-	sessionCookieStore,
-} from '@storyblok/app-extension-auth';
-
 import type { H3Event } from 'h3';
+import { isAppSessionQuery, sessionCookieStore } from '~/app-extension-auth';
 
 type AppSessionQuery = {
 	spaceId: number;

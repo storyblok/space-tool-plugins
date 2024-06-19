@@ -1,5 +1,5 @@
-import type { AppSession } from '@storyblok/app-extension-auth';
 import type { EventHandlerResponse, H3Event } from 'h3';
+import type { AppSession } from '~/app-extension-auth';
 
 export type AuthConfig = {
 	endpointPrefix: string;

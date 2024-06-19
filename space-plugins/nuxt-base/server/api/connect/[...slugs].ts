@@ -1,5 +1,5 @@
-import { authHandler } from '@storyblok/app-extension-auth';
 import { getAuthHandlerParams } from '../../utils/auth';
+import { authHandler } from '~/app-extension-auth';
 
 export default defineEventHandler((event) => {
 	const appConfig = useAppConfig();
