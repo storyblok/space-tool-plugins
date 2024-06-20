@@ -1,5 +1,8 @@
 export default defineEventHandler(async (event) => {
 	const appConfig = useAppConfig();
+	if (appConfig.appBridge.enabled) {
+		return;
+	}
 
 	// do not enforce authentication for oauth-related APIs
 	if (event.path.startsWith(appConfig.auth.endpointPrefix)) {

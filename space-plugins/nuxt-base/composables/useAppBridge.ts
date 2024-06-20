@@ -1,41 +1,30 @@
 import type { DecodedToken } from '~/types/appBridge';
 
 const KEY_PREFIX = 'sb_ab';
-// Is this app using App Bridge?
-const KEY_ENABLED = `${KEY_PREFIX}_enabled`;
-// App Bridge token payload
 const KEY_VALIDATED_PAYLOAD = `${KEY_PREFIX}_validated_payload`;
-
-const QUERY_USE_APP_BRIDGE = 'use_app_bridge';
-
-const useAppBridgeEnabled = () => {
-	const enabled = ref(false);
-
-	onMounted(() => {
-		if (
-			new URLSearchParams(location.search).get(QUERY_USE_APP_BRIDGE) ===
-				'true' ||
-			window.sessionStorage.getItem(KEY_ENABLED) === 'true'
-		) {
-			enabled.value = true;
-		}
-	});
-
-	return enabled;
-};
+const KEY_PARENT_HOST = `${KEY_PREFIX}_parent_host`;
 
 const useAppBridgeMessages = () => {
 	const status = ref<'initial' | 'authenticating' | 'authenticated' | 'error'>(
 		'initial',
 	);
 	const error = ref<unknown>();
-	const config = useAppConfig();
+	const appConfig = useAppConfig();
+
+	const startOAuth = async () => {
+		const response = await $fetch('/api/_oauth', {
+			method: 'POST',
+		});
+		if (!response.ok) {
+			location.href = response.redirectTo;
+		}
+	};
 
 	const eventListener = async (event: MessageEvent) => {
-		if (event.origin !== config.appBridge.origin) {
+		if (event.origin !== appConfig.appBridge.origin) {
 			console.error('postMessage from unknown origin', {
 				actual: event.origin,
-				expected: config.appBridge.origin,
+				expected: appConfig.appBridge.origin,
 			});
 			return;
 		}
@@ -54,6 +43,10 @@ const useAppBridgeMessages = () => {
 					);
 					status.value = 'authenticated';
 					error.value = undefined;
+
+					if (appConfig.appBridge.oauth) {
+						await startOAuth();
+					}
 				} else {
 					sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
 					status.value = 'error';
@@ -77,6 +70,7 @@ const useAppBridgeMessages = () => {
 	});
 
 	const isAuthenticated = () => {
+		return false;
 		try {
 			const payload: DecodedToken = JSON.parse(
 				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
@@ -85,6 +79,15 @@ const useAppBridgeMessages = () => {
 		} catch (err) {
 			return false;
 		}
+	};
+
+	const getParentHost = () => {
+		const storedHost = sessionStorage.getItem(KEY_PARENT_HOST);
+		if (storedHost) {
+			return storedHost;
+		}
+		const params = new URLSearchParams(location.search);
+		return `${params.get('protocol')}//${params.get('host')}`;
 	};
 
 	const init = () => {
@@ -103,16 +106,15 @@ const useAppBridgeMessages = () => {
 
 		status.value = 'authenticating';
 		error.value = undefined;
-		const params = new URLSearchParams(location.search);
-		const protocol = params.get('protocol');
-		const host = params.get('host');
+		const host = getParentHost();
+		sessionStorage.setItem(KEY_PARENT_HOST, host);
 
 		window.parent.postMessage(
 			{
 				action: 'app-changed',
 				event: 'validate',
 			},
-			`${protocol}//${host}`,
+			host,
 		);
 	};
 
@@ -123,18 +125,19 @@ const useAppBridgeMessages = () => {
 };
 
 export const useAppBridge = () => {
-	const enabled = useAppBridgeEnabled();
+	const nuxtApp = useNuxtApp();
+	const appConfig = useAppConfig();
 	const { status, init } = useAppBridgeMessages();
 
-	watch(
-		enabled,
-		(value) => {
-			if (value) {
-				init();
-			}
-		},
-		{ immediate: true },
-	);
+	if (appConfig.appBridge.enabled && nuxtApp.payload.serverRendered) {
+		throw new Error(
+			'To use App Bridge, you must configure `ssr: false` in your `nuxt.config.ts` file.',
+		);
+	}
+
+	if (appConfig.appBridge.enabled) {
+		init();
+	}
 
 	return { status };
 };
