@@ -5,19 +5,25 @@ const KEY_VALIDATED_PAYLOAD = `${KEY_PREFIX}_validated_payload`;
 const KEY_PARENT_HOST = `${KEY_PREFIX}_parent_host`;
 
 const useAppBridgeMessages = () => {
-	const status = ref<'initial' | 'authenticating' | 'authenticated' | 'error'>(
-		'initial',
+	const status = ref<'init' | 'authenticating' | 'authenticated' | 'error'>(
+		'init',
 	);
 	const error = ref<unknown>();
 	const appConfig = useAppConfig();
+	const oauth = ref<'disabled' | 'init' | 'authenticating' | 'authenticated'>(
+		appConfig.appBridge.oauth ? 'init' : 'disabled',
+	);
 
 	const startOAuth = async () => {
+		oauth.value = 'authenticating';
 		const initOAuth = new URLSearchParams(location.search).get('init_oauth');
 		const response = await $fetch('/api/_oauth', {
 			method: 'POST',
 			body: { initOAuth },
 		});
-		if (!response.ok) {
+		if (response.ok) {
+			oauth.value = 'authenticated';
+		} else {
 			location.href = response.redirectTo;
 		}
 	};
@@ -72,7 +78,6 @@ const useAppBridgeMessages = () => {
 	});
 
 	const isAuthenticated = () => {
-		return false;
 		try {
 			const payload: DecodedToken = JSON.parse(
 				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
@@ -122,6 +127,7 @@ const useAppBridgeMessages = () => {
 
 	return {
 		status,
+		oauth,
 		init,
 	};
 };
@@ -129,7 +135,7 @@ const useAppBridgeMessages = () => {
 export const useAppBridge = () => {
 	const nuxtApp = useNuxtApp();
 	const appConfig = useAppConfig();
-	const { status, init } = useAppBridgeMessages();
+	const { status, oauth, init } = useAppBridgeMessages();
 
 	if (appConfig.appBridge.enabled && nuxtApp.payload.serverRendered) {
 		throw new Error(
@@ -141,5 +147,5 @@ export const useAppBridge = () => {
 		init();
 	}
 
-	return { status };
+	return { status, oauth };
 };
