@@ -2,7 +2,11 @@ import type { AppBridgeConfig } from './types/appBridge';
 
 export default defineAppConfig({
 	appBridge: {
-		origin: 'https://app.storyblok.com',
+		enabled: true,
+		// enabled: false,
+		oauth: true,
+		origin: 'http://localhost:3300',
+		// origin: 'https://app.storyblok.com',
 	},
 	auth: {
 		endpointPrefix: '/api/connect',

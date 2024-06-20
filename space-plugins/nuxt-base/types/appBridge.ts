@@ -1,4 +1,6 @@
 export type AppBridgeConfig = {
+	enabled: boolean;
+	oauth: boolean;
 	origin: string;
 };
 
