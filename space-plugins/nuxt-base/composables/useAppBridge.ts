@@ -12,8 +12,10 @@ const useAppBridgeMessages = () => {
 	const appConfig = useAppConfig();
 
 	const startOAuth = async () => {
+		const initOAuth = new URLSearchParams(location.search).get('init_oauth');
 		const response = await $fetch('/api/_oauth', {
 			method: 'POST',
+			body: { initOAuth },
 		});
 		if (!response.ok) {
 			location.href = response.redirectTo;
