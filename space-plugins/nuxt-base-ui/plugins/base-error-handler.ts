@@ -46,10 +46,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 	const { alert, show, success, error, info, warn } = createAlert();
 
 	nuxtApp.hook('vue:error', (err: unknown) => {
-		console.error(err);
-
-		if (err instanceof FetchError) {
-			error(err.data.message);
+		if (
+			(err as FetchError).name === 'FetchError' &&
+			(err as FetchError).data?.message
+		) {
+			error((err as FetchError).data.message);
 		} else if (isNuxtError(err as any)) {
 			const nuxtError = err as NuxtError;
 			error(nuxtError.statusMessage || 'Unknown error');
