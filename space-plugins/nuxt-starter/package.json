@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@storyblok/app-extension-auth": "1.0.3",
-		"@storyblok/region-helper": "^1.0.0",
+		"@storyblok/region-helper": "^1.1.0",
 		"storyblok-js-client": "^6.2.0"
 	},
 	"devDependencies": {
