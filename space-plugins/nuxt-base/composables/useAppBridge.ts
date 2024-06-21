@@ -1,8 +1,20 @@
-import type { DecodedToken } from '~/types/appBridge';
+import type { DecodedToken, PluginType } from '~/types/appBridge';
 
 const KEY_PREFIX = 'sb_ab';
 const KEY_VALIDATED_PAYLOAD = `${KEY_PREFIX}_validated_payload`;
 const KEY_PARENT_HOST = `${KEY_PREFIX}_parent_host`;
+const KEY_SLUG = `${KEY_PREFIX}_slug`;
+
+const getPostMessageAction = (type: PluginType) => {
+	switch (type) {
+		case 'space-plugin':
+			return 'app-changed';
+		case 'tool-plugin':
+			return 'tool-changed';
+		default:
+			throw new Error(`Invalid plugin type: ${type}`);
+	}
+};
 
 const useAppBridgeMessages = () => {
 	const status = ref<'init' | 'authenticating' | 'authenticated' | 'error'>(
@@ -16,7 +28,8 @@ const useAppBridgeMessages = () => {
 
 	const startOAuth = async () => {
 		oauth.value = 'authenticating';
-		const initOAuth = new URLSearchParams(location.search).get('init_oauth');
+		const initOAuth =
+			new URLSearchParams(location.search).get('init_oauth') === 'true';
 		const response = await $fetch('/api/_oauth', {
 			method: 'POST',
 			body: { initOAuth },
@@ -97,7 +110,16 @@ const useAppBridgeMessages = () => {
 		return `${params.get('protocol')}//${params.get('host')}`;
 	};
 
-	const init = () => {
+	const getSlug = () => {
+		const storedSlug = sessionStorage.getItem(KEY_SLUG);
+		if (storedSlug) {
+			return storedSlug;
+		}
+		const params = new URLSearchParams(location.search);
+		return params.get('slug');
+	};
+
+	const init = async () => {
 		const isInIframe = window.top !== window.self;
 		if (!isInIframe) {
 			status.value = 'error';
@@ -108,21 +130,32 @@ const useAppBridgeMessages = () => {
 		if (isAuthenticated()) {
 			status.value = 'authenticated';
 			error.value = undefined;
+
+			if (appConfig.appBridge.oauth) {
+				return await startOAuth();
+			}
 			return;
 		}
 
 		status.value = 'authenticating';
 		error.value = undefined;
 		const host = getParentHost();
-		sessionStorage.setItem(KEY_PARENT_HOST, host);
+		const slug = getSlug();
 
-		window.parent.postMessage(
-			{
-				action: 'app-changed',
+		try {
+			const payload: Record<string, any> = {
+				action: getPostMessageAction(appConfig.appBridge.type),
 				event: 'validate',
-			},
-			host,
-		);
+			};
+			if ((appConfig.appBridge.type as PluginType) === 'tool-plugin') {
+				payload.tool = slug;
+			}
+			window.parent.postMessage(payload, host);
+			sessionStorage.setItem(KEY_PARENT_HOST, host);
+			sessionStorage.setItem(KEY_SLUG, slug || '');
+		} catch (err) {
+			sessionStorage.removeItem(KEY_PARENT_HOST);
+		}
 	};
 
 	return {
