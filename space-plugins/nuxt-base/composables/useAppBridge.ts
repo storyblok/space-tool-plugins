@@ -109,7 +109,12 @@ const useAppBridgeMessages = () => {
 			return storedHost;
 		}
 		const params = new URLSearchParams(location.search);
-		return `${params.get('protocol')}//${params.get('host')}`;
+		const protocol = params.get('protocol');
+		const host = params.get('host');
+		if (!protocol || !host) {
+			throw new Error('Missing `protocol` or `host` in query params');
+		}
+		return `${protocol}//${host}`;
 	};
 
 	const getSlug = () => {
