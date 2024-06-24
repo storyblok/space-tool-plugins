@@ -26,6 +26,8 @@ const useAppBridgeMessages = () => {
 		appConfig.appBridge.oauth ? 'init' : 'disabled',
 	);
 
+	const origin = appConfig.appBridge.origin || 'https://app.storyblok.com';
+
 	const startOAuth = async () => {
 		oauth.value = 'authenticating';
 		const initOAuth =
@@ -42,10 +44,10 @@ const useAppBridgeMessages = () => {
 	};
 
 	const eventListener = async (event: MessageEvent) => {
-		if (event.origin !== appConfig.appBridge.origin) {
+		if (event.origin !== origin) {
 			console.error('postMessage from unknown origin', {
 				actual: event.origin,
-				expected: appConfig.appBridge.origin,
+				expected: origin,
 			});
 			return;
 		}
