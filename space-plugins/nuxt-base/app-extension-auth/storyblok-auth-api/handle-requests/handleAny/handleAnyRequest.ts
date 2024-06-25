@@ -15,7 +15,6 @@ export const handleAnyRequest: HandleAuthRequest<{
 	url: string;
 	getCookie: GetCookie;
 }> = async ({ params, url, getCookie }) => {
-	console.log('handleAnyRequest');
 	if (!validateAppBaseUrl(params.baseUrl)) {
 		return {
 			type: 'configuration-error',

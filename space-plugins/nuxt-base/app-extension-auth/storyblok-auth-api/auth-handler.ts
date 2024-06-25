@@ -11,7 +11,6 @@ import { reconcileNodeResponse } from './reconcileNodeResponse';
 export const authHandler = (
 	params: AuthHandlerParams,
 ): http.RequestListener => {
-	console.log('authHandler >>>>>>>>');
 	return async (req, res) => {
 		const { url } = req;
 		if (typeof url !== 'string') {
