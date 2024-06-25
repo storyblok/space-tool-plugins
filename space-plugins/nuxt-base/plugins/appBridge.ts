@@ -2,7 +2,11 @@ export default defineNuxtPlugin(() => {
 	const appConfig = useAppConfig();
 	if (appConfig.appBridge.enabled) {
 		globalThis.$fetch = $fetch.create({
-			onRequest({ options }) {
+			onRequest({ request, options }) {
+				if (typeof request === 'string' && !request.startsWith('/')) {
+					// skip external request
+					return;
+				}
 				const headers = options.headers;
 				const token = sessionStorage.getItem(KEY_TOKEN) || '';
 				if (Array.isArray(headers)) {
