@@ -1,1 +1,1 @@
-export * from './expiredCookieHeaderValue'
+export * from './expiredCookieHeaderValue';

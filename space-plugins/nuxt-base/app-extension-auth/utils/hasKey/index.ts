@@ -1,1 +1,1 @@
-export * from './hasKey'
+export * from './hasKey';

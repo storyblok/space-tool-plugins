@@ -1,1 +1,1 @@
-export * from './changedCookieHeaderValue'
+export * from './changedCookieHeaderValue';

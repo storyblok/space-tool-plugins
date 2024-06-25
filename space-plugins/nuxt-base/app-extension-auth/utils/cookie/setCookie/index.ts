@@ -1,1 +1,1 @@
-export * from './setCookie'
+export * from './setCookie';

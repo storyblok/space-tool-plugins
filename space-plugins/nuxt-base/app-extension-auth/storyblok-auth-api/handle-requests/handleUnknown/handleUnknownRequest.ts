@@ -1,12 +1,12 @@
-import { AuthHandlerParams } from '../../AuthHandlerParams'
-import { HandleAuthRequest } from '../HandleAuthRequest'
+import { AuthHandlerParams } from '../../AuthHandlerParams';
+import { HandleAuthRequest } from '../HandleAuthRequest';
 
-import { clearCallbackCookieElement } from '../callbackCookie'
+import { clearCallbackCookieElement } from '../callbackCookie';
 
 export const handleUnknownRequest: HandleAuthRequest<{
-  params: AuthHandlerParams
+	params: AuthHandlerParams;
 }> = async ({ params }) => ({
-  type: 'error',
-  redirectTo: params.errorCallback,
-  setCookies: [clearCallbackCookieElement],
-})
+	type: 'error',
+	redirectTo: params.errorCallback,
+	setCookies: [clearCallbackCookieElement],
+});
