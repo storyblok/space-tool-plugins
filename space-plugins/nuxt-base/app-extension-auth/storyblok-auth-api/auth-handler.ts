@@ -13,19 +13,18 @@ export const authHandler = (
 	params: AuthHandlerParams,
 ): http.RequestListener => {
 	return async (req, res) => {
-		//TODO: if no adapter save to cookies and console log warning about deprecation!
-		const adapter = supabaseAdapter;
-
 		const { url } = req;
 		if (typeof url !== 'string') {
 			res.writeHead(400).end();
 			return;
 		}
+
+		//TODO: if no adapter save to cookies and console log warning about deprecation!
 		const responseElement = await handleAnyRequest({
 			params,
 			url,
 			getCookie: (name) => getCookie(req, name),
-			adapter,
+			adapter: supabaseAdapter,
 		});
 		reconcileNodeResponse(res, responseElement);
 	};

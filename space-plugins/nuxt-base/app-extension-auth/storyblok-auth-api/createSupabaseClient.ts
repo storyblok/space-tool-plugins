@@ -68,15 +68,10 @@ export const createSupabaseClient = (url: string, key: string): Adapter => {
 		console.log('error', error);
 	};
 
-	const isSessionExpired = (session: AppSession) => {
-		session;
-	};
-
 	const getSession: GetSession = async (params) => {
-		//TODO: refresh session
 		const { spaceId, userId, appClientId } = params;
 		const { data, error } = await supabaseClient
-			.from('session_test')
+			.from('session_kv_test')
 			.select()
 			.eq('space_id', spaceId)
 			.eq('user_id', userId)
@@ -91,14 +86,14 @@ export const createSupabaseClient = (url: string, key: string): Adapter => {
 	};
 };
 
+export const supabaseAdapter = createSupabaseClient(
+	process.env.SUPABASE_URL || '',
+	process.env.SUPABASE_KEY || '',
+);
+
 const cookieAdapter = () => {
 	return {
 		getSession: null,
 		setSession: null,
 	};
 };
-
-export const supabaseAdapter = createSupabaseAdapter(
-	process.env.SUPABASE_URL || '',
-	process.env.SUPABASE_KEY || '',
-);
