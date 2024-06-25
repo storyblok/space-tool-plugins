@@ -1,10 +1,5 @@
 import type { DecodedToken, PluginType } from '~/types/appBridge';
 
-const KEY_PREFIX = 'sb_ab';
-const KEY_VALIDATED_PAYLOAD = `${KEY_PREFIX}_validated_payload`;
-const KEY_PARENT_HOST = `${KEY_PREFIX}_parent_host`;
-const KEY_SLUG = `${KEY_PREFIX}_slug`;
-
 const getPostMessageAction = (type: PluginType) => {
 	switch (type) {
 		case 'space-plugin':
@@ -60,6 +55,7 @@ const useAppBridgeMessages = () => {
 					body: JSON.stringify({ token }),
 				});
 				if (response.ok) {
+					sessionStorage.setItem(KEY_TOKEN, token);
 					sessionStorage.setItem(
 						KEY_VALIDATED_PAYLOAD,
 						JSON.stringify(response.result),
@@ -71,11 +67,13 @@ const useAppBridgeMessages = () => {
 						await startOAuth();
 					}
 				} else {
+					sessionStorage.removeItem(KEY_TOKEN);
 					sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
 					status.value = 'error';
 					error.value = response.error;
 				}
 			} catch (err) {
+				sessionStorage.removeItem(KEY_TOKEN);
 				sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
 				status.value = 'error';
 				error.value = err;

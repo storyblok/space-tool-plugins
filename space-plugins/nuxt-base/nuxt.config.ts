@@ -3,7 +3,7 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	nitro: {
 		imports: {
-			dirs: ['./server/utils'],
+			dirs: ['./utils', './server/utils'],
 		},
 	},
 });
