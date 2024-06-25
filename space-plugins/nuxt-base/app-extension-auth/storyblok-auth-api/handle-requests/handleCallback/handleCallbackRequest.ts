@@ -11,6 +11,7 @@ import { type AuthHandlerParams } from '../../AuthHandlerParams';
 import { regionFromUrl } from './spaceIdFromUrl';
 import { type HandleAuthRequest } from '../HandleAuthRequest';
 import { fetchAppSession } from './fetchAppSession';
+import type { Adapter } from '~/app-extension-auth/storyblok-auth-api/createSupabaseClient';
 
 export type AppSessionQueryParams = Record<
 	keyof Pick<AppSession, 'spaceId' | 'userId'>,
@@ -21,7 +22,8 @@ export const handleCallbackRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;
 	url: string;
 	getCookie: GetCookie;
-}> = async ({ params, url, getCookie }) => {
+	adapter: Adapter;
+}> = async ({ params, url, getCookie, adapter }) => {
 	try {
 		const region = regionFromUrl(url);
 		if (!region) {
@@ -57,6 +59,8 @@ export const handleCallbackRequest: HandleAuthRequest<{
 				redirectTo: params.errorCallback,
 			};
 		}
+
+		await adapter.setSession(appSession);
 
 		const queryParams: AppSessionQueryParams = {
 			spaceId: appSession.spaceId.toString(),

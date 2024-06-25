@@ -50,4 +50,6 @@ export type AuthHandlerParams = {
 	 *  - `https://my-app.my-domain.com/api/authenticate/storyblok/callback` as the OAuth2 callback URL
 	 */
 	endpointPrefix: string | undefined; // To make explicit, do not make this optional.
+	//TODO: proper adapter type
+	adapter?: any;
 };

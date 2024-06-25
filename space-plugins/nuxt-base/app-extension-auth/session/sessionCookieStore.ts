@@ -12,7 +12,11 @@ export const sessionCookieStore: AppSessionCookieStoreFactory =
 	(params) =>
 	(requestParams): AppSessionStore => {
 		const getCookie: GetCookie = (name) =>
-			getNodeCookie(requestParams.req, name);
+			params.adapter.getItem({
+				req: requestParams.req,
+				res: requestParams.res,
+				key: name,
+			});
 		const setCookie: SetCookie = (name, value) =>
 			setNodeCookie(requestParams.res, name, value);
 		return {

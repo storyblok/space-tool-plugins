@@ -9,12 +9,14 @@ import { handleCallbackRequest } from '../handleCallback';
 import { handleUnknownRequest } from '../handleUnknown';
 import { getLastSlug } from './getLastSlug';
 import { HandleAuthRequest } from '../HandleAuthRequest';
+import type { Adapter } from '~/app-extension-auth/storyblok-auth-api/createSupabaseClient';
 
 export const handleAnyRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;
 	url: string;
 	getCookie: GetCookie;
-}> = async ({ params, url, getCookie }) => {
+	adapter: Adapter;
+}> = async ({ params, url, getCookie, adapter }) => {
 	if (!validateAppBaseUrl(params.baseUrl)) {
 		return {
 			type: 'configuration-error',
@@ -34,7 +36,7 @@ export const handleAnyRequest: HandleAuthRequest<{
 		case signinEndpoint:
 			return handleSignInRequest({ params });
 		case callbackEndpoint:
-			return handleCallbackRequest({ url, getCookie, params });
+			return handleCallbackRequest({ url, getCookie, params, adapter });
 		default:
 			return handleUnknownRequest({ params });
 	}
