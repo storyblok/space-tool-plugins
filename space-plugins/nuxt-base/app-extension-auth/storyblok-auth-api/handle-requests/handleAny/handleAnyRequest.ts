@@ -1,5 +1,8 @@
 import { GetCookie } from '../../../utils';
-import { AuthHandlerParams } from '../../AuthHandlerParams';
+import {
+	AuthHandlerParams,
+	type InternalAdapter,
+} from '../../AuthHandlerParams';
 import { validateAppBaseUrl } from '../../validation/validateAppBaseUrl';
 import { validateEndpointPrefix } from '../../validation/validateEndpointPrefix';
 import { signinEndpoint } from '../signinEndpoint';
@@ -8,15 +11,13 @@ import { callbackEndpoint } from '../callbackEndpoint';
 import { handleCallbackRequest } from '../handleCallback';
 import { handleUnknownRequest } from '../handleUnknown';
 import { getLastSlug } from './getLastSlug';
-import { HandleAuthRequest } from '../HandleAuthRequest';
-import type { Adapter } from '~/app-extension-auth/storyblok-auth-api/createSupabaseClient';
+import type { HandleAuthRequest } from '../HandleAuthRequest';
 
 export const handleAnyRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;
 	url: string;
-	getCookie: GetCookie;
-	adapter: Adapter;
-}> = async ({ params, url, getCookie, adapter }) => {
+	adapter: InternalAdapter;
+}> = async ({ params, url, adapter }) => {
 	if (!validateAppBaseUrl(params.baseUrl)) {
 		return {
 			type: 'configuration-error',
@@ -36,7 +37,7 @@ export const handleAnyRequest: HandleAuthRequest<{
 		case signinEndpoint:
 			return handleSignInRequest({ params });
 		case callbackEndpoint:
-			return handleCallbackRequest({ url, getCookie, params, adapter });
+			return handleCallbackRequest({ url, params, adapter });
 		default:
 			return handleUnknownRequest({ params });
 	}

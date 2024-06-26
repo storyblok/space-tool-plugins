@@ -11,9 +11,19 @@ export type SetAllSessions = (
 	params: SetAllSessionsParams,
 	setCookie: SetCookie,
 	sessions: AppSession[],
-) => void;
-export const setAllSessions: SetAllSessions = (params, setCookie, sessions) => {
-	setSignedCookie(params.clientSecret, setCookie, authCookieName(params), {
-		sessions,
-	});
+) => Promise<void>;
+
+export const setAllSessions: SetAllSessions = async (
+	params,
+	setCookie,
+	sessions,
+) => {
+	await setSignedCookie(
+		params.clientSecret,
+		setCookie,
+		authCookieName(params),
+		{
+			sessions,
+		},
+	);
 };

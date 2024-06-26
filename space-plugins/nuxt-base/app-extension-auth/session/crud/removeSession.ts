@@ -15,14 +15,16 @@ export type RemoveSession = (
 	getCookie: GetCookie,
 	setCookie: SetCookie,
 	query: AppSessionQuery,
-) => AppSession | undefined;
-export const removeSession: RemoveSession = (
+) => Promise<AppSession | undefined>;
+
+export const removeSession: RemoveSession = async (
 	params,
 	getCookie,
 	setCookie,
 	query,
 ) => {
-	const sessions = getAllSessions(params, getCookie);
+	// TODO: [important] this won't work for Supabase adapter
+	const sessions = await getAllSessions(params, getCookie);
 	const keys = {
 		...keysFromQuery(query),
 		appClientId: params.clientId,
@@ -30,6 +32,6 @@ export const removeSession: RemoveSession = (
 	const isEqual = keysEquals(keys);
 	const toRemove = sessions.find(isEqual);
 	const allOtherSessions = sessions.filter((s) => s !== toRemove);
-	setAllSessions(params, setCookie, allOtherSessions);
+	await setAllSessions(params, setCookie, allOtherSessions);
 	return toRemove;
 };

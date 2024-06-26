@@ -19,12 +19,16 @@ export type CallbackCookieData = {
 const callbackCookieName = 'auth.sb.callback';
 
 // TODO validation
-export const getCallbackCookieData = (
+export const getCallbackCookieData = async (
 	secret: string,
 	getCookie: GetCookie,
-): CallbackCookieData | undefined =>
+): Promise<CallbackCookieData | undefined> =>
 	// TODO add runtime validation
-	getSignedCookie(secret, getCookie, callbackCookieName) as CallbackCookieData;
+	(await getSignedCookie(
+		secret,
+		getCookie,
+		callbackCookieName,
+	)) as CallbackCookieData;
 
 export const callbackCookieElement = (
 	secret: string,

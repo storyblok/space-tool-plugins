@@ -1,5 +1,9 @@
 import http from 'http';
-import { type AuthHandlerParams } from './AuthHandlerParams';
+import {
+	type Adapter,
+	type AuthHandlerParams,
+	type InternalAdapter,
+} from './AuthHandlerParams';
 import { getCookie } from '../utils';
 import { handleAnyRequest } from './handle-requests';
 import { reconcileNodeResponse } from './reconcileNodeResponse';
@@ -10,7 +14,7 @@ import { supabaseAdapter } from '~/app-extension-auth/storyblok-auth-api/createS
  * @param params
  */
 export const authHandler = (
-	params: AuthHandlerParams,
+	params: AuthHandlerParams & { adapter: Adapter },
 ): http.RequestListener => {
 	return async (req, res) => {
 		const { url } = req;
@@ -19,13 +23,46 @@ export const authHandler = (
 			return;
 		}
 
+		const adapter: InternalAdapter = {
+			async getItem(key) {
+				return await params.adapter.getItem({
+					req,
+					res,
+					key,
+				});
+			},
+			async setItem({ key, value }) {
+				return await params.adapter.setItem({
+					req,
+					res,
+					key,
+					value,
+				});
+			},
+			async hasItem(key) {
+				return await params.adapter.hasItem({
+					req,
+					res,
+					key,
+				});
+			},
+			async removeItem(key) {
+				return await params.adapter.removeItem({
+					req,
+					res,
+					key,
+				});
+			},
+		};
+
 		//TODO: if no adapter save to cookies and console log warning about deprecation!
+		// TODO: clean up this later
+		const { adapter: _adapter, ...rest } = params;
 		const responseElement = await handleAnyRequest({
-			params,
+			params: rest,
 			url,
-			getCookie: (name) => getCookie(req, name),
-			adapter: supabaseAdapter,
+			adapter,
 		});
-		reconcileNodeResponse(res, responseElement);
+		await reconcileNodeResponse({ res, responseElement, adapter });
 	};
 };

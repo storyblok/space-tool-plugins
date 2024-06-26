@@ -12,10 +12,10 @@ export type GetAllSessionsParams = Pick<
 export type GetAllSessions = (
 	params: GetAllSessionsParams,
 	getCookie: GetCookie,
-) => AppSession[];
+) => Promise<AppSession[]>;
 
-export const getAllSessions: GetAllSessions = (params, getCookie) => {
-	const signedCookie = getSignedCookie(
+export const getAllSessions: GetAllSessions = async (params, getCookie) => {
+	const signedCookie = await getSignedCookie(
 		params.clientSecret,
 		getCookie,
 		authCookieName(params),

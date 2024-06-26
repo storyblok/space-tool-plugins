@@ -1,3 +1,5 @@
+import type { IncomingMessage, ServerResponse } from 'node:http';
+
 export type AuthHandlerParams = {
 	/*
 	 * The client ID is a public identifier for your apps. Find the Client ID in the app settings on Storyblok.
@@ -50,6 +52,38 @@ export type AuthHandlerParams = {
 	 *  - `https://my-app.my-domain.com/api/authenticate/storyblok/callback` as the OAuth2 callback URL
 	 */
 	endpointPrefix: string | undefined; // To make explicit, do not make this optional.
-	//TODO: proper adapter type
-	adapter?: any;
+};
+
+export type Adapter = {
+	getItem: (params: {
+		req: IncomingMessage;
+		res: ServerResponse;
+		key: string;
+	}) => string | undefined | Promise<string | undefined>;
+
+	setItem: (params: {
+		req: IncomingMessage;
+		res: ServerResponse;
+		key: string;
+		value: string;
+	}) => void | Promise<void>;
+
+	removeItem: (params: {
+		req: IncomingMessage;
+		res: ServerResponse;
+		key: string;
+	}) => Promise<void>;
+
+	hasItem: (params: {
+		req: IncomingMessage;
+		res: ServerResponse;
+		key: string;
+	}) => boolean | Promise<boolean>;
+};
+
+export type InternalAdapter = {
+	getItem: (key: string) => string | undefined | Promise<string | undefined>;
+	setItem: (params: { key: string; value: string }) => void | Promise<void>;
+	removeItem: (key: string) => Promise<void>;
+	hasItem: (key: string) => boolean | Promise<boolean>;
 };

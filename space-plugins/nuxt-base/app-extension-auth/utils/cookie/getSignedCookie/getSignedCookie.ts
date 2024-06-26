@@ -1,12 +1,12 @@
-import { GetCookie } from '../../GetCookie';
+import type { GetCookie } from '../../GetCookie';
 import { verifyData } from '../../verifyData';
 
-export const getSignedCookie = (
+export const getSignedCookie = async (
 	secret: string,
 	getCookie: GetCookie,
 	name: string,
 ) => {
-	const jwtToken = getCookie(name);
+	const jwtToken = await getCookie(name);
 	if (!jwtToken) {
 		return undefined;
 	}

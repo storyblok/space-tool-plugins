@@ -1,5 +1,5 @@
 import { type AppSession, getAllSessions } from '../../../session';
-import { type GetCookie, signData } from '../../../utils';
+import { type GetCookie, signData  } from '../../../utils';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
 import { authCookieName } from '../../../session/authCookieName';
 import {
@@ -7,11 +7,13 @@ import {
 	getCallbackCookieData,
 } from '../callbackCookie';
 import { type CookieElement } from '../../ResponseElement';
-import { type AuthHandlerParams } from '../../AuthHandlerParams';
+import type {
+	AuthHandlerParams,
+	InternalAdapter,
+} from '../../AuthHandlerParams';
 import { regionFromUrl } from './spaceIdFromUrl';
 import { type HandleAuthRequest } from '../HandleAuthRequest';
 import { fetchAppSession } from './fetchAppSession';
-import type { Adapter } from '~/app-extension-auth/storyblok-auth-api/createSupabaseClient';
 
 export type AppSessionQueryParams = Record<
 	keyof Pick<AppSession, 'spaceId' | 'userId'>,
@@ -20,10 +22,9 @@ export type AppSessionQueryParams = Record<
 
 export const handleCallbackRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;
+	adapter: InternalAdapter;
 	url: string;
-	getCookie: GetCookie;
-	adapter: Adapter;
-}> = async ({ params, url, getCookie, adapter }) => {
+}> = async ({ params, url, adapter }) => {
 	try {
 		const region = regionFromUrl(url);
 		if (!region) {
@@ -33,7 +34,9 @@ export const handleCallbackRequest: HandleAuthRequest<{
 			};
 		}
 
-		const callbackCookie = getCallbackCookieData(
+		const getCookie = async (name: string) => await adapter.getItem(name);
+
+		const callbackCookie = await getCallbackCookieData(
 			params.clientSecret,
 			getCookie,
 		);
@@ -60,8 +63,6 @@ export const handleCallbackRequest: HandleAuthRequest<{
 			};
 		}
 
-		await adapter.setSession(appSession);
-
 		const queryParams: AppSessionQueryParams = {
 			spaceId: appSession.spaceId.toString(),
 			userId: appSession.userId.toString(),
@@ -71,7 +72,7 @@ export const handleCallbackRequest: HandleAuthRequest<{
 		const setSessions: CookieElement = {
 			name: authCookieName(params),
 			value: signData(params.clientSecret)({
-				sessions: [...getAllSessions(params, getCookie), appSession],
+				sessions: [...(await getAllSessions(params, getCookie)), appSession],
 			}),
 		};
 

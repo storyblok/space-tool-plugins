@@ -1,9 +1,9 @@
-import { SetCookie } from '../../SetCookie';
+import type { SetCookie } from '../../SetCookie';
 import { signData } from '../../signData';
 
-export const setSignedCookie = (
+export const setSignedCookie = async (
 	secret: string,
 	setCookie: SetCookie,
 	name: string,
 	data: unknown,
-) => void setCookie(name, signData(secret)(data));
+) => await setCookie(name, signData(secret)(data));
