@@ -1,5 +1,4 @@
 import { type AppSession, getAllSessions } from '../../../session';
-import { type GetCookie, signData  } from '../../../utils';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
 import { authCookieName } from '../../../session/authCookieName';
 import {
@@ -71,9 +70,9 @@ export const handleCallbackRequest: HandleAuthRequest<{
 
 		const setSessions: CookieElement = {
 			name: authCookieName(params),
-			value: signData(params.clientSecret)({
+			value: {
 				sessions: [...(await getAllSessions(params, getCookie)), appSession],
-			}),
+			},
 		};
 
 		return {

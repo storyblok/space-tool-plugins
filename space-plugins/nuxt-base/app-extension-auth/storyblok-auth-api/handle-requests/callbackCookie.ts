@@ -1,4 +1,4 @@
-import { type GetCookie, getSignedCookie, signData } from '../../utils';
+import { type GetCookie } from '../../utils';
 import type { CookieElement } from '../ResponseElement';
 
 /**
@@ -24,18 +24,14 @@ export const getCallbackCookieData = async (
 	getCookie: GetCookie,
 ): Promise<CallbackCookieData | undefined> =>
 	// TODO add runtime validation
-	(await getSignedCookie(
-		secret,
-		getCookie,
-		callbackCookieName,
-	)) as CallbackCookieData;
+	await getCookie(callbackCookieName);
 
 export const callbackCookieElement = (
 	secret: string,
 	data: CallbackCookieData,
 ) => ({
 	name: callbackCookieName,
-	value: signData(secret)(data),
+	value: data,
 });
 
 export const clearCallbackCookieElement: CookieElement = {

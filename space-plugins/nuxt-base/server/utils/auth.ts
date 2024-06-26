@@ -46,6 +46,25 @@ const withExpiredCookie = (headers: string[], name: string): string[] => [
 	expiredCookieHeaderValue(name),
 ];
 
+import jwt from 'jsonwebtoken';
+
+export const verifyData =
+	(secret: string) =>
+	(jwtToken: string): unknown => {
+		try {
+			const payload = jwt.verify(jwtToken, secret);
+			if (typeof payload === 'string') {
+				return undefined;
+			}
+			if (!('data' in payload)) {
+				return undefined;
+			}
+			return payload.data as unknown;
+		} catch (e) {
+			return undefined;
+		}
+	};
+
 const adapter = {
 	getItem: ({
 		req,
@@ -68,10 +87,11 @@ const adapter = {
 		}
 
 		const value = match[1];
+		const secret = env('CLIENT_SECRET');
 		if (value[0] === '"') {
-			return value.slice(1, -1);
+			return verifyData(secret)(value.slice(1, -1));
 		}
-		return value;
+		return verifyData(secret)(value);
 	},
 	setItem: ({
 		req,
@@ -82,9 +102,14 @@ const adapter = {
 		req: IncomingMessage;
 		res: ServerResponse;
 		key: string;
-		value: string;
+		value: string | object;
 	}) => {
-		res.setHeader('Set-Cookie', withCookie(cookieHeaders(res), key, value));
+		const signedData = withCookie(
+			cookieHeaders(res),
+			key,
+			jwt.sign({ data: value }, env('CLIENT_SECRET')),
+		);
+		res.setHeader('Set-Cookie', signedData);
 	},
 	hasItem: ({
 		req,

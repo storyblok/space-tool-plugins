@@ -1,6 +1,3 @@
-export * from './cookie';
-export * from './signData';
-export * from './verifyData';
 export * from './SetCookie';
 export * from './GetCookie';
 export * from './hasKey';

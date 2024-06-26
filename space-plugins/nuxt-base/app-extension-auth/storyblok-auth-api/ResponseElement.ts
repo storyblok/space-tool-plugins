@@ -17,5 +17,5 @@ export type ResponseElement = {
  */
 export type CookieElement = {
 	name: string;
-	value: string | undefined;
+	value: string | object | undefined;
 };

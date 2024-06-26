@@ -54,6 +54,18 @@ export const authHandler = (
 				});
 			},
 		};
+		/*
+		things we need:
+		adapter = {
+			- getCallbackData
+			- setCallbackData
+			- removeCallbackData
+
+			- setSession
+			- getSession
+			- removeSession
+		}
+		*/
 
 		//TODO: if no adapter save to cookies and console log warning about deprecation!
 		// TODO: clean up this later
