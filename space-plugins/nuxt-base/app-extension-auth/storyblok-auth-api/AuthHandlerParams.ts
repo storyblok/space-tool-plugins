@@ -52,38 +52,45 @@ export type AuthHandlerParams = {
 	 *  - `https://my-app.my-domain.com/api/authenticate/storyblok/callback` as the OAuth2 callback URL
 	 */
 	endpointPrefix: string | undefined; // To make explicit, do not make this optional.
+
+	adapter: Adapter;
 };
+
+export type MaybePromise<T> = T | Promise<T>;
 
 export type Adapter = {
 	getItem: (params: {
 		req: IncomingMessage;
 		res: ServerResponse;
 		key: string;
-	}) => string | undefined | Promise<string | undefined>;
+	}) => MaybePromise<string | object | undefined>;
 
 	setItem: (params: {
 		req: IncomingMessage;
 		res: ServerResponse;
 		key: string;
-		value: string;
-	}) => void | Promise<void>;
+		value: string | object;
+	}) => MaybePromise<void>;
 
 	removeItem: (params: {
 		req: IncomingMessage;
 		res: ServerResponse;
 		key: string;
-	}) => Promise<void>;
+	}) => MaybePromise<void>;
 
 	hasItem: (params: {
 		req: IncomingMessage;
 		res: ServerResponse;
 		key: string;
-	}) => boolean | Promise<boolean>;
+	}) => MaybePromise<boolean>;
 };
 
 export type InternalAdapter = {
-	getItem: (key: string) => string | undefined | Promise<string | undefined>;
-	setItem: (params: { key: string; value: string }) => void | Promise<void>;
-	removeItem: (key: string) => Promise<void>;
-	hasItem: (key: string) => boolean | Promise<boolean>;
+	getItem: (key: string) => MaybePromise<string | object | undefined>;
+	setItem: (params: {
+		key: string;
+		value: string | object;
+	}) => MaybePromise<void>;
+	removeItem: (key: string) => MaybePromise<void>;
+	hasItem: (key: string) => MaybePromise<boolean>;
 };

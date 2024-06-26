@@ -2,10 +2,17 @@ import type { AppSessionCookieStoreFactory, AppSessionStore } from './types';
 import { getAllSessions, getSession, putSession, removeSession } from './crud';
 import { refreshStoredAppSession } from './refreshStoredAppSession';
 import type { GetCookie, SetCookie } from '../utils';
+import { createInternalAdapter } from '../storyblok-auth-api/internalAdapter';
 
 export const sessionCookieStore: AppSessionCookieStoreFactory =
 	(params) =>
 	(requestParams): AppSessionStore => {
+		const adapter = createInternalAdapter({
+			req: requestParams.req,
+			res: requestParams.res,
+			adapter: params.adapter,
+		});
+
 		const getCookie: GetCookie = async (name) =>
 			await params.adapter.getItem({
 				req: requestParams.req,

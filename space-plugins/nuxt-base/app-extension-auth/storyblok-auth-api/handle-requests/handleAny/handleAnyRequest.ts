@@ -1,7 +1,6 @@
-import { GetCookie } from '../../../utils';
-import {
+import type {
 	AuthHandlerParams,
-	type InternalAdapter,
+	InternalAdapter,
 } from '../../AuthHandlerParams';
 import { validateAppBaseUrl } from '../../validation/validateAppBaseUrl';
 import { validateEndpointPrefix } from '../../validation/validateEndpointPrefix';
@@ -14,6 +13,8 @@ import { getLastSlug } from './getLastSlug';
 import type { HandleAuthRequest } from '../HandleAuthRequest';
 
 export const handleAnyRequest: HandleAuthRequest<{
+	// TODO: remove `adapter` from this `AuthHandlerParams`
+	// maybe something like `AuthHandlerParamsWithoutAdapter`?
 	params: AuthHandlerParams;
 	url: string;
 	adapter: InternalAdapter;

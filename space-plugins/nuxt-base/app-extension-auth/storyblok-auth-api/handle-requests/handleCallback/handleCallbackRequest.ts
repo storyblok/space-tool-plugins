@@ -2,8 +2,9 @@ import { type AppSession, getAllSessions } from '../../../session';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
 import { authCookieName } from '../../../session/authCookieName';
 import {
+	callbackCookieName,
 	clearCallbackCookieElement,
-	getCallbackCookieData,
+	type CallbackCookieData,
 } from '../callbackCookie';
 import { type CookieElement } from '../../ResponseElement';
 import type {
@@ -35,9 +36,8 @@ export const handleCallbackRequest: HandleAuthRequest<{
 
 		const getCookie = async (name: string) => await adapter.getItem(name);
 
-		const callbackCookie = await getCallbackCookieData(
-			params.clientSecret,
-			getCookie,
+		const callbackCookie = await adapter.getItem<CallbackCookieData>(
+			callbackCookieName,
 		);
 		if (!callbackCookie) {
 			return {

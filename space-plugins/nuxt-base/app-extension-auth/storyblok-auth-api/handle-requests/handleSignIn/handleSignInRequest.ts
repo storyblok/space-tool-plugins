@@ -27,7 +27,7 @@ export const handleSignInRequest: HandleAuthRequest<{
 			type: 'success',
 			redirectTo,
 			setCookies: [
-				callbackCookieElement(params.clientSecret, {
+				callbackCookieElement({
 					returnTo: params?.successCallback ?? '/', // TODO read from request query params, then either use the successCallback as fallback, or remove the entirely
 					codeVerifier: code_verifier,
 					state,

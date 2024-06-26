@@ -48,24 +48,22 @@ const withExpiredCookie = (headers: string[], name: string): string[] => [
 
 import jwt from 'jsonwebtoken';
 
-export const verifyData =
-	(secret: string) =>
-	(jwtToken: string): unknown => {
-		try {
-			const payload = jwt.verify(jwtToken, secret);
-			if (typeof payload === 'string') {
-				return undefined;
-			}
-			if (!('data' in payload)) {
-				return undefined;
-			}
-			return payload.data as unknown;
-		} catch (e) {
+export const verifyData = (secret: string) => (jwtToken: string) => {
+	try {
+		const payload = jwt.verify(jwtToken, secret);
+		if (typeof payload === 'string') {
 			return undefined;
 		}
-	};
+		if (!('data' in payload)) {
+			return undefined;
+		}
+		return payload.data;
+	} catch (e) {
+		return undefined;
+	}
+};
 
-const adapter = {
+const adapter: Adapter = {
 	getItem: ({
 		req,
 		res,
@@ -137,7 +135,7 @@ const adapter = {
 
 export const getAuthHandlerParams = (
 	authConfig: AppConfigInput['auth'],
-): AuthHandlerParams & { adapter: Adapter } => ({
+): AuthHandlerParams => ({
 	clientId: env('CLIENT_ID'),
 	clientSecret: env('CLIENT_SECRET'),
 	baseUrl: env('BASE_URL'),

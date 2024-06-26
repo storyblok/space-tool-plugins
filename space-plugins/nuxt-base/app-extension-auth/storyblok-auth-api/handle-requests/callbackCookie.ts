@@ -16,20 +16,9 @@ export type CallbackCookieData = {
 /**
  * A cookie with this name is set before signing in, and consumed by the callback function
  */
-const callbackCookieName = 'auth.sb.callback';
+export const callbackCookieName = 'auth.sb.callback';
 
-// TODO validation
-export const getCallbackCookieData = async (
-	secret: string,
-	getCookie: GetCookie,
-): Promise<CallbackCookieData | undefined> =>
-	// TODO add runtime validation
-	await getCookie(callbackCookieName);
-
-export const callbackCookieElement = (
-	secret: string,
-	data: CallbackCookieData,
-) => ({
+export const callbackCookieElement = (data: CallbackCookieData) => ({
 	name: callbackCookieName,
 	value: data,
 });
