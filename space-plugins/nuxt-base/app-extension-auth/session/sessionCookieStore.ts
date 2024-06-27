@@ -19,6 +19,7 @@ export const sessionCookieStore: AppSessionCookieStoreFactory =
 				res: requestParams.res,
 				key: name,
 			});
+
 		const setCookie: SetCookie = async (name, value) =>
 			await params.adapter.setItem({
 				req: requestParams.req,

@@ -1,4 +1,4 @@
-import { type AppSession, getAllSessions } from '../../../session';
+import { type AppSession } from '../../../session';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
 import { authCookieName } from '../../../session/authCookieName';
 import {
@@ -70,19 +70,18 @@ export const handleCallbackRequest: HandleAuthRequest<{
 			spaceId: appSession.spaceId.toString(),
 			userId: appSession.userId.toString(),
 		};
+
 		const redirectTo = appendQueryParams(returnTo, queryParams);
 
-		const setSessions: CookieElement = {
+		const setSession: CookieElement = {
 			name: authCookieName(params),
-			value: {
-				sessions: [...(await getAllSessions(params, getSession)), appSession],
-			},
+			value: appSession,
 		};
 
 		return {
 			type: 'success',
 			redirectTo,
-			sessions: [clearCallbackData, setSessions],
+			sessions: [clearCallbackData, setSession],
 		};
 	} catch (e) {
 		return {
