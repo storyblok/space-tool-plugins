@@ -1,12 +1,12 @@
 import { type AppSession } from '../../../session';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
-import { authCookieName } from '../../../session/authCookieName';
+import { defaultSessionIdentifier } from '../../../session/createAuthSessionIdentifier';
 import {
-	callbackDataName,
 	clearCallbackData,
 	type CallbackData,
+	callbackDataIdentifier,
 } from '../callbackData';
-import type { CookieElement } from '../../ResponseElement';
+import type { SessionElement } from '../../ResponseElement';
 import type {
 	AuthHandlerParams,
 	InternalAdapter,
@@ -38,7 +38,7 @@ export const handleCallbackRequest: HandleAuthRequest<{
 
 		//TODO: fix typing
 		const callbackData = (await adapter.getItem(
-			callbackDataName,
+			callbackDataIdentifier,
 		)) as CallbackData;
 
 		if (!callbackData) {
@@ -73,8 +73,8 @@ export const handleCallbackRequest: HandleAuthRequest<{
 
 		const redirectTo = appendQueryParams(returnTo, queryParams);
 
-		const setSession: CookieElement = {
-			name: authCookieName(params),
+		const setSession: SessionElement = {
+			name: defaultSessionIdentifier,
 			value: appSession,
 		};
 

@@ -1,4 +1,4 @@
-import type { CookieElement } from '../ResponseElement';
+import type { SessionElement } from '../ResponseElement';
 
 /**
  * The payload of the cookie that preserves the state between the calls to `/signin` and `/callback`
@@ -15,14 +15,14 @@ export type CallbackData = {
 /**
  * A cookie with this name is set before signing in, and consumed by the callback function
  */
-export const callbackDataName = 'auth.sb.callback';
+export const callbackDataIdentifier = 'auth.sb.callback';
 
 export const createCallbackData = (data: CallbackData) => ({
-	name: callbackDataName,
+	name: callbackDataIdentifier,
 	value: data,
 });
 
-export const clearCallbackData: CookieElement = {
-	name: callbackDataName,
+export const clearCallbackData: SessionElement = {
+	name: callbackDataIdentifier,
 	value: undefined,
 };

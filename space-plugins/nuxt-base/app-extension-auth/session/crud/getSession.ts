@@ -6,7 +6,7 @@ import type { GetCookie } from '../../utils';
 
 export type GetSessionParams = Pick<
 	AuthHandlerParams,
-	'clientSecret' | 'cookieName' | 'clientId'
+	'clientSecret' | 'clientId'
 >;
 
 export type GetSession = (

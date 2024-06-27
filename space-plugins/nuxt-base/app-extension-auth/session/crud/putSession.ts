@@ -7,7 +7,7 @@ import type { GetCookie, SetCookie } from '../../utils';
 
 export type PutSessionParams = Pick<
 	AuthHandlerParams,
-	'clientSecret' | 'cookieName' | 'clientId'
+	'clientSecret' | 'clientId'
 >;
 
 export type PutSession = (

@@ -23,10 +23,6 @@ export type AuthHandlerParams = {
 	 */
 	baseUrl: string;
 	/*
-	 * The name of the cookie that contains the session data.
-	 */
-	cookieName?: string;
-	/*
 	 * Specifies the URL that the user agent will be redirected to after a _successful_ authentication flow.
 	 *
 	 * Defaults to `"/"`.

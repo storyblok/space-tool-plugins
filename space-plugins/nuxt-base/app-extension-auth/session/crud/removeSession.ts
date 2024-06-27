@@ -7,7 +7,7 @@ import type { SetCookie, GetCookie } from '../../utils';
 
 export type RemoveSessionParams = Pick<
 	AuthHandlerParams,
-	'clientSecret' | 'cookieName' | 'clientId'
+	'clientSecret' | 'clientId'
 >;
 
 export type RemoveSession = (
