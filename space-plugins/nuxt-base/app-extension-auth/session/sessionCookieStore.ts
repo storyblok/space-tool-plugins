@@ -8,11 +8,10 @@ import { cookieAdapter } from '~/app-extension-auth/adapters/cookieAdapter';
 export const sessionCookieStore: AppSessionCookieStoreFactory =
 	(params) =>
 	(requestParams): AppSessionStore => {
-		const adapter = params.adapter ?? cookieAdapter;
 		const internalAdapter = createInternalAdapter({
 			req: requestParams.req,
 			res: requestParams.res,
-			adapter,
+			adapter: params.adapter ?? cookieAdapter, // when no adapter was passed take the default cookie adapter,
 		});
 
 		const getCookie: GetCookie = async (name) => internalAdapter.getItem(name);
