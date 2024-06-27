@@ -53,7 +53,7 @@ export type AuthHandlerParams = {
 	 */
 	endpointPrefix: string | undefined; // To make explicit, do not make this optional.
 
-	adapter: Adapter;
+	adapter?: Adapter;
 };
 
 export type MaybePromise<T> = T | Promise<T>;

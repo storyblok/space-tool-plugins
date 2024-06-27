@@ -3,13 +3,14 @@ import { type Adapter, type AuthHandlerParams } from './AuthHandlerParams';
 import { handleAnyRequest } from './handle-requests';
 import { reconcileNodeResponse } from './reconcileNodeResponse';
 import { createInternalAdapter } from './internalAdapter';
+import { cookieAdapter } from '~/app-extension-auth/adapters/cookieAdapter';
 
 /**
  * Auth handler for Node.js
  * @param params
  */
 export const authHandler = (
-	params: AuthHandlerParams & { adapter: Adapter },
+	params: AuthHandlerParams,
 ): http.RequestListener => {
 	return async (req, res) => {
 		const { url } = req;
@@ -18,14 +19,18 @@ export const authHandler = (
 			return;
 		}
 
+		if (!params.adapter) {
+			console.warn('Sessions will be stored in cookies');
+		}
+
+		const adapter = params.adapter ?? cookieAdapter;
+
 		const internalAdapter = createInternalAdapter({
 			req,
 			res,
-			adapter: params.adapter,
+			adapter,
 		});
 
-		//TODO: if no adapter save to cookies and console log warning about deprecation!
-		// TODO: clean up this later
 		const responseElement = await handleAnyRequest({
 			params,
 			url,
