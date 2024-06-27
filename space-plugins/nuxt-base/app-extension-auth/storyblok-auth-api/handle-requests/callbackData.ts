@@ -1,10 +1,9 @@
-import { type GetCookie } from '../../utils';
 import type { CookieElement } from '../ResponseElement';
 
 /**
  * The payload of the cookie that preserves the state between the calls to `/signin` and `/callback`
  */
-export type CallbackCookieData = {
+export type CallbackData = {
 	// The address that the app should redirect to after a successful authentication
 	returnTo: string;
 	// OAuth 2.0 code_verifier
@@ -16,14 +15,14 @@ export type CallbackCookieData = {
 /**
  * A cookie with this name is set before signing in, and consumed by the callback function
  */
-export const callbackCookieName = 'auth.sb.callback';
+export const callbackDataName = 'auth.sb.callback';
 
-export const callbackCookieElement = (data: CallbackCookieData) => ({
-	name: callbackCookieName,
+export const createCallbackData = (data: CallbackData) => ({
+	name: callbackDataName,
 	value: data,
 });
 
-export const clearCallbackCookieElement: CookieElement = {
-	name: callbackCookieName,
+export const clearCallbackData: CookieElement = {
+	name: callbackDataName,
 	value: undefined,
 };

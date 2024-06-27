@@ -27,7 +27,7 @@ export const reconcileNodeResponse = async ({
 		console.error(responseElement.message);
 	}
 
-	for (const { name, value } of responseElement.setCookies ?? []) {
+	for (const { name, value } of responseElement.sessions ?? []) {
 		if (typeof value === 'undefined') {
 			await adapter.removeItem(name);
 		} else {

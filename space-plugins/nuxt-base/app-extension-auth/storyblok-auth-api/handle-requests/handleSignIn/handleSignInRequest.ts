@@ -2,8 +2,8 @@ import { generators } from 'openid-client';
 import { openidClient } from '../openidClient';
 import { redirectUri } from '../redirectUri';
 import type { AuthHandlerParams } from '../../AuthHandlerParams';
-import { callbackCookieElement } from '../callbackCookie';
 import type { HandleAuthRequest } from '../HandleAuthRequest';
+import { createCallbackData } from '~/app-extension-auth/storyblok-auth-api/handle-requests/callbackData';
 
 export const handleSignInRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;
@@ -26,8 +26,8 @@ export const handleSignInRequest: HandleAuthRequest<{
 		return {
 			type: 'success',
 			redirectTo,
-			setCookies: [
-				callbackCookieElement({
+			sessions: [
+				createCallbackData({
 					returnTo: params?.successCallback ?? '/', // TODO read from request query params, then either use the successCallback as fallback, or remove the entirely
 					codeVerifier: code_verifier,
 					state,

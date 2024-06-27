@@ -2,11 +2,11 @@ import { type AppSession, getAllSessions } from '../../../session';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
 import { authCookieName } from '../../../session/authCookieName';
 import {
-	callbackCookieName,
-	clearCallbackCookieElement,
-	type CallbackCookieData,
-} from '../callbackCookie';
-import { type CookieElement } from '../../ResponseElement';
+	callbackDataName,
+	clearCallbackData,
+	type CallbackData,
+} from '../callbackData';
+import type { CookieElement } from '../../ResponseElement';
 import type {
 	AuthHandlerParams,
 	InternalAdapter,
@@ -34,30 +34,34 @@ export const handleCallbackRequest: HandleAuthRequest<{
 			};
 		}
 
-		const getCookie = async (name: string) => await adapter.getItem(name);
+		const getSession = async (name: string) => await adapter.getItem(name);
 
-		const callbackCookie = await adapter.getItem<CallbackCookieData>(
-			callbackCookieName,
-		);
-		if (!callbackCookie) {
+		//TODO: fix typing
+		const callbackData = (await adapter.getItem(
+			callbackDataName,
+		)) as CallbackData;
+
+		if (!callbackData) {
 			return {
 				type: 'error',
-				setCookies: [clearCallbackCookieElement],
+				sessions: [clearCallbackData],
 				redirectTo: params.errorCallback,
 			};
 		}
 
-		const { codeVerifier, state, returnTo } = callbackCookie;
+		const { codeVerifier, state, returnTo } = callbackData;
+
 		const appSession = await fetchAppSession(params, {
 			region,
 			codeVerifier,
 			state,
 			url,
 		});
+
 		if (!appSession) {
 			return {
 				type: 'error',
-				setCookies: [clearCallbackCookieElement],
+				sessions: [clearCallbackData],
 				redirectTo: params.errorCallback,
 			};
 		}
@@ -71,20 +75,20 @@ export const handleCallbackRequest: HandleAuthRequest<{
 		const setSessions: CookieElement = {
 			name: authCookieName(params),
 			value: {
-				sessions: [...(await getAllSessions(params, getCookie)), appSession],
+				sessions: [...(await getAllSessions(params, getSession)), appSession],
 			},
 		};
 
 		return {
 			type: 'success',
 			redirectTo,
-			setCookies: [clearCallbackCookieElement, setSessions],
+			sessions: [clearCallbackData, setSessions],
 		};
 	} catch (e) {
 		return {
 			type: 'error',
 			message: e instanceof Error ? e.message : 'An unknown error occurred',
-			setCookies: [clearCallbackCookieElement],
+			sessions: [clearCallbackData],
 			redirectTo: params.errorCallback,
 		};
 	}

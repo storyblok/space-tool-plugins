@@ -18,7 +18,7 @@ export const authHandler = (
 			return;
 		}
 
-		const adapter = createInternalAdapter({
+		const internalAdapter = createInternalAdapter({
 			req,
 			res,
 			adapter: params.adapter,
@@ -29,8 +29,13 @@ export const authHandler = (
 		const responseElement = await handleAnyRequest({
 			params,
 			url,
-			adapter,
+			adapter: internalAdapter,
 		});
-		await reconcileNodeResponse({ res, responseElement, adapter });
+
+		await reconcileNodeResponse({
+			res,
+			responseElement,
+			adapter: internalAdapter,
+		});
 	};
 };

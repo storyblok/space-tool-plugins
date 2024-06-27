@@ -10,30 +10,30 @@ export const createInternalAdapter = ({
 	res: http.ServerResponse;
 	adapter: Adapter;
 }): InternalAdapter => ({
-	async getItem(key) {
-		return await adapter.getItem({
+	getItem(key) {
+		return adapter.getItem({
 			req,
 			res,
 			key,
 		});
 	},
-	async setItem({ key, value }) {
-		return await adapter.setItem({
+	setItem({ key, value }) {
+		return adapter.setItem({
 			req,
 			res,
 			key,
 			value,
 		});
 	},
-	async hasItem(key) {
-		return await adapter.hasItem({
+	hasItem(key) {
+		return adapter.hasItem({
 			req,
 			res,
 			key,
 		});
 	},
-	async removeItem(key) {
-		return await adapter.removeItem({
+	removeItem(key) {
+		return adapter.removeItem({
 			req,
 			res,
 			key,

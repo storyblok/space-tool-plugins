@@ -5,7 +5,7 @@
  */
 export type ResponseElement = {
 	type: 'success' | 'error' | 'configuration-error';
-	setCookies?: CookieElement[];
+	sessions?: CookieElement[];
 	redirectTo?: string;
 	message?: string;
 };
