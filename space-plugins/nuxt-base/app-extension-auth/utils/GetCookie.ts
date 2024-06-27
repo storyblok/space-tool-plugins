@@ -1,1 +1,1 @@
-export type GetCookie = (name: string) => string | undefined
+export type GetCookie = (name: string) => string | undefined;

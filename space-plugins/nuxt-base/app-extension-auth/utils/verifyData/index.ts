@@ -1,1 +1,1 @@
-export * from './verifyData'
+export * from './verifyData';

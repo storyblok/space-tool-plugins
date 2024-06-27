@@ -1,3 +1,3 @@
-import { Region } from '@storyblok/region-helper'
+import type { Region } from '@storyblok/region-helper';
 
-export type { Region }
+export type { Region };

@@ -1,1 +1,1 @@
-export * from './shouldRefresh'
+export * from './shouldRefresh';

@@ -1,2 +1,2 @@
-export * from './handleAnyRequest'
-export { getLastSlug } from './getLastSlug'
+export * from './handleAnyRequest';
+export { getLastSlug } from './getLastSlug';

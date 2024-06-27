@@ -1,14 +1,14 @@
-import http from 'http'
-import { AuthHandlerParams } from '../../storyblok-auth-api'
-import { AppSessionStore } from './AppSessionStore'
+import http from 'http';
+import type { AuthHandlerParams } from '../../storyblok-auth-api';
+import type { AppSessionStore } from './AppSessionStore';
 
 export type AppSessionCookieStoreFactoryParams = Pick<
-  AuthHandlerParams,
-  'clientId' | 'cookieName' | 'clientSecret' | 'baseUrl' | 'endpointPrefix'
->
+	AuthHandlerParams,
+	'clientId' | 'cookieName' | 'clientSecret' | 'baseUrl' | 'endpointPrefix'
+>;
 export type AppSessionCookieStoreFactory = (
-  staticParams: AppSessionCookieStoreFactoryParams,
+	staticParams: AppSessionCookieStoreFactoryParams,
 ) => (requestParams: {
-  req: http.IncomingMessage
-  res: http.ServerResponse
-}) => AppSessionStore
+	req: http.IncomingMessage;
+	res: http.ServerResponse;
+}) => AppSessionStore;

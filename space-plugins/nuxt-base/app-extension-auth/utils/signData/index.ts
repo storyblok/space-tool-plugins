@@ -1,1 +1,1 @@
-export * from './signData'
+export * from './signData';

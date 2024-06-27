@@ -1,3 +1,3 @@
-import { ResponseElement } from '../ResponseElement'
+import { ResponseElement } from '../ResponseElement';
 
-export type HandleAuthRequest<T> = (props: T) => Promise<ResponseElement>
+export type HandleAuthRequest<T> = (props: T) => Promise<ResponseElement>;

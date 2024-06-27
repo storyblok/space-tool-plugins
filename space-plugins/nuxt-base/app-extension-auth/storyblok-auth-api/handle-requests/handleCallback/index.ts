@@ -1,1 +1,1 @@
-export * from './handleCallbackRequest'
+export * from './handleCallbackRequest';

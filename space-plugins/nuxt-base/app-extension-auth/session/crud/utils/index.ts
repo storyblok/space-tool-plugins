@@ -1,2 +1,2 @@
-export * from './keysFromQuery'
-export * from './keysEquals'
+export * from './keysFromQuery';
+export * from './keysEquals';

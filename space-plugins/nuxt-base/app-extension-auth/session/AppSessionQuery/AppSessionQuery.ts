@@ -1,6 +1,6 @@
-import { AppSession } from '../types'
+import type { AppSession } from '../types';
 
 export type AppSessionQuery = Record<
-  keyof Pick<AppSession, 'spaceId' | 'userId'>,
-  string | number
->
+	keyof Pick<AppSession, 'spaceId' | 'userId'>,
+	string | number
+>;

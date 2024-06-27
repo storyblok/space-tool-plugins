@@ -1,1 +1,1 @@
-export * from './handleUnknownRequest'
+export * from './handleUnknownRequest';

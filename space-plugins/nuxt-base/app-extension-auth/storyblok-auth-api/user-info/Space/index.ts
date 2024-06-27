@@ -1,2 +1,2 @@
-export * from './Space'
-export * from './isSpace'
+export * from './Space';
+export * from './isSpace';

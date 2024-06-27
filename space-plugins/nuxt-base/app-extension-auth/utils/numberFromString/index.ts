@@ -1,1 +1,1 @@
-export * from './numberFromString'
+export * from './numberFromString';

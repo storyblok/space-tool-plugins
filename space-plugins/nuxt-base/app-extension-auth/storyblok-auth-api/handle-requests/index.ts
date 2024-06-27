@@ -1,2 +1,2 @@
-export * from './handleAny'
-export { HandleAuthRequest } from './HandleAuthRequest'
+export * from './handleAny';
+export type { HandleAuthRequest } from './HandleAuthRequest';

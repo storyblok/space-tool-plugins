@@ -1,1 +1,1 @@
-export * from './trimSlashes'
+export * from './trimSlashes';

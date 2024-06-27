@@ -1,1 +1,1 @@
-export const callbackEndpoint = 'callback'
+export const callbackEndpoint = 'callback';

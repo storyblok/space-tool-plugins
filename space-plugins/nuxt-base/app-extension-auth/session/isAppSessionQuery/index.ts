@@ -1,1 +1,1 @@
-export * from './isAppSessionQuery'
+export * from './isAppSessionQuery';

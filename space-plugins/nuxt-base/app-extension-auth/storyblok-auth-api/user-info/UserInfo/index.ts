@@ -1,2 +1,2 @@
-export * from './UserInfo'
-export * from './isUserInfo'
+export * from './UserInfo';
+export * from './isUserInfo';

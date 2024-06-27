@@ -1,1 +1,1 @@
-export * from './app-settings-store'
+export * from './app-settings-store';

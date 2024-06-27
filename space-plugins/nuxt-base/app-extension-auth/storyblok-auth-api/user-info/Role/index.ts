@@ -1,3 +1,3 @@
-export * from './Role'
-export * from './isRole'
-export * from './isRoles'
+export * from './Role';
+export * from './isRole';
+export * from './isRoles';

@@ -1,1 +1,1 @@
-export * from './handleSignInRequest'
+export * from './handleSignInRequest';

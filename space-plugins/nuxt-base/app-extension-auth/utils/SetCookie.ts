@@ -1,1 +1,1 @@
-export type SetCookie = (name: string, value: string) => void
+export type SetCookie = (name: string, value: string) => void;
