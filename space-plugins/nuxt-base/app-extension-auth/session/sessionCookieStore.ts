@@ -5,6 +5,7 @@ import type { GetCookie, SetCookie } from '../utils';
 import { createInternalAdapter } from '../storyblok-auth-api/internalAdapter';
 import { cookieAdapter } from '~/app-extension-auth/adapters/cookieAdapter';
 
+//TODO: wont work with supabase or other adapters
 export const sessionCookieStore: AppSessionCookieStoreFactory =
 	(params) =>
 	(requestParams): AppSessionStore => {
