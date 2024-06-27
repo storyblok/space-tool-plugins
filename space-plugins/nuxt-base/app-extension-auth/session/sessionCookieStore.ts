@@ -3,27 +3,22 @@ import { getAllSessions, getSession, putSession, removeSession } from './crud';
 import { refreshStoredAppSession } from './refreshStoredAppSession';
 import type { GetCookie, SetCookie } from '../utils';
 import { createInternalAdapter } from '../storyblok-auth-api/internalAdapter';
+import { cookieAdapter } from '~/app-extension-auth/adapters/cookieAdapter';
 
 export const sessionCookieStore: AppSessionCookieStoreFactory =
 	(params) =>
 	(requestParams): AppSessionStore => {
-		const adapter = createInternalAdapter({
+		const adapter = params.adapter ?? cookieAdapter;
+		const internalAdapter = createInternalAdapter({
 			req: requestParams.req,
 			res: requestParams.res,
-			adapter: params.adapter,
+			adapter,
 		});
 
-		const getCookie: GetCookie = async (name) =>
-			await params.adapter.getItem({
-				req: requestParams.req,
-				res: requestParams.res,
-				key: name,
-			});
+		const getCookie: GetCookie = async (name) => internalAdapter.getItem(name);
 
 		const setCookie: SetCookie = async (name, value) =>
-			await params.adapter.setItem({
-				req: requestParams.req,
-				res: requestParams.res,
+			internalAdapter.setItem({
 				key: name,
 				value,
 			});
