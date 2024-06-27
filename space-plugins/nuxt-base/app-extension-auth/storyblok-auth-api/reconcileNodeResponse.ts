@@ -1,5 +1,5 @@
 import http from 'http';
-import { ResponseElement } from './ResponseElement';
+import type { ResponseElement } from './ResponseElement';
 import { expireCookie, setCookie } from '../utils';
 
 /**

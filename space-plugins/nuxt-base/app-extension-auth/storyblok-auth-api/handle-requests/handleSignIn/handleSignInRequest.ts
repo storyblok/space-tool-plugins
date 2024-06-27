@@ -1,9 +1,9 @@
 import { generators } from 'openid-client';
 import { openidClient } from '../openidClient';
 import { redirectUri } from '../redirectUri';
-import { AuthHandlerParams } from '../../AuthHandlerParams';
+import type { AuthHandlerParams } from '../../AuthHandlerParams';
 import { callbackCookieElement } from '../callbackCookie';
-import { HandleAuthRequest } from '../HandleAuthRequest';
+import type { HandleAuthRequest } from '../HandleAuthRequest';
 
 export const handleSignInRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;

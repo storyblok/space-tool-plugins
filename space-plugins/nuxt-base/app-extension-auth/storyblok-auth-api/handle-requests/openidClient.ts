@@ -1,6 +1,6 @@
 import { BaseClient, Issuer, custom } from 'openid-client';
 import { redirectUri } from './redirectUri';
-import { AuthHandlerParams } from '../AuthHandlerParams';
+import type { AuthHandlerParams } from '../AuthHandlerParams';
 import { getRegionBaseUrl, type Region } from '@storyblok/region-helper';
 
 export type CreateOpenIdClient = (

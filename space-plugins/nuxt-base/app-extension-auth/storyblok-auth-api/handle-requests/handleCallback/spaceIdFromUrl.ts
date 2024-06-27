@@ -1,6 +1,6 @@
 import { numberFromString } from '../../../utils';
 import { URL } from 'url';
-import { getRegion, Region } from '@storyblok/region-helper';
+import { getRegion, type Region } from '@storyblok/region-helper';
 
 const spaceIdFromUrl = (url: string): number | undefined => {
 	const isRelativeUrl = !url.startsWith('http');

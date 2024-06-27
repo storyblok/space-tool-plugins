@@ -1,15 +1,15 @@
-import { AppSession, getAllSessions } from '../../../session';
-import { GetCookie, signData } from '../../../utils';
+import { type AppSession, getAllSessions } from '../../../session';
+import { type GetCookie, signData } from '../../../utils';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
 import { authCookieName } from '../../../session/authCookieName';
 import {
 	clearCallbackCookieElement,
 	getCallbackCookieData,
 } from '../callbackCookie';
-import { CookieElement } from '../../ResponseElement';
-import { AuthHandlerParams } from '../../AuthHandlerParams';
+import { type CookieElement } from '../../ResponseElement';
+import { type AuthHandlerParams } from '../../AuthHandlerParams';
 import { regionFromUrl } from './spaceIdFromUrl';
-import { HandleAuthRequest } from '../HandleAuthRequest';
+import { type HandleAuthRequest } from '../HandleAuthRequest';
 import { fetchAppSession } from './fetchAppSession';
 
 export type AppSessionQueryParams = Record<

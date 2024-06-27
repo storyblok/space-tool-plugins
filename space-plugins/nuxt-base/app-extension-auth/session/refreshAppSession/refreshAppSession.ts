@@ -1,5 +1,5 @@
-import { AppSession } from '../types';
-import { RefreshToken } from '../../storyblok-auth-api';
+import type { AppSession } from '../types';
+import type { RefreshToken } from '../../storyblok-auth-api';
 
 /**
  * Returns a new session that is refreshed

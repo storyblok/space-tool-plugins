@@ -1,4 +1,4 @@
-import { AuthHandlerParams } from '../storyblok-auth-api';
+import type { AuthHandlerParams } from '../storyblok-auth-api';
 
 const defaultCookieName = 'sb.auth';
 export const authCookieName = (params: Pick<AuthHandlerParams, 'cookieName'>) =>

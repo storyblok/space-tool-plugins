@@ -1,10 +1,10 @@
-import { AppSession } from './types';
+import type { AppSession } from './types';
 import { shouldRefresh } from './shouldRefresh';
 import { refreshAppSession } from './refreshAppSession/refreshAppSession';
 import { refreshToken } from '../storyblok-auth-api';
 import { putSession, removeSession } from './crud';
-import { AuthHandlerParams } from '../storyblok-auth-api';
-import { GetCookie, SetCookie } from '../utils';
+import type { AuthHandlerParams } from '../storyblok-auth-api';
+import type { GetCookie, SetCookie } from '../utils';
 
 export type RefreshParams = Pick<
 	AuthHandlerParams,

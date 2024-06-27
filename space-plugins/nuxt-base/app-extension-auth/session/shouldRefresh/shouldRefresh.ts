@@ -2,7 +2,7 @@
  TODO: pass the date as argument, so that the function can be made pure.
  TODO: add tests for the pure function.
  */
-import { AppSession } from '../types';
+import type { AppSession } from '../types';
 
 /**
  * Whether the server should refresh the token, while keeping some margin.

@@ -1,10 +1,10 @@
-import { AppSessionCookieStoreFactory, AppSessionStore } from './types';
+import type { AppSessionCookieStoreFactory, AppSessionStore } from './types';
 import { getAllSessions, getSession, putSession, removeSession } from './crud';
 import { refreshStoredAppSession } from './refreshStoredAppSession';
 import {
-	GetCookie,
+	type GetCookie,
+	type SetCookie,
 	getCookie as getNodeCookie,
-	SetCookie,
 	setCookie as setNodeCookie,
 } from '../utils';
 
