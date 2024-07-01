@@ -46,9 +46,9 @@ export const refreshStoredAppSession: Refresh = async (
 
 	if (!newAppSession) {
 		// Refresh failed -> user becomes unauthenticated
-		removeSession(params, getCookie, setCookie, currentAppSession);
+		await removeSession(params, getCookie, setCookie, currentAppSession);
 		return undefined;
 	}
 
-	return putSession(params, getCookie, setCookie, newAppSession);
+	return await putSession(params, getCookie, setCookie, newAppSession);
 };

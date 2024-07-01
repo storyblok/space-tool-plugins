@@ -1,8 +1,7 @@
 import type { AppConfigInput } from 'nuxt/schema';
 import { env } from './env';
 import { AuthHandlerParams } from '~/app-extension-auth';
-
-export const AUTH_COOKIE_NAME = 'sb.auth';
+import { cookieAdapter } from '~/app-extension-auth/adapters/cookieAdapter';
 
 export const getAuthHandlerParams = (
 	authConfig: AppConfigInput['auth'],
@@ -13,4 +12,5 @@ export const getAuthHandlerParams = (
 	successCallback: authConfig.successCallback,
 	errorCallback: authConfig.errorCallback,
 	endpointPrefix: authConfig.endpointPrefix,
+	adapter: cookieAdapter,
 });

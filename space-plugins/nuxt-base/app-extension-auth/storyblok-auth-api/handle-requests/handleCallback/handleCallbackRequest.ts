@@ -1,13 +1,16 @@
-import { type AppSession, getAllSessions } from '../../../session';
-import { type GetCookie, signData } from '../../../utils';
+import { type AppSession } from '../../../session';
 import { appendQueryParams } from '../../../utils/query-params/append-query-params';
-import { authCookieName } from '../../../session/authCookieName';
+import { defaultSessionIdentifier } from '../../../session/createAuthSessionIdentifier';
 import {
-	clearCallbackCookieElement,
-	getCallbackCookieData,
-} from '../callbackCookie';
-import { type CookieElement } from '../../ResponseElement';
-import { type AuthHandlerParams } from '../../AuthHandlerParams';
+	clearCallbackData,
+	type CallbackData,
+	callbackDataIdentifier,
+} from '../callbackData';
+import type { SessionElement } from '../../ResponseElement';
+import type {
+	AuthHandlerParams,
+	InternalAdapter,
+} from '../../AuthHandlerParams';
 import { regionFromUrl } from './spaceIdFromUrl';
 import { type HandleAuthRequest } from '../HandleAuthRequest';
 import { fetchAppSession } from './fetchAppSession';
@@ -19,9 +22,9 @@ export type AppSessionQueryParams = Record<
 
 export const handleCallbackRequest: HandleAuthRequest<{
 	params: AuthHandlerParams;
+	adapter: InternalAdapter;
 	url: string;
-	getCookie: GetCookie;
-}> = async ({ params, url, getCookie }) => {
+}> = async ({ params, url, adapter }) => {
 	try {
 		const region = regionFromUrl(url);
 		if (!region) {
@@ -31,29 +34,34 @@ export const handleCallbackRequest: HandleAuthRequest<{
 			};
 		}
 
-		const callbackCookie = getCallbackCookieData(
-			params.clientSecret,
-			getCookie,
-		);
-		if (!callbackCookie) {
+		const getSession = async (name: string) => await adapter.getItem(name);
+
+		//TODO: fix typing
+		const callbackData = (await adapter.getItem(
+			callbackDataIdentifier,
+		)) as CallbackData;
+
+		if (!callbackData) {
 			return {
 				type: 'error',
-				setCookies: [clearCallbackCookieElement],
+				sessions: [clearCallbackData],
 				redirectTo: params.errorCallback,
 			};
 		}
 
-		const { codeVerifier, state, returnTo } = callbackCookie;
+		const { codeVerifier, state, returnTo } = callbackData;
+
 		const appSession = await fetchAppSession(params, {
 			region,
 			codeVerifier,
 			state,
 			url,
 		});
+
 		if (!appSession) {
 			return {
 				type: 'error',
-				setCookies: [clearCallbackCookieElement],
+				sessions: [clearCallbackData],
 				redirectTo: params.errorCallback,
 			};
 		}
@@ -62,25 +70,24 @@ export const handleCallbackRequest: HandleAuthRequest<{
 			spaceId: appSession.spaceId.toString(),
 			userId: appSession.userId.toString(),
 		};
+
 		const redirectTo = appendQueryParams(returnTo, queryParams);
 
-		const setSessions: CookieElement = {
-			name: authCookieName(params),
-			value: signData(params.clientSecret)({
-				sessions: [...getAllSessions(params, getCookie), appSession],
-			}),
+		const setSession: SessionElement = {
+			name: defaultSessionIdentifier,
+			value: appSession,
 		};
 
 		return {
 			type: 'success',
 			redirectTo,
-			setCookies: [clearCallbackCookieElement, setSessions],
+			sessions: [clearCallbackData, setSession],
 		};
 	} catch (e) {
 		return {
 			type: 'error',
 			message: e instanceof Error ? e.message : 'An unknown error occurred',
-			setCookies: [clearCallbackCookieElement],
+			sessions: [clearCallbackData],
 			redirectTo: params.errorCallback,
 		};
 	}

@@ -7,7 +7,7 @@ import type { GetCookie, SetCookie } from '../../utils';
 
 export type PutSessionParams = Pick<
 	AuthHandlerParams,
-	'clientSecret' | 'cookieName' | 'clientId'
+	'clientSecret' | 'clientId'
 >;
 
 export type PutSession = (
@@ -15,9 +15,9 @@ export type PutSession = (
 	getCookie: GetCookie,
 	setCookie: SetCookie,
 	session: AppSession,
-) => AppSession;
+) => Promise<AppSession>;
 
-export const putSession: PutSession = (
+export const putSession: PutSession = async (
 	params,
 	getCookie,
 	setCookie,
@@ -25,7 +25,9 @@ export const putSession: PutSession = (
 ) => {
 	const isNotEqual = (otherSession: AppSession) =>
 		!keysEquals(newSession)(otherSession);
-	const otherSessions = getAllSessions(params, getCookie).filter(isNotEqual);
-	setAllSessions(params, setCookie, [...otherSessions, newSession]);
+	const otherSessions = (await getAllSessions(params, getCookie)).filter(
+		isNotEqual,
+	);
+	await setAllSessions(params, setCookie, [...otherSessions, newSession]);
 	return newSession;
 };
