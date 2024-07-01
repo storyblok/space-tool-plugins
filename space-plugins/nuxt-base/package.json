@@ -12,7 +12,6 @@
 	},
 	"dependencies": {
 		"@storyblok/region-helper": "^1.1.0",
-		"@supabase/supabase-js": "^2.43.5",
 		"jsonwebtoken": "^9.0.0",
 		"openid-client": "^5.4.2"
 	},
