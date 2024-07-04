@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: 1.0.3
-        version: 1.0.3
+        specifier: 2.0.0-beta.0
+        version: 2.0.0-beta.0
       '@storyblok/region-helper':
         specifier: ^1.1.0
         version: 1.1.0
@@ -1089,8 +1089,8 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@storyblok/app-extension-auth@1.0.3':
-    resolution: {integrity: sha512-tSdMNn8Cj3zshuUkSlRZ7Qaf2A9TDK7SigK3susnREHY9hsPZATJVDI+8sBX+BmK3NXFMJlBnnVq/L+Rde73Ng==}
+  '@storyblok/app-extension-auth@2.0.0-beta.0':
+    resolution: {integrity: sha512-R5yf3fPx5oEfERLzf26x59OKrbWYSsDBDbTFYABBmKZaKHkv/WvG8gtCKHOCt6Ew2aow96wc6aqe+xYov5Fp/Q==}
     engines: {node: '>=14.21.3'}
 
   '@storyblok/region-helper@0.1.0':
@@ -2596,10 +2596,6 @@ packages:
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-
-  lru-cache@10.1.0:
-    resolution: {integrity: sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==}
-    engines: {node: 14 || >=16.14}
 
   lru-cache@10.2.2:
     resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
@@ -4779,24 +4775,24 @@ snapshots:
       agent-base: 7.1.0
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.2
-      lru-cache: 10.1.0
+      lru-cache: 10.2.2
       socks-proxy-agent: 8.0.2
     transitivePeerDependencies:
       - supports-color
 
   '@npmcli/fs@3.1.0':
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.2
 
   '@npmcli/git@5.0.3':
     dependencies:
       '@npmcli/promise-spawn': 7.0.0
-      lru-cache: 10.1.0
+      lru-cache: 10.2.2
       npm-pick-manifest: 9.0.0
       proc-log: 3.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.5.4
+      semver: 7.6.2
       which: 4.0.0
     transitivePeerDependencies:
       - bluebird
@@ -5528,7 +5524,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@storyblok/app-extension-auth@1.0.3':
+  '@storyblok/app-extension-auth@2.0.0-beta.0':
     dependencies:
       '@storyblok/region-helper': 0.1.0
       jsonwebtoken: 9.0.2
@@ -6235,7 +6231,7 @@ snapshots:
 
   builtins@5.0.1:
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.2
 
   bundle-name@3.0.0:
     dependencies:
@@ -6281,7 +6277,7 @@ snapshots:
       '@npmcli/fs': 3.1.0
       fs-minipass: 3.0.3
       glob: 10.3.10
-      lru-cache: 10.1.0
+      lru-cache: 10.2.2
       minipass: 7.0.4
       minipass-collect: 2.0.1
       minipass-flush: 1.0.5
@@ -6958,7 +6954,7 @@ snapshots:
 
   hosted-git-info@7.0.1:
     dependencies:
-      lru-cache: 10.1.0
+      lru-cache: 10.2.2
 
   html-tags@3.3.1: {}
 
@@ -7171,7 +7167,7 @@ snapshots:
       lodash.isstring: 4.0.1
       lodash.once: 4.1.1
       ms: 2.1.3
-      semver: 7.5.4
+      semver: 7.6.2
 
   jwa@1.4.1:
     dependencies:
@@ -7266,8 +7262,6 @@ snapshots:
   lodash.uniq@4.5.0: {}
 
   lodash@4.17.21: {}
-
-  lru-cache@10.1.0: {}
 
   lru-cache@10.2.2: {}
 
@@ -7574,7 +7568,7 @@ snapshots:
       make-fetch-happen: 13.0.0
       nopt: 7.2.0
       proc-log: 3.0.0
-      semver: 7.5.4
+      semver: 7.6.2
       tar: 6.2.0
       which: 4.0.0
     transitivePeerDependencies:
@@ -7594,7 +7588,7 @@ snapshots:
     dependencies:
       hosted-git-info: 7.0.1
       is-core-module: 2.13.1
-      semver: 7.5.4
+      semver: 7.6.2
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -7607,7 +7601,7 @@ snapshots:
 
   npm-install-checks@6.3.0:
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.2
 
   npm-normalize-package-bin@3.0.1: {}
 
@@ -7615,7 +7609,7 @@ snapshots:
     dependencies:
       hosted-git-info: 7.0.1
       proc-log: 3.0.0
-      semver: 7.5.4
+      semver: 7.6.2
       validate-npm-package-name: 5.0.0
 
   npm-packlist@8.0.0:
@@ -7627,7 +7621,7 @@ snapshots:
       npm-install-checks: 6.3.0
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 11.0.1
-      semver: 7.5.4
+      semver: 7.6.2
 
   npm-registry-fetch@16.1.0:
     dependencies:
@@ -7967,7 +7961,7 @@ snapshots:
 
   path-scurry@1.10.1:
     dependencies:
-      lru-cache: 10.1.0
+      lru-cache: 10.2.2
       minipass: 7.0.4
 
   path-type@5.0.0: {}
@@ -8906,7 +8900,7 @@ snapshots:
       fast-glob: 3.3.2
       fs-extra: 11.2.0
       npm-run-path: 4.0.1
-      semver: 7.5.4
+      semver: 7.6.2
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.1
       vite: 5.2.11(@types/node@20.10.3)(terser@5.25.0)
@@ -8997,7 +8991,7 @@ snapshots:
   vscode-languageclient@7.0.0:
     dependencies:
       minimatch: 3.1.2
-      semver: 7.5.4
+      semver: 7.6.2
       vscode-languageserver-protocol: 3.16.0
 
   vscode-languageserver-protocol@3.16.0:

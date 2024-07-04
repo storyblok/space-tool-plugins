@@ -17,11 +17,9 @@ export default defineEventHandler(async (event) => {
 	// (Storyfront attaches this query parameter in that case)
 	const queryParams = getQuery(event);
 	if (queryParams['init_oauth'] === 'true') {
-		return await sendRedirect(
-			event,
-			`${appConfig.auth.initOauthFlowUrl}?init_oauth=true`,
-			302,
-		);
+		const sep = appConfig.auth.initOauthFlowUrl.includes('?') ? '&' : '?';
+		const url = `${appConfig.auth.initOauthFlowUrl}${sep}init_oauth=true`;
+		return await sendRedirect(event, url, 302);
 	}
 
 	const appSession = await getAppSession(event);

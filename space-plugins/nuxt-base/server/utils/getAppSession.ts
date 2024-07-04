@@ -1,6 +1,6 @@
 import {
 	isAppSessionQuery,
-	sessionCookieStore,
+	getSessionStore,
 } from '@storyblok/app-extension-auth';
 
 import type { H3Event } from 'h3';
@@ -43,12 +43,10 @@ export const getAppSession = async (event: H3Event) => {
 	}
 
 	const appConfig = useAppConfig();
-	const sessionStore = sessionCookieStore(getAuthHandlerParams(appConfig.auth))(
-		{
-			req: event.node.req,
-			res: event.node.res,
-		},
-	);
+	const sessionStore = getSessionStore(getAuthHandlerParams(appConfig.auth))({
+		req: event.node.req,
+		res: event.node.res,
+	});
 
 	return await sessionStore.get(appSessionQuery);
 };
