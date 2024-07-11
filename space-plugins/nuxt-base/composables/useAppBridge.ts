@@ -1,6 +1,19 @@
 import type { DecodedToken, PluginType } from '~/types/appBridge';
 
-const getPostMessageAction = (type: PluginType) => {
+type PostMessageAction = 'tool-changed' | 'app-changed';
+
+type Payload = {
+	action: PostMessageAction;
+	event: 'validate';
+	tool?: string | null;
+};
+
+type CreateMessagePayload = (params: {
+	type: PluginType;
+	slug: string | null;
+}) => Payload;
+
+const getPostMessageAction = (type: PluginType): PostMessageAction => {
 	switch (type) {
 		case 'space-plugin':
 			return 'app-changed';
@@ -12,30 +25,36 @@ const getPostMessageAction = (type: PluginType) => {
 };
 
 const useAppBridgeMessages = () => {
+	const appConfig = useAppConfig();
 	const status = ref<'init' | 'authenticating' | 'authenticated' | 'error'>(
 		'init',
 	);
-	const error = ref<unknown>();
-	const appConfig = useAppConfig();
+
+	//TODO: rename to oauthStatus?
 	const oauth = ref<'disabled' | 'init' | 'authenticating' | 'authenticated'>(
 		appConfig.appBridge.oauth ? 'init' : 'disabled',
 	);
 
+	const error = ref<unknown>();
 	const origin = appConfig.appBridge.origin || 'https://app.storyblok.com';
 
 	const startOAuth = async () => {
 		oauth.value = 'authenticating';
+
 		const initOAuth =
 			new URLSearchParams(location.search).get('init_oauth') === 'true';
+
 		const response = await $fetch('/api/_oauth', {
 			method: 'POST',
 			body: { initOAuth },
 		});
+
 		if (response.ok) {
 			oauth.value = 'authenticated';
-		} else {
-			location.href = response.redirectTo;
+			return;
 		}
+
+		location.href = response.redirectTo;
 	};
 
 	const eventListener = async (event: MessageEvent) => {
@@ -54,6 +73,7 @@ const useAppBridgeMessages = () => {
 					method: 'POST',
 					body: JSON.stringify({ token }),
 				});
+
 				if (response.ok) {
 					sessionStorage.setItem(KEY_TOKEN, token);
 					sessionStorage.setItem(
@@ -80,15 +100,6 @@ const useAppBridgeMessages = () => {
 			}
 		}
 	};
-
-	onUnmounted(() => {
-		// @ts-ignore not sure how to solve this
-		document.removeEventListener('message', eventListener);
-	});
-
-	onMounted(async () => {
-		window.addEventListener('message', eventListener);
-	});
 
 	const isAuthenticated = () => {
 		try {
@@ -124,37 +135,42 @@ const useAppBridgeMessages = () => {
 		return params.get('slug');
 	};
 
+	//TODO: rename initAppBridge?
 	const init = async () => {
 		const isInIframe = window.top !== window.self;
+
 		if (!isInIframe) {
 			status.value = 'error';
 			error.value = 'not-in-iframe';
 			return;
 		}
 
-		if (isAuthenticated()) {
-			status.value = 'authenticated';
-			error.value = undefined;
-
-			if (appConfig.appBridge.oauth) {
-				return await startOAuth();
-			}
+		if (!isAuthenticated()) {
+			sendValidateMessageToParent();
 			return;
 		}
 
+		status.value = 'authenticated';
+		error.value = undefined;
+
+		if (appConfig.appBridge.oauth) {
+			await startOAuth();
+			return;
+		}
+
+		return;
+	};
+
+	const sendValidateMessageToParent = () => {
 		status.value = 'authenticating';
 		error.value = undefined;
 		const host = getParentHost();
 		const slug = getSlug();
 
 		try {
-			const payload: Record<string, any> = {
-				action: getPostMessageAction(appConfig.appBridge.type),
-				event: 'validate',
-			};
-			if ((appConfig.appBridge.type as PluginType) === 'tool-plugin') {
-				payload.tool = slug;
-			}
+			const type = appConfig.appBridge.type;
+			const payload = createMessagePayload({ type, slug });
+
 			window.parent.postMessage(payload, host);
 			sessionStorage.setItem(KEY_PARENT_HOST, host);
 			sessionStorage.setItem(KEY_SLUG, slug || '');
@@ -162,6 +178,28 @@ const useAppBridgeMessages = () => {
 			sessionStorage.removeItem(KEY_PARENT_HOST);
 		}
 	};
+
+	const createMessagePayload: CreateMessagePayload = ({ type, slug }) => {
+		const payload: Payload = {
+			action: getPostMessageAction(type),
+			event: 'validate',
+		};
+
+		if (type === 'tool-plugin') {
+			payload.tool = slug;
+		}
+
+		return payload;
+	};
+
+	// Adds even listener to listen to events coming from Storyblok to Iframe (plugin)
+	onMounted(async () => {
+		window.addEventListener('message', eventListener);
+	});
+
+	onUnmounted(() => {
+		window.removeEventListener('message', eventListener);
+	});
 
 	return {
 		status,
