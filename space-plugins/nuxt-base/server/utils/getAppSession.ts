@@ -1,6 +1,7 @@
 import {
 	inferSessionQuery,
 	getSessionStore,
+	isAppSessionQuery,
 } from '@storyblok/app-extension-auth';
 
 import type { H3Event } from 'h3';
@@ -33,7 +34,7 @@ export const getAppSession = async (event: H3Event) => {
 		res: event.node.res,
 	});
 	const appSession = event.context.appSession;
-	if (appSession && appSession.spaceId && appSession.userId) {
+	if (isAppSessionQuery(appSession)) {
 		return await sessionStore.get({
 			spaceId: appSession.spaceId,
 			userId: appSession.userId,
