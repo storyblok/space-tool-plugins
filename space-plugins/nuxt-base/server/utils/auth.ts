@@ -1,8 +1,6 @@
 import type { AuthHandlerParams } from '@storyblok/app-extension-auth';
 import type { AppConfigInput } from 'nuxt/schema';
 
-export const AUTH_COOKIE_NAME = 'sb.auth';
-
 export const getAuthHandlerParams = (
 	authConfig: AppConfigInput['auth'],
 ): AuthHandlerParams => ({

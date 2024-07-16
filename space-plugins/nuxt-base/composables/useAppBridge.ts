@@ -2,16 +2,29 @@ import type { DecodedToken, PluginType } from '~/types/appBridge';
 
 type PostMessageAction = 'tool-changed' | 'app-changed';
 
-type Payload = {
+type ValidateMessagePayload = {
 	action: PostMessageAction;
 	event: 'validate';
 	tool?: string | null;
 };
 
-type CreateMessagePayload = (params: {
+type BeginOAuthMessagePayload = {
+	action: PostMessageAction;
+	event: 'beginOAuth';
+	tool?: string | null;
+	redirectTo: string;
+};
+
+type CreateValidateMessagePayload = (params: {
 	type: PluginType;
 	slug: string | null;
-}) => Payload;
+}) => ValidateMessagePayload;
+
+type CreateBeginOAuthMessagePayload = (params: {
+	type: PluginType;
+	slug: string | null;
+	redirectTo: string;
+}) => BeginOAuthMessagePayload;
 
 const getPostMessageAction = (type: PluginType): PostMessageAction => {
 	switch (type) {
@@ -54,15 +67,13 @@ const useAppBridgeMessages = () => {
 			return;
 		}
 
-		location.href = response.redirectTo;
+		sendBeginOAuthMessageToParent(response.redirectTo);
 	};
 
 	const eventListener = async (event: MessageEvent) => {
 		if (event.origin !== origin) {
-			console.error('postMessage from unknown origin', {
-				actual: event.origin,
-				expected: origin,
-			});
+			// This can happen for many different reasons,
+			// like a React DevTools extension, etc.
 			return;
 		}
 
@@ -169,7 +180,7 @@ const useAppBridgeMessages = () => {
 
 		try {
 			const type = appConfig.appBridge.type;
-			const payload = createMessagePayload({ type, slug });
+			const payload = createValidateMessagePayload({ type, slug });
 
 			window.parent.postMessage(payload, host);
 			sessionStorage.setItem(KEY_PARENT_HOST, host);
@@ -179,8 +190,37 @@ const useAppBridgeMessages = () => {
 		}
 	};
 
-	const createMessagePayload: CreateMessagePayload = ({ type, slug }) => {
-		const payload: Payload = {
+	const sendBeginOAuthMessageToParent = (redirectTo: string) => {
+		const host = getParentHost();
+		const slug = getSlug();
+		const type = appConfig.appBridge.type;
+		const payload = createOAuthInitMessagePayload({ type, slug, redirectTo });
+		window.parent.postMessage(payload, host);
+	};
+
+	const createOAuthInitMessagePayload: CreateBeginOAuthMessagePayload = ({
+		type,
+		slug,
+		redirectTo,
+	}) => {
+		const payload: BeginOAuthMessagePayload = {
+			action: getPostMessageAction(type),
+			event: 'beginOAuth',
+			redirectTo,
+		};
+
+		if (type === 'tool-plugin') {
+			payload.tool = slug;
+		}
+
+		return payload;
+	};
+
+	const createValidateMessagePayload: CreateValidateMessagePayload = ({
+		type,
+		slug,
+	}) => {
+		const payload: ValidateMessagePayload = {
 			action: getPostMessageAction(type),
 			event: 'validate',
 		};

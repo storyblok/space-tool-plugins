@@ -1,14 +1,23 @@
-const ALLOWED_ENDPOINTS = ['/api/_app_bridge', '/api/_oauth'];
+const SKIP_AUTH_FOR = ['/api/_app_bridge', '/api/_oauth'];
 
 export default defineEventHandler(async (event) => {
 	const appConfig = useAppConfig();
 	if (!appConfig.appBridge.enabled) {
 		return;
 	}
-	if (!event.path.startsWith('/api/')) {
+	const pathname = event.path.split('?')[0];
+	if (!pathname.startsWith('/api/')) {
 		return;
 	}
-	if (ALLOWED_ENDPOINTS.includes(event.path)) {
+	if (SKIP_AUTH_FOR.includes(pathname)) {
+		return;
+	}
+	if (
+		[
+			appConfig.auth.initOauthFlowUrl,
+			`${appConfig.auth.endpointPrefix}/callback`,
+		].includes(pathname)
+	) {
 		return;
 	}
 	const token = getHeader(event, APP_BRIDGE_TOKEN_HEADER_KEY);
