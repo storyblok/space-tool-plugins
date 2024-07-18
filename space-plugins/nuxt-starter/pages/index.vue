@@ -6,7 +6,7 @@ const alert = useAlert();
 <template>
 	<div>
 		<div class="mx-20 my-11">
-			<Header title="Story Starter">
+			<Header title="Nuxt Starter">
 				<template #icon>
 					<LucideTornado class="text-primary" />
 				</template>
