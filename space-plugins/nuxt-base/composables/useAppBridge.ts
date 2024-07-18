@@ -248,9 +248,20 @@ export const useAppBridge = () => {
 			},
 		});
 
+	const completed = computed(() => {
+		if (appConfig.appBridge.oauth) {
+			return (
+				appBridgeAuthStatus.value === 'authenticated' &&
+				oauthStatus.value === 'authenticated'
+			);
+		} else {
+			return appBridgeAuthStatus.value === 'authenticated';
+		}
+	});
+
 	if (appConfig.appBridge.enabled) {
 		initAppBridgeAuth();
 	}
 
-	return { status: appBridgeAuthStatus, oauth: oauthStatus };
+	return { completed, status: appBridgeAuthStatus, oauth: oauthStatus };
 };
