@@ -196,7 +196,11 @@ const useOAuth = () => {
 			return;
 		}
 
-		sendBeginOAuthMessageToParent(response.redirectTo);
+		if (initOAuth) {
+			sendBeginOAuthMessageToParent(response.redirectTo);
+		} else {
+			window.location.href = response.redirectTo;
+		}
 	};
 
 	const sendBeginOAuthMessageToParent = (redirectTo: string) => {
