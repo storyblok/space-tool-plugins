@@ -267,5 +267,9 @@ export const useAppBridge = () => {
 		initAppBridgeAuth();
 	}
 
-	return { completed, appBridgeAuth: appBridgeAuthStatus, oauth: oauthStatus };
+	return {
+		completed,
+		appBridgeAuth: appBridgeAuthStatus,
+		oauth: oauthStatus,
+	};
 };
