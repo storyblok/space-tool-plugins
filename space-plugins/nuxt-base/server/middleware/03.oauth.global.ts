@@ -27,13 +27,6 @@ export default defineEventHandler(async (event) => {
 			return await sendRedirect(event, appConfig.auth.initOauthFlowUrl, 302);
 		}
 	}
-
-	event.context.appSession = appSession;
-
-	const afterAuthenticated = appConfig.auth.middleware?.afterAuthenticated;
-	if (typeof afterAuthenticated === 'function') {
-		return await afterAuthenticated({ event, appSession });
-	}
 });
 
 const isMiddlewareIgnored = (
