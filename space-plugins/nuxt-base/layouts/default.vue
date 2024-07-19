@@ -1,8 +1,11 @@
 <script setup lang="ts">
 const config = useAppConfig();
-const { completed } = useAppBridge();
+const { completed, appBridgeAuth, oauth } = useAppBridge();
 </script>
 
 <template>
-	<slot v-if="!config.appBridge.enabled || completed" />
+	<div>
+		<pre>{{ { appBridgeAuth, oauth } }}</pre>
+		<slot v-if="!config.appBridge.enabled || completed" />
+	</div>
 </template>
