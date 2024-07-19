@@ -96,7 +96,7 @@ const useAppBridgeAuth = ({
 		const slug = getSlug();
 
 		try {
-			const type = appConfig.appBridge.type;
+			const type = appConfig.type;
 			const payload = createValidateMessagePayload({ type, slug });
 
 			postMessageToParent(payload);
@@ -205,7 +205,7 @@ const useOAuth = () => {
 
 	const sendBeginOAuthMessageToParent = (redirectTo: string) => {
 		const slug = getSlug();
-		const type = appConfig.appBridge.type;
+		const type = appConfig.type;
 		const payload = createOAuthInitMessagePayload({ type, slug, redirectTo });
 		postMessageToParent(payload);
 	};
