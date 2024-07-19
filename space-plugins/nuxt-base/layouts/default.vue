@@ -1,6 +1,13 @@
 <script setup lang="ts">
 const config = useAppConfig();
-const { completed } = useAppBridge();
+const { completed, appBridgeAuth, oauth } = useAppBridge();
+
+const nuxtApp = useNuxtApp();
+nuxtApp.provide('appBridge', {
+	completed,
+	appBridgeAuth,
+	oauth,
+});
 </script>
 
 <template>
