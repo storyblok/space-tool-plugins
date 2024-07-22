@@ -1,5 +1,4 @@
 export type AppBridgeConfig = {
-	type: PluginType;
 	enabled: boolean;
 	oauth: boolean;
 	origin?: string;

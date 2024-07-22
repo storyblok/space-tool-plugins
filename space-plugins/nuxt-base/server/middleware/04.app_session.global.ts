@@ -6,6 +6,10 @@ export default defineEventHandler(async (event) => {
 	const appConfig = useAppConfig();
 
 	const appSession = await getAppSession(event);
+	if (!appSession) {
+		return;
+	}
+
 	event.context.appSession = appSession;
 
 	const afterAuthenticated = appConfig.auth.middleware?.afterAuthenticated;

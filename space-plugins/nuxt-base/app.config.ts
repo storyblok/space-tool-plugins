@@ -1,8 +1,8 @@
-import type { AppBridgeConfig } from './types/appBridge';
+import type { AppBridgeConfig, PluginType } from './types/appBridge';
 
 export default defineAppConfig({
+	type: 'space-plugin',
 	appBridge: {
-		type: 'space-plugin',
 		enabled: false,
 		oauth: true,
 		origin: 'https://app.storyblok.com',
@@ -17,6 +17,7 @@ export default defineAppConfig({
 
 declare module '@nuxt/schema' {
 	interface AppConfigInput {
+		type: PluginType;
 		appBridge: AppBridgeConfig;
 		auth: AuthConfig;
 	}
