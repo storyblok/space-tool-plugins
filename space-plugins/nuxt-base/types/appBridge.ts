@@ -26,3 +26,29 @@ export type UseAppBridgeParams = {
 export type UseAppBridgeMessagesParams = {
 	type: PluginType;
 };
+
+export type PostMessageAction = 'tool-changed' | 'app-changed';
+
+export type ValidateMessagePayload = {
+	action: PostMessageAction;
+	event: 'validate';
+	tool?: string | null;
+};
+
+export type BeginOAuthMessagePayload = {
+	action: PostMessageAction;
+	event: 'beginOAuth';
+	tool?: string | null;
+	redirectTo: string;
+};
+
+export type CreateValidateMessagePayload = (params: {
+	type: PluginType;
+	slug: string | null;
+}) => ValidateMessagePayload;
+
+export type CreateBeginOAuthMessagePayload = (params: {
+	type: PluginType;
+	slug: string | null;
+	redirectTo: string;
+}) => BeginOAuthMessagePayload;

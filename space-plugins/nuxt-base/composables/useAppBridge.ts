@@ -1,30 +1,12 @@
-import type { DecodedToken, PluginType } from '~/types/appBridge';
-
-type PostMessageAction = 'tool-changed' | 'app-changed';
-
-type ValidateMessagePayload = {
-	action: PostMessageAction;
-	event: 'validate';
-	tool?: string | null;
-};
-
-type BeginOAuthMessagePayload = {
-	action: PostMessageAction;
-	event: 'beginOAuth';
-	tool?: string | null;
-	redirectTo: string;
-};
-
-type CreateValidateMessagePayload = (params: {
-	type: PluginType;
-	slug: string | null;
-}) => ValidateMessagePayload;
-
-type CreateBeginOAuthMessagePayload = (params: {
-	type: PluginType;
-	slug: string | null;
-	redirectTo: string;
-}) => BeginOAuthMessagePayload;
+import type {
+	BeginOAuthMessagePayload,
+	CreateBeginOAuthMessagePayload,
+	CreateValidateMessagePayload,
+	DecodedToken,
+	PluginType,
+	PostMessageAction,
+	ValidateMessagePayload,
+} from '~/types/appBridge';
 
 const getPostMessageAction = (type: PluginType): PostMessageAction => {
 	switch (type) {
@@ -37,37 +19,108 @@ const getPostMessageAction = (type: PluginType): PostMessageAction => {
 	}
 };
 
-const useAppBridgeMessages = () => {
+const getParentHost = () => {
+	const storedHost = sessionStorage.getItem(KEY_PARENT_HOST);
+	if (storedHost) {
+		return storedHost;
+	}
+	const params = new URLSearchParams(location.search);
+	const protocol = params.get('protocol');
+	const host = params.get('host');
+	if (!protocol || !host) {
+		throw new Error('Missing `protocol` or `host` in query params');
+	}
+	return `${protocol}//${host}`;
+};
+
+const getSlug = () => {
+	const storedSlug = sessionStorage.getItem(KEY_SLUG);
+	if (storedSlug) {
+		return storedSlug;
+	}
+	const params = new URLSearchParams(location.search);
+	return params.get('slug');
+};
+
+const postMessageToParent = (payload: unknown) => {
+	window.parent.postMessage(payload, getParentHost());
+};
+
+const useAppBridgeAuth = ({
+	authenticated,
+}: {
+	authenticated: () => Promise<void>;
+}) => {
 	const appConfig = useAppConfig();
 	const status = ref<'init' | 'authenticating' | 'authenticated' | 'error'>(
 		'init',
 	);
-
-	//TODO: rename to oauthStatus?
-	const oauth = ref<'disabled' | 'init' | 'authenticating' | 'authenticated'>(
-		appConfig.appBridge.oauth ? 'init' : 'disabled',
-	);
-
 	const error = ref<unknown>();
 	const origin = appConfig.appBridge.origin || 'https://app.storyblok.com';
 
-	const startOAuth = async () => {
-		oauth.value = 'authenticating';
+	const init = async () => {
+		const isInIframe = window.top !== window.self;
 
-		const initOAuth =
-			new URLSearchParams(location.search).get('init_oauth') === 'true';
-
-		const response = await $fetch('/api/_oauth', {
-			method: 'POST',
-			body: { initOAuth },
-		});
-
-		if (response.ok) {
-			oauth.value = 'authenticated';
+		if (!isInIframe) {
+			status.value = 'error';
+			error.value = 'not-in-iframe';
 			return;
 		}
 
-		sendBeginOAuthMessageToParent(response.redirectTo);
+		if (!isAuthenticated()) {
+			sendValidateMessageToParent();
+			return;
+		}
+
+		status.value = 'authenticated';
+		error.value = undefined;
+
+		await authenticated();
+	};
+
+	const isAuthenticated = () => {
+		try {
+			const payload: DecodedToken = JSON.parse(
+				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
+			);
+			return payload && new Date().getTime() / 1000 < payload.exp;
+		} catch (err) {
+			return false;
+		}
+	};
+
+	const sendValidateMessageToParent = () => {
+		status.value = 'authenticating';
+		error.value = undefined;
+		const host = getParentHost();
+		const slug = getSlug();
+
+		try {
+			const type = appConfig.appBridge.type;
+			const payload = createValidateMessagePayload({ type, slug });
+
+			postMessageToParent(payload);
+			sessionStorage.setItem(KEY_PARENT_HOST, host);
+			sessionStorage.setItem(KEY_SLUG, slug || '');
+		} catch (err) {
+			sessionStorage.removeItem(KEY_PARENT_HOST);
+		}
+	};
+
+	const createValidateMessagePayload: CreateValidateMessagePayload = ({
+		type,
+		slug,
+	}) => {
+		const payload: ValidateMessagePayload = {
+			action: getPostMessageAction(type),
+			event: 'validate',
+		};
+
+		if (type === 'tool-plugin') {
+			payload.tool = slug;
+		}
+
+		return payload;
 	};
 
 	const eventListener = async (event: MessageEvent) => {
@@ -93,10 +146,7 @@ const useAppBridgeMessages = () => {
 					);
 					status.value = 'authenticated';
 					error.value = undefined;
-
-					if (appConfig.appBridge.oauth) {
-						await startOAuth();
-					}
+					await authenticated();
 				} else {
 					sessionStorage.removeItem(KEY_TOKEN);
 					sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
@@ -112,90 +162,52 @@ const useAppBridgeMessages = () => {
 		}
 	};
 
-	const isAuthenticated = () => {
-		try {
-			const payload: DecodedToken = JSON.parse(
-				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
-			);
-			return payload && new Date().getTime() / 1000 < payload.exp;
-		} catch (err) {
-			return false;
-		}
-	};
+	// Adds event listener to listen to events coming from Storyblok to Iframe (plugin)
+	onMounted(async () => {
+		window.addEventListener('message', eventListener);
+	});
 
-	const getParentHost = () => {
-		const storedHost = sessionStorage.getItem(KEY_PARENT_HOST);
-		if (storedHost) {
-			return storedHost;
-		}
-		const params = new URLSearchParams(location.search);
-		const protocol = params.get('protocol');
-		const host = params.get('host');
-		if (!protocol || !host) {
-			throw new Error('Missing `protocol` or `host` in query params');
-		}
-		return `${protocol}//${host}`;
-	};
+	onUnmounted(() => {
+		window.removeEventListener('message', eventListener);
+	});
 
-	const getSlug = () => {
-		const storedSlug = sessionStorage.getItem(KEY_SLUG);
-		if (storedSlug) {
-			return storedSlug;
-		}
-		const params = new URLSearchParams(location.search);
-		return params.get('slug');
-	};
+	return { status, init, error };
+};
 
-	//TODO: rename initAppBridge?
+const useOAuth = () => {
+	const appConfig = useAppConfig();
+	const status = ref<'disabled' | 'init' | 'authenticating' | 'authenticated'>(
+		appConfig.appBridge.oauth ? 'init' : 'disabled',
+	);
+
 	const init = async () => {
-		const isInIframe = window.top !== window.self;
-
-		if (!isInIframe) {
-			status.value = 'error';
-			error.value = 'not-in-iframe';
-			return;
-		}
-
-		if (!isAuthenticated()) {
-			sendValidateMessageToParent();
-			return;
-		}
-
-		status.value = 'authenticated';
-		error.value = undefined;
-
-		if (appConfig.appBridge.oauth) {
-			await startOAuth();
-			return;
-		}
-
-		return;
-	};
-
-	const sendValidateMessageToParent = () => {
 		status.value = 'authenticating';
-		error.value = undefined;
-		const host = getParentHost();
-		const slug = getSlug();
 
-		try {
-			const type = appConfig.appBridge.type;
-			const payload = createValidateMessagePayload({ type, slug });
+		const initOAuth =
+			new URLSearchParams(location.search).get('init_oauth') === 'true';
 
-			window.parent.postMessage(payload, host);
-			sessionStorage.setItem(KEY_PARENT_HOST, host);
-			sessionStorage.setItem(KEY_SLUG, slug || '');
-		} catch (err) {
-			sessionStorage.removeItem(KEY_PARENT_HOST);
+		const response = await $fetch('/api/_oauth', {
+			method: 'POST',
+			body: { initOAuth },
+		});
+
+		if (response.ok) {
+			status.value = 'authenticated';
+			return;
+		}
+
+		if (initOAuth) {
+			sendBeginOAuthMessageToParent(response.redirectTo);
+		} else {
+			window.location.href = response.redirectTo;
 		}
 	};
 
 	const sendBeginOAuthMessageToParent = (redirectTo: string) => {
-		const host = getParentHost();
 		const slug = getSlug();
 		const type = appConfig.appBridge.type;
 		const payload = createOAuthInitMessagePayload({ type, slug, redirectTo });
-		window.parent.postMessage(payload, host);
+		postMessageToParent(payload);
 	};
 
 	const createOAuthInitMessagePayload: CreateBeginOAuthMessagePayload = ({
@@ -216,42 +228,12 @@ const useAppBridgeMessages = () => {
 		return payload;
 	};
 
-	const createValidateMessagePayload: CreateValidateMessagePayload = ({
-		type,
-		slug,
-	}) => {
-		const payload: ValidateMessagePayload = {
-			action: getPostMessageAction(type),
-			event: 'validate',
-		};
-
-		if (type === 'tool-plugin') {
-			payload.tool = slug;
-		}
-
-		return payload;
-	};
-
-	// Adds even listener to listen to events coming from Storyblok to Iframe (plugin)
-	onMounted(async () => {
-		window.addEventListener('message', eventListener);
-	});
-
-	onUnmounted(() => {
-		window.removeEventListener('message', eventListener);
-	});
-
-	return {
-		status,
-		oauth,
-		init,
-	};
+	return { init, status };
 };
 
 export const useAppBridge = () => {
 	const nuxtApp = useNuxtApp();
 	const appConfig = useAppConfig();
-	const { status, oauth, init } = useAppBridgeMessages();
 
 	if (appConfig.appBridge.enabled && nuxtApp.payload.serverRendered) {
 		throw new Error(
@@ -259,9 +241,35 @@ export const useAppBridge = () => {
 		);
 	}
 
+	const { init: initOAuth, status: oauthStatus } = useOAuth();
+
+	const { init: initAppBridgeAuth, status: appBridgeAuthStatus } =
+		useAppBridgeAuth({
+			authenticated: async () => {
+				if (appConfig.appBridge.oauth) {
+					await initOAuth();
+				}
+			},
+		});
+
+	const completed = computed(() => {
+		if (appConfig.appBridge.oauth) {
+			return (
+				appBridgeAuthStatus.value === 'authenticated' &&
+				oauthStatus.value === 'authenticated'
+			);
+		} else {
+			return appBridgeAuthStatus.value === 'authenticated';
+		}
+	});
+
 	if (appConfig.appBridge.enabled) {
-		init();
+		initAppBridgeAuth();
 	}
 
-	return { status, oauth };
+	return {
+		completed,
+		appBridgeAuth: appBridgeAuthStatus,
+		oauth: oauthStatus,
+	};
 };
