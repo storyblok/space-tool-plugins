@@ -12,9 +12,11 @@
 	},
 	"dependencies": {
 		"@storyblok/app-extension-auth": "2.0.0-beta.2",
-		"@storyblok/region-helper": "^1.1.0"
+		"@storyblok/region-helper": "^1.1.0",
+		"jsonwebtoken": "^9.0.2"
 	},
 	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.6",
 		"@nuxt/devtools": "latest",
 		"h3": "^1.8.2",
 		"nuxt": "3.11.1",

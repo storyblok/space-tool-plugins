@@ -14,10 +14,16 @@ importers:
       '@storyblok/region-helper':
         specifier: ^1.1.0
         version: 1.1.0
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
     devDependencies:
       '@nuxt/devtools':
         specifier: latest
         version: 1.3.9(rollup@4.18.1)(vite@5.3.3(@types/node@20.14.10)(terser@5.31.2))
+      '@types/jsonwebtoken':
+        specifier: ^9.0.6
+        version: 9.0.6
       h3:
         specifier: ^1.8.2
         version: 1.12.0
@@ -872,6 +878,9 @@ packages:
 
   '@types/http-proxy@1.17.14':
     resolution: {integrity: sha512-SSrD0c1OQzlFX7pGu1eXxSEjemej64aaNPRhhVYUGqXh0BtldAAx37MG8btcumvpgKyZp1F5Gn3JkktdxiFv6w==}
+
+  '@types/jsonwebtoken@9.0.6':
+    resolution: {integrity: sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==}
 
   '@types/node@20.14.10':
     resolution: {integrity: sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==}
@@ -4022,6 +4031,10 @@ snapshots:
   '@types/estree@1.0.5': {}
 
   '@types/http-proxy@1.17.14':
+    dependencies:
+      '@types/node': 20.14.10
+
+  '@types/jsonwebtoken@9.0.6':
     dependencies:
       '@types/node': 20.14.10
 
