@@ -59,17 +59,40 @@ And then you can find the information.
 
 Ensure that "Production" is the section that contains information about the production deployment, while "Preview" refers to your development environment, such as exposing localhost through ngrok.
 
-5. Open the "Install Link" in a new tab and install it in your space for the development and test.
+5. App Bridge is an extra authentication layer recently introduced for Space Plugins and Tool Plugins. This starter assumes you've enabled App Bridge on the Settings page. Documentation on App Bridge will come in the near future, but you don't need to know about its inner process. This starter takes care of it out-of-the-box.
+
+<img src="./docs/app-bridge.png" alt="App Bridge" width="600" />
+
+If you don't see the UI to enable App Bridge, please reach out to [the Storyblok support](https://www.storyblok.com/trust-center/service-support). Or, you can disable App Bridge, by replacing your `app.config.ts` with the following.
+
+```ts
+export default defineAppConfig({
+	appBridge: {
+		type: 'space-plugin',
+		enabled: false,
+		oauth: true,
+		origin: 'https://app.storyblok.com',
+	},
+	auth: {
+		endpointPrefix: '/api/connect',
+		initOauthFlowUrl: `/api/connect/storyblok`,
+		successCallback: '/',
+		errorCallback: '/401',
+	},
+});
+```
+
+6. Open the "Install Link" in a new tab and install it in your space for the development and test.
 
 <img src="./docs/install-link.png" alt="Install Link" width="600" />
 
-6. Start developing by running `yarn dev`, and open it on Storyblok.
+7. Start developing by running `yarn dev`, and open it on Storyblok.
 
 <img src="./docs/open-extension.png" alt="Open the extension" width="200" />
 
 > [!NOTE]
 > If the authentication flow isn't working, please check if you have an ad blocker extension enabled in your browser and disable it.
 
-7. Deployment
+8. Deployment
 
 You should configure the same environment variables on the hosting platform as well.
