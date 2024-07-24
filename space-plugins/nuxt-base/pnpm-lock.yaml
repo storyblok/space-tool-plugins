@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: 2.0.0-beta.2
-        version: 2.0.0-beta.2
+        specifier: 2.0.0
+        version: 2.0.0
       '@storyblok/region-helper':
         specifier: ^1.1.0
         version: 1.1.0
@@ -859,8 +859,8 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@storyblok/app-extension-auth@2.0.0-beta.2':
-    resolution: {integrity: sha512-uXylHYiTsZgTsNnfDMFWrss/vGrbik0BHyPKmatBoJ9mWXRZyBKnGkkepccvEvI5GLHJkM2/Qm9g3hLtxcJvag==}
+  '@storyblok/app-extension-auth@2.0.0':
+    resolution: {integrity: sha512-/hosbT8IhMODRy+Rxk10hG51m4WMrhmpl4LwO3g0JtSdAS+f6/Jl0f6CFDhlZ3FD1dQb3ncZyodSUpbiXxvBlw==}
     engines: {node: '>=14.21.3'}
 
   '@storyblok/region-helper@0.1.0':
@@ -4016,7 +4016,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@storyblok/app-extension-auth@2.0.0-beta.2':
+  '@storyblok/app-extension-auth@2.0.0':
     dependencies:
       '@storyblok/region-helper': 0.1.0
       jsonwebtoken: 9.0.2

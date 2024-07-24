@@ -11,8 +11,8 @@ importers:
   starters/nuxt:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: 1.0.3
-        version: 1.0.3
+        specifier: 2.0.0
+        version: 2.0.0
       '@storyblok/region-helper':
         specifier: ^1.1.0
         version: 1.1.0
@@ -958,8 +958,8 @@ packages:
     resolution: {integrity: sha512-rUV5WyJrJLoloD4NDN1V1+LDMDWOa4OTsT4yYJwQNpTU6FWxkxHpL7eu4w+DmiH8x/EAM1otkPE1+LaspIbplw==}
     engines: {node: '>=18'}
 
-  '@storyblok/app-extension-auth@1.0.3':
-    resolution: {integrity: sha512-tSdMNn8Cj3zshuUkSlRZ7Qaf2A9TDK7SigK3susnREHY9hsPZATJVDI+8sBX+BmK3NXFMJlBnnVq/L+Rde73Ng==}
+  '@storyblok/app-extension-auth@2.0.0':
+    resolution: {integrity: sha512-/hosbT8IhMODRy+Rxk10hG51m4WMrhmpl4LwO3g0JtSdAS+f6/Jl0f6CFDhlZ3FD1dQb3ncZyodSUpbiXxvBlw==}
     engines: {node: '>=14.21.3'}
 
   '@storyblok/region-helper@0.1.0':
@@ -5275,7 +5275,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@1.0.0': {}
 
-  '@storyblok/app-extension-auth@1.0.3':
+  '@storyblok/app-extension-auth@2.0.0':
     dependencies:
       '@storyblok/region-helper': 0.1.0
       jsonwebtoken: 9.0.2
