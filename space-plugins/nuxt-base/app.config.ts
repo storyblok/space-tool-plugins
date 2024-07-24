@@ -1,5 +1,3 @@
-import type { AppBridgeConfig, PluginType } from './types/appBridge';
-
 export default defineAppConfig({
 	type: 'space-plugin',
 	appBridge: {
@@ -14,11 +12,3 @@ export default defineAppConfig({
 		errorCallback: '/401',
 	},
 });
-
-declare module '@nuxt/schema' {
-	interface AppConfigInput {
-		type: PluginType;
-		appBridge: AppBridgeConfig;
-		auth: AuthConfig;
-	}
-}

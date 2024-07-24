@@ -1,5 +1,4 @@
 import { getManagementBaseUrl, getRegion } from '@storyblok/region-helper';
-import { FetchSpaceInfo, SpaceInfo } from '~/types/space';
 
 export const fetchSpaceInfo: FetchSpaceInfo = async ({
 	spaceId,

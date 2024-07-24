@@ -6,4 +6,18 @@ declare module 'h3' {
 	}
 }
 
+declare module 'nuxt/schema' {
+	interface AppConfigInput {
+		type: PluginType;
+		appBridge?: AppBridgeConfig;
+		auth?: AuthConfig;
+	}
+
+	interface AppConfig {
+		type: PluginType;
+		appBridge: AppBridgeConfig;
+		auth: AuthConfig;
+	}
+}
+
 export default {};

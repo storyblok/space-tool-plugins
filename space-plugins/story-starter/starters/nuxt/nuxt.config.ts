@@ -7,7 +7,6 @@ export default defineNuxtConfig({
 			{ install: true },
 		],
 	],
-	// extends: [['../../../nuxt-base', { install: true }]],
 	css: ['~/assets/css/main.css'],
 	modules: ['nuxt-lucide-icons', '@nuxtjs/google-fonts', '@nuxtjs/tailwindcss'],
 	googleFonts: {

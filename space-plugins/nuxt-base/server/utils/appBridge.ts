@@ -1,5 +1,4 @@
 import jwt, { type VerifyCallback } from 'jsonwebtoken';
-import { DecodedToken, VerifyResponse } from '~/types/appBridge';
 
 export const verifyAppBridgeToken = async (
 	token: string,
