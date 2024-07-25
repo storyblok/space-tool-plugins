@@ -1,5 +1,3 @@
-import { APP_BRIDGE_TOKEN_HEADER_KEY } from '../../utils/const';
-
 const SKIP_AUTH_FOR = ['/api/_app_bridge', '/api/_oauth'];
 
 export default defineEventHandler(async (event) => {

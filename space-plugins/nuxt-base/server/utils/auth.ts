@@ -1,8 +1,8 @@
 import type { AuthHandlerParams } from '@storyblok/app-extension-auth';
-import type { AppConfigInput } from 'nuxt/schema';
+import type { AppConfig } from 'nuxt/schema';
 
 export const getAuthHandlerParams = (
-	authConfig: AppConfigInput['auth'],
+	authConfig: AppConfig['auth'],
 ): AuthHandlerParams => ({
 	clientId: env('CLIENT_ID'),
 	clientSecret: env('CLIENT_SECRET'),

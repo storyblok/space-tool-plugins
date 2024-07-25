@@ -1,14 +1,4 @@
 import { randomBytes } from 'node:crypto';
-import {
-	UpsertStoryblokWebhook,
-	DeleteStoryblokWebhook,
-	StoryblokWebhookResponse,
-	StoryblokWebhookEventCategory,
-	IsValidWebhookUpsertParams,
-	CreateStoryblokWebhook,
-	UpdateStoryblokWebhook,
-	GetStoryblokWebhook,
-} from '../../types';
 import { getManagementBaseUrl, getRegion } from '@storyblok/region-helper';
 
 export const generateSecret = (lengthInBytes: number = 20) => {
