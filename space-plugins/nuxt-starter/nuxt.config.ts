@@ -12,6 +12,14 @@ export default defineNuxtConfig({
 			{ install: true },
 		],
 	],
+	nitro: {
+		imports: {
+			dirs: ['./types', './utils', './server/utils'],
+		},
+	},
+	imports: {
+		dirs: ['./types', './utils'],
+	},
 	css: ['~/assets/css/base.css'],
 	modules: ['nuxt-lucide-icons', '@nuxtjs/google-fonts', '@nuxtjs/tailwindcss'],
 	googleFonts: {
