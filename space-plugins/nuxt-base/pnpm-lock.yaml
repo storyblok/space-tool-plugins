@@ -24,6 +24,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.6
+      execa:
+        specifier: ^8.0.1
+        version: 8.0.1
       h3:
         specifier: ^1.8.2
         version: 1.12.0
