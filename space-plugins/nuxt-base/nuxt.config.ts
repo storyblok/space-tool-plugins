@@ -6,12 +6,15 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	nitro: {
 		imports: {
-			dirs: ['./utils', './server/utils'],
+			dirs: ['./types', './utils', './server/utils'],
 		},
 	},
-	vite: {
-		plugins: [runTunnelPlugin()],
+	imports: {
+		dirs: ['./types', './utils'],
 	},
+  vite: {
+		plugins: [runTunnelPlugin()],
+  },
 });
 
 function runTunnelPlugin(): Plugin {
