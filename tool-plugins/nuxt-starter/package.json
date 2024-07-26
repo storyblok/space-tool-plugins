@@ -1,5 +1,5 @@
 {
-	"name": "@storyblok/space-plugin-nuxt-starter",
+	"name": "@storyblok/tool-plugin-nuxt-starter",
 	"private": true,
 	"type": "module",
 	"scripts": {
