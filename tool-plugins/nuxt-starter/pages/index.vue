@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { data } = await useFetch('/api/stories');
 const alert = useAlert();
+const { data: story } = useStoryContext();
 </script>
 
 <template>
@@ -32,6 +33,11 @@ const alert = useAlert();
 						>
 					</li>
 				</ul>
+			</div>
+
+			<div>
+				<p>Story Context</p>
+				<pre>{{ story }}</pre>
 			</div>
 		</div>
 	</div>

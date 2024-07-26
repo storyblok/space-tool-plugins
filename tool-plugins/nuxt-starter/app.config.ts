@@ -1,5 +1,5 @@
 export default defineAppConfig({
-	type: 'space-plugin',
+	type: 'tool-plugin',
 	appBridge: {
 		enabled: true,
 		oauth: true,
