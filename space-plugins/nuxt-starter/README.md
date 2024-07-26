@@ -1,6 +1,6 @@
 # `space-plugin-nuxt-starter`
 
-This Nuxt starter is a Storyblok Space Plugin app that includes the basic authentication flow.
+This Nuxt starter is a Storyblok Space Plugin that includes the basic authentication flow.
 
 ## Tutorial Video
 
@@ -72,12 +72,6 @@ export default defineAppConfig({
 		enabled: false,
 		oauth: true,
 		origin: 'https://app.storyblok.com',
-	},
-	auth: {
-		endpointPrefix: '/api/connect',
-		initOauthFlowUrl: `/api/connect/storyblok`,
-		successCallback: '/',
-		errorCallback: '/401',
 	},
 });
 ```
