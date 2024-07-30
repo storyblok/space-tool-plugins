@@ -1,17 +1,11 @@
-# `space-plugin-nuxt-starter`
+# `tool-plugin-nuxt-starter`
 
-This Nuxt starter is a Storyblok Space Plugin app that includes the basic authentication flow.
-
-## Tutorial Video
-
-If you prefer video tutorials over text, this is for you:
-
-https://www.loom.com/share/f56defc5bfcf4fa8bce8682386f8352b?sid=8820f1b2-4229-4b05-9f22-4855e6dfccc5
+This Nuxt starter is a Storyblok Tool Plugin that includes the basic authentication flow.
 
 ## Getting Started
 
 ```sh
-npx giget@latest gh:storyblok/space-tool-plugins/space-plugins/nuxt-starter YOUR-PROJECT-NAME
+npx giget@latest gh:storyblok/space-tool-plugins/tool-plugins/nuxt-starter YOUR-PROJECT-NAME
 ```
 
 This repository is developed using [pnpm](https://pnpm.io/). However, you can also use Yarn or NPM.
@@ -73,12 +67,6 @@ export default defineAppConfig({
 		oauth: true,
 		origin: 'https://app.storyblok.com',
 	},
-	auth: {
-		endpointPrefix: '/api/connect',
-		initOauthFlowUrl: `/api/connect/storyblok`,
-		successCallback: '/',
-		errorCallback: '/401',
-	},
 });
 ```
 
@@ -87,8 +75,6 @@ export default defineAppConfig({
 <img src="./docs/install-link.png" alt="Install Link" width="600" />
 
 7. Start developing by running `yarn dev`, and open it on Storyblok.
-
-<img src="./docs/open-extension.png" alt="Open the extension" width="200" />
 
 > [!NOTE]
 > If the authentication flow isn't working, please check if you have an ad blocker extension enabled in your browser and disable it.
