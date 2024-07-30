@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { LucideTornado } from 'lucide-vue-next';
 const { data } = await useFetch('/api/stories');
 const alert = useAlert();
-const { data: story } = useStoryContext();
+const { data: storyContext } = useStoryContext();
 </script>
 
 <template>
@@ -35,9 +36,9 @@ const { data: story } = useStoryContext();
 				</ul>
 			</div>
 
-			<div>
+			<div class="mt-24">
 				<p>Story Context</p>
-				<pre>{{ story }}</pre>
+				<pre>{{ storyContext }}</pre>
 			</div>
 		</div>
 	</div>
