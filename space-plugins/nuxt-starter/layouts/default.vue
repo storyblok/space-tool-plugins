@@ -1,14 +1,10 @@
 <script setup lang="ts">
 const config = useAppConfig();
-const { completed, appBridgeAuth, oauth } = useAppBridge();
+const appBridge = useAppBridge();
 const nuxtApp = useNuxtApp();
-nuxtApp.provide('appBridge', {
-	completed,
-	appBridgeAuth,
-	oauth,
-});
+nuxtApp.provide('appBridge', appBridge);
 </script>
 
 <template>
-	<slot v-if="!config.appBridge.enabled || completed" />
+	<slot v-if="!config.appBridge.enabled || appBridge.completed.value" />
 </template>
