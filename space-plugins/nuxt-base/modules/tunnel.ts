@@ -1,5 +1,8 @@
 import { defineNuxtModule } from '@nuxt/kit';
 import { execaCommand } from 'execa';
+import { exec, spawn } from 'child_process';
+import { execSync } from 'node:child_process';
+import { tr } from 'cronstrue/dist/i18n/locales/tr';
 
 export default defineNuxtModule({
 	setup(_options, nuxt) {
@@ -7,10 +10,51 @@ export default defineNuxtModule({
 		if (process.env.NODE_ENV !== 'development' || !tunnelCommand) {
 			return;
 		}
+
 		nuxt.hook('listen', async () => {
-			// using execa@8.0.1 because we're using a bit lower version of Node.js than what execa@9 requires.
-			// https://github.com/sindresorhus/execa/blob/v8.0.1/readme.md
-			execaCommand(tunnelCommand);
+			console.log(`Starting tunnel...`);
+
+			const command = spawn(tunnelCommand, { shell: true, stdio: 'pipe' });
+
+			command.stderr.on('data', (data) => {
+				console.log(data.toString());
+				return;
+			});
+
+			command.on('error', (err) => {
+				console.error('Tunnel error:', err.message);
+
+				return;
+			});
+
+			command.stdout.on('data', (data) => {
+				console.log(`Tunnel running!`, data.toString());
+			});
 		});
 	},
 });
+
+//
+// const command = spawn(tunnelCommand);
+//
+// command.on('error', (err) => {
+// 	console.log(err);
+// 	console.error('Tunnel error:', err.message);
+// });
+//
+// command.stdout.on('data', (data) => {
+// 	console.log(`Tunnel running!`);
+// });
+// });
+
+// exec(tunnelCommand, (error, stdout, stderr) => {
+// 	if (error) {
+// 		console.error(`Error: ${error.message}`);
+// 		return;
+// 	}
+// 	if (stderr) {
+// 		console.error(`Stderr: ${stderr}`);
+// 		return;
+// 	}
+// 	console.log(`Stdout: ${stdout}`);
+// });
