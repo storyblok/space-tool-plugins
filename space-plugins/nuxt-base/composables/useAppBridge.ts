@@ -261,5 +261,7 @@ export const useAppBridge = () => {
 		completed,
 		appBridgeAuth: appBridgeAuthStatus,
 		oauth: oauthStatus,
+		getSlug,
+		getParentHost,
 	};
 };

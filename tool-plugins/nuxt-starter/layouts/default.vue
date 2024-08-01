@@ -3,6 +3,8 @@ const config = useAppConfig();
 const appBridge = useAppBridge();
 const nuxtApp = useNuxtApp();
 nuxtApp.provide('appBridge', appBridge);
+
+useAutoHeight();
 </script>
 
 <template>

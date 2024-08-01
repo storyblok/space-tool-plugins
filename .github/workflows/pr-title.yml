@@ -15,6 +15,7 @@ jobs:
             common
             story
             tool-next
+            tool-nuxt
             space-nuxt-base
             space-nuxt-base-ui
             space-nuxt-starter
