@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+	@apply !bg-white;
+}
+
+* {
+	@apply font-sans;
+}
+
+.btn-tertiary {
+	@apply bg-white border-ink-15 rounded-lg shadow-none font-medium;
+}
+.btn-tertiary:focus-visible {
+	@apply outline-ink-15;
+}
+
+.btn {
+	&-disabled,
+	&[disabled],
+	&:disabled {
+		@apply bg-ink-15 border-none text-ink-50 shadow-none;
+	}
+}
+
+.input {
+	background: white;
+	&-disabled,
+	&[disabled],
+	&:disabled {
+		@apply border-ink-15 bg-ink-10 text-ink-75;
+	}
+}
+
+.main-content {
+	@apply flex flex-col justify-center h-full items-center w-[26.25rem];
+}
+
+.link {
+	@apply text-ink-100 underline;
+}

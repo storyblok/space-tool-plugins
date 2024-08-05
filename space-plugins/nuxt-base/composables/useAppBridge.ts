@@ -1,13 +1,3 @@
-import type {
-	BeginOAuthMessagePayload,
-	CreateBeginOAuthMessagePayload,
-	CreateValidateMessagePayload,
-	DecodedToken,
-	PluginType,
-	PostMessageAction,
-	ValidateMessagePayload,
-} from '~/types/appBridge';
-
 const getPostMessageAction = (type: PluginType): PostMessageAction => {
 	switch (type) {
 		case 'space-plugin':
@@ -271,5 +261,7 @@ export const useAppBridge = () => {
 		completed,
 		appBridgeAuth: appBridgeAuthStatus,
 		oauth: oauthStatus,
+		getSlug,
+		getParentHost,
 	};
 };
