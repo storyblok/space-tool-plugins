@@ -4,7 +4,7 @@ defineProps<{
 	message?: string;
 }>();
 
-const emit = defineEmits(['confirmed']);
+const emit = defineEmits(['confirmed', 'canceled']);
 
 const modalConfirmRef = ref<InstanceType<typeof BaseModal>>();
 
@@ -17,6 +17,11 @@ const onConfirmClicked = () => {
 	emit('confirmed');
 	close();
 };
+
+const onCancelClicked = () => {
+	emit('canceled');
+	close();
+};
 </script>
 
 <template>
@@ -26,6 +31,7 @@ const onConfirmClicked = () => {
 				<button
 					class="btn btn-tertiary"
 					title="Close the modal and cancel the action"
+					@click.prevent="onCancelClicked"
 				>
 					Cancel
 				</button>
