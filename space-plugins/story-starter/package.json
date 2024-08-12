@@ -1,11 +1,11 @@
 {
 	"version": "0.0.1",
-	"name": "nuxt",
+	"name": "story-starter",
 	"private": true,
 	"type": "module",
 	"scripts": {
 		"build": "nuxt build",
-		"dev": "nuxt dev --dotenv ../../.env",
+		"dev": "nuxt dev",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"generate": "nuxt generate",
