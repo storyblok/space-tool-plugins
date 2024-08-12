@@ -4,7 +4,11 @@ The Story Starter is a [Space Plugin](https://www.storyblok.com/docs/plugins/cus
 
 <img src="./docs/screenshot1.png" alt="Screenshot 1" width="600" />
 
+(↑ Story Starter)
+
 <img src="./docs/screenshot2.png" alt="Screenshot 2" width="600" />
+
+(↑ You can define actions like "Delete" in `stories.config.ts`)
 
 ## Getting Started
 
