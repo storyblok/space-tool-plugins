@@ -2,13 +2,15 @@
 
 The Story Starter is a [Space Plugin](https://www.storyblok.com/docs/plugins/custom-application) template that appears on the sidebar of your Storyblok space. It offers essential features for retrieving stories, enabling users to select specific ones, and performing actions. You can implement the actions you want to perform in `stories.config.ts`.
 
-<img src="./docs/screenshot1.png" alt="Screenshot 1" width="600" />
+<p align="center">
+  <img src="./docs/screenshot1.png" alt="Screenshot 1" width="600" />
+</p>
+<p align="center">(↑ Story Starter)</p>
 
-(↑ Story Starter)
-
-<img src="./docs/screenshot2.png" alt="Screenshot 2" width="600" />
-
-(↑ You can define actions like "Delete" in `stories.config.ts`)
+<p align="center">
+  <img src="./docs/screenshot2.png" alt="Screenshot 2" width="600" />
+</p>
+<p align="center">(↑ You can define actions like "Delete" in <code>stories.config.ts</code>)</p>
 
 ## Getting Started
 
