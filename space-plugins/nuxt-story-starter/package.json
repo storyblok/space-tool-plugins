@@ -1,6 +1,6 @@
 {
 	"version": "0.0.1",
-	"name": "story-starter",
+	"name": "nuxt-story-starter",
 	"private": true,
 	"type": "module",
 	"scripts": {
