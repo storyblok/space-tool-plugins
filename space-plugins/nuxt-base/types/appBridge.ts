@@ -5,10 +5,10 @@ export type AppBridgeConfig = {
 };
 
 export type VerifyResponse =
-	| { ok: true; result: DecodedToken }
+	| { ok: true; result: AppBridgeSession }
 	| { ok: false; error: unknown };
 
-export type DecodedToken = {
+export type AppBridgeSession = {
 	app_id: number;
 	space_id: number;
 	user_id: number;

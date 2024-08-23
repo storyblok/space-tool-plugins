@@ -13,10 +13,10 @@ export const verifyAppBridgeToken = async (
 async function verifyToken(
 	token: string,
 	secret: string,
-): Promise<DecodedToken> {
+): Promise<AppBridgeSession> {
 	return new Promise((resolve, reject) => {
 		const verifyCallback: VerifyCallback = (err, decoded) =>
-			err ? reject(err) : resolve(decoded as DecodedToken);
+			err ? reject(err) : resolve(decoded as AppBridgeSession);
 		jwt.verify(token, secret, verifyCallback);
 	});
 }

@@ -70,7 +70,7 @@ const useAppBridgeAuth = ({
 
 	const isAuthenticated = () => {
 		try {
-			const payload: DecodedToken = JSON.parse(
+			const payload: AppBridgeSession = JSON.parse(
 				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
 			);
 			return payload && new Date().getTime() / 1000 < payload.exp;
