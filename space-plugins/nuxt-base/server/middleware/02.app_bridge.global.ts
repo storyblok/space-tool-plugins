@@ -26,4 +26,5 @@ export default defineEventHandler(async (event) => {
 	if (!result.ok) {
 		throw createError({ statusCode: 401 });
 	}
+	event.context.appBridgeSession = result.result;
 });
