@@ -16,6 +16,7 @@ jobs:
             story
             tool-next
             tool-nuxt
+            space-next
             space-nuxt-base
             space-nuxt-base-ui
             space-nuxt-starter
