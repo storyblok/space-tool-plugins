@@ -1,9 +1,6 @@
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { isAppSessionQuery } from '@storyblok/app-extension-auth';
-import { appSessionCookies } from '@/auth';
-import { useToolContext } from '@/hooks';
-import { isAdmin } from '@/utils';
+import { useAppBridge } from '@/hooks';
+import UserInfo from '../../components/UserInfo';
 
 type User = {
 	id: number;
@@ -14,15 +11,8 @@ type UserInfo = {
 	user: User;
 };
 
-type HomeProps = {
-	userInfo: UserInfo;
-	spaceId: string;
-	userId: string;
-	isAdmin: boolean;
-};
-
-export default function Home(props: HomeProps) {
-	const toolContext = useToolContext();
+export default function Home() {
+	const { completed } = useAppBridge({ type: 'space-plugin', oauth: true });
 
 	return (
 		<>
@@ -32,72 +22,13 @@ export default function Home(props: HomeProps) {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
 			<main>
-				{props.userInfo && (
-					<span>Hello {props.userInfo.user.friendly_name}</span>
-				)}
-				{toolContext && (
-					<>
-						<h2>Story Information</h2>
-						<div>
-							<span>Story: {toolContext.story.name}</span>
-							<span>Slug: {toolContext.story.slug}</span>
-						</div>
-					</>
+				{completed && (
+					<div>
+						<p>Authenticated!</p>
+						<UserInfo />
+					</div>
 				)}
 			</main>
 		</>
 	);
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { query } = context;
-
-	if (!isAppSessionQuery(query)) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: process.env.BASE_URL + '/api/connect/storyblok',
-			},
-		};
-	}
-
-	const sessionStore = appSessionCookies(context);
-	const appSession = await sessionStore.get(query);
-
-	if (!appSession) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: process.env.BASE_URL + '/api/connect/storyblok',
-			},
-		};
-	}
-
-	const { accessToken, spaceId, userId } = appSession;
-
-	const userInfo = await fetchUserInfo(accessToken);
-
-	return {
-		props: { userInfo, spaceId, userId, isAdmin: isAdmin(appSession) },
-	};
-};
-
-const fetchUserInfo = async (accessToken: string) => {
-	try {
-		const response = await fetch(`https://api.storyblok.com/oauth/user_info`, {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-			},
-		});
-
-		if (!response.ok) {
-			throw new Error(`Request failed with status: ${response.status}`);
-		}
-
-		return await response.json();
-	} catch (error) {
-		console.error('Failed to fetch user information:', error);
-	}
-
-	return null;
-};
