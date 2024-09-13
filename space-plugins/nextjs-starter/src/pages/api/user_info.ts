@@ -1,14 +1,10 @@
-import { getAppSession, verifyAppBridgeHeader } from '@/utils/server';
+import { getAppSession } from '@/utils/server';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const verified = verifyAppBridgeHeader(req);
-	if (!verified) {
-		return res.status(401).end();
-	}
 	const appSession = await getAppSession(req, res);
 	if (!appSession) {
 		return res.status(401).end();
