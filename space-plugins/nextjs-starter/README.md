@@ -75,7 +75,7 @@ App Bridge is an extra authentication layer recently introduced for Space Plugin
 
 <img src="./docs/app-bridge.png" alt="App Bridge" width="600" />
 
-If you don't see the UI to enable App Bridge, please reach out to [the Storyblok support](https://www.storyblok.com/trust-center/service-support). Or, you can use [the legacy template](https://github.com/storyblok/custom-app-examples/tree/main/app-nextjs-starter) that does not use App Bridge.
+If you don't want to use App Bridge, you can use [the legacy template](https://github.com/storyblok/custom-app-examples/tree/main/app-nextjs-starter).
 
 ### App Bridge in Depth
 
