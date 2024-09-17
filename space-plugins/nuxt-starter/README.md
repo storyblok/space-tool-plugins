@@ -63,7 +63,7 @@ Ensure that "Production" is the section that contains information about the prod
 
 <img src="./docs/app-bridge.png" alt="App Bridge" width="600" />
 
-If you don't see the UI to enable App Bridge, please reach out to [the Storyblok support](https://www.storyblok.com/trust-center/service-support). Or, you can disable App Bridge, by replacing your `app.config.ts` with the following.
+If you don't want to use App Bridge, you can disable App Bridge, by replacing your `app.config.ts` with the following.
 
 ```ts
 export default defineAppConfig({
