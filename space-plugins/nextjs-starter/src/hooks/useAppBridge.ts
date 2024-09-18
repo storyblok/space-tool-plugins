@@ -13,7 +13,8 @@ import {
 	KEY_SLUG,
 	KEY_TOKEN,
 	KEY_VALIDATED_PAYLOAD,
-} from '@/utils/const';
+} from '@/const';
+import config from '@/config';
 import { useState, useEffect } from 'react';
 
 const getPostMessageAction = (type: PluginType): PostMessageAction => {
@@ -55,10 +56,8 @@ const postMessageToParent = (payload: unknown) => {
 };
 
 const useAppBridgeAuth = ({
-	type,
 	authenticated,
 }: {
-	type: PluginType;
 	authenticated: () => Promise<void>;
 }) => {
 	const [status, setStatus] = useState<
@@ -104,7 +103,7 @@ const useAppBridgeAuth = ({
 		const slug = getSlug();
 
 		try {
-			const payload = createValidateMessagePayload({ type, slug });
+			const payload = createValidateMessagePayload({ type: config.type, slug });
 
 			postMessageToParent(payload);
 			sessionStorage.setItem(KEY_PARENT_HOST, host);
@@ -183,7 +182,7 @@ const useAppBridgeAuth = ({
 	return { status, init, error };
 };
 
-const useOAuth = ({ type }: { type: PluginType }) => {
+const useOAuth = () => {
 	const [status, setStatus] = useState<
 		'init' | 'authenticating' | 'authenticated'
 	>('init');
@@ -215,7 +214,11 @@ const useOAuth = ({ type }: { type: PluginType }) => {
 
 	const sendBeginOAuthMessageToParent = (redirectTo: string) => {
 		const slug = getSlug();
-		const payload = createOAuthInitMessagePayload({ type, slug, redirectTo });
+		const payload = createOAuthInitMessagePayload({
+			type: config.type,
+			slug,
+			redirectTo,
+		});
 		postMessageToParent(payload);
 	};
 
@@ -240,32 +243,25 @@ const useOAuth = ({ type }: { type: PluginType }) => {
 	return { init, status };
 };
 
-export const useAppBridge = ({
-	type,
-	oauth,
-}: {
-	type: PluginType;
-	oauth: boolean;
-}) => {
-	const { init: initOAuth, status: oauthStatus } = useOAuth({ type });
+export const useAppBridge = () => {
+	const { init: initOAuth, status: oauthStatus } = useOAuth();
 
 	const { init: initAppBridgeAuth, status: appBridgeAuthStatus } =
 		useAppBridgeAuth({
-			type,
 			authenticated: async () => {
-				if (oauth) {
+				if (config.oauth) {
 					await initOAuth();
 				}
 			},
 		});
 
-	const completed = oauth
+	const completed = config.oauth
 		? appBridgeAuthStatus === 'authenticated' && oauthStatus === 'authenticated'
 		: appBridgeAuthStatus === 'authenticated';
 
 	useEffect(() => {
 		initAppBridgeAuth();
-	}, [type, oauth]);
+	}, []);
 
 	return {
 		completed,

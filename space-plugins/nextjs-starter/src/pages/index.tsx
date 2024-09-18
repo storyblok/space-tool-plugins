@@ -13,7 +13,7 @@ type UserInfo = {
 };
 
 export default function Home() {
-	const { completed } = useAppBridge({ type: 'space-plugin', oauth: true });
+	const { completed } = useAppBridge();
 
 	return (
 		<>
