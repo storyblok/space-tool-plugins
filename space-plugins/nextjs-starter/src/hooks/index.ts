@@ -1,2 +1,1 @@
-export * from './getContext';
-export * from './shared';
+export * from './useAppBridge';
