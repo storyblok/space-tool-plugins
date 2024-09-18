@@ -1,8 +1,10 @@
-import { APP_BRIDGE_TOKEN_HEADER_KEY, KEY_TOKEN } from '@/const';
+import { APP_BRIDGE_TOKEN_HEADER_KEY, KEY_TOKEN } from '@/utils/const';
 import { useEffect, useState } from 'react';
 
 export default function Test() {
-	const [response, setResponse] = useState(null);
+	const [testInfo, setTestInfo] = useState<{ verified: boolean }>({
+		verified: false,
+	});
 	useEffect(() => {
 		const fetchTestInfo = async () => {
 			const response = await fetch('/api/test', {
@@ -12,15 +14,14 @@ export default function Test() {
 				},
 			});
 			const json = await response.json();
-			setResponse(json);
+			setTestInfo(json);
 		};
 		fetchTestInfo();
 	}, []);
 
 	return (
-		<div>
-			<p>Response from /api/test:</p>
-			<pre>{response}</pre>
-		</div>
+		<pre>
+			App Bridge session is {testInfo?.verified ? 'verified' : 'not verified'}
+		</pre>
 	);
 }

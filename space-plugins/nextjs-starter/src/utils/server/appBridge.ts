@@ -1,7 +1,7 @@
 import jwt, { type VerifyCallback } from 'jsonwebtoken';
 import { AppBridgeSession, VerifyResponse } from '@/types';
 import { NextApiRequest } from 'next';
-import { APP_BRIDGE_TOKEN_HEADER_KEY } from '../../const';
+import { APP_BRIDGE_TOKEN_HEADER_KEY } from '../const';
 
 export const verifyAppBridgeHeader = async (req: NextApiRequest) => {
 	const token = req.headers[APP_BRIDGE_TOKEN_HEADER_KEY];

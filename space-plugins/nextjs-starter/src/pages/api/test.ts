@@ -5,7 +5,6 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	console.log('💡 /api/test');
 	const verified = await verifyAppBridgeHeader(req);
 
 	if (verified.ok) {
