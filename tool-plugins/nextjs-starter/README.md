@@ -46,7 +46,7 @@ There are two ways on how you can create a tool inside Storyblok. Depending on y
 4. Select `tool` as extension type
 5. Click on **Save**
 
-### Tool Configuration
+### Configuration
 
 Once the tool has been created, a new entry will appear inside the extension list. Open it and navigate to the `OAuth 2.0 and Pages` tab.
 
@@ -69,6 +69,43 @@ Start the application by running:
 ```shell
 yarn dev # pnpm dev or npm run dev
 ```
+
+### App Bridge
+
+App Bridge is an extra authentication layer recently introduced for Space Plugins and Tool Plugins. This starter assumes you've enabled App Bridge on the Settings page. Documentation on App Bridge will come in the near future, but you don't need to know about its inner process. This starter addresses a large portion of this aspect out of the box.
+
+<img src="./docs/app-bridge.png" alt="App Bridge" width="600" />
+
+If you don't want to use App Bridge, you can use [the legacy template](https://github.com/storyblok/custom-app-examples/tree/main/app-nextjs-starter).
+
+### App Bridge in Depth
+
+App Bridge authentication starts on the frontend by sending a postMessage to `app.storyblok.com`. In the `src/pages/index.tsx` file, you can find the following code:
+
+```jsx
+const { completed } = useAppBridge({ type: 'space-plugin', oauth: true });
+
+return (
+	<div>
+		{completed && (
+			<div>
+				<UserInfo />
+				<Test />
+			</div>
+		)}
+	</div>
+);
+```
+
+The code above handles both App Bridge authentication and OAuth.
+
+1. If you need to use Storyblok's Management API:
+
+After completing both authentications, the `<UserInfo />` component is rendered. This component sends a request to `/api/user_info`. The OAuth token is automatically included in the request as a cookie, and the endpoint retrieves the session using `await getAppSession(req, res)`. It then fetches user information from Storyblok's Management API using the OAuth token.
+
+2. If you don't need the Management API but still want to validate the request on the backend:
+
+When the `<Test />` component is rendered, it makes a request to `/api/test`. We attach the App Bridge token as a header. The endpoint verifies the token using `await verifyAppBridgeHeader(req)`. Only if the token is verified can you perform any desired action.
 
 ### Tool Installation
 

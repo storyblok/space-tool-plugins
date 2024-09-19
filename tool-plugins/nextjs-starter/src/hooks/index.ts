@@ -1,3 +1,4 @@
 export * from './useAutoHeight';
-export * from './getContext';
+export * from './useToolContext';
 export * from './shared';
+export * from './useAppBridge';
