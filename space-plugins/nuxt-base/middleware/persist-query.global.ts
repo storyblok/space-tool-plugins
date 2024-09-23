@@ -19,15 +19,7 @@ const isValidQuery = (query: unknown): query is Query =>
 	(('space_id' in query &&
 		typeof query.space_id === 'string' &&
 		'user_id' in query &&
-		typeof query.user_id === 'string' &&
-		'user_is_admin' in query &&
-		typeof query.user_is_admin === 'string' &&
-		'space_name' in query &&
-		typeof query.space_name === 'string' &&
-		'space_is_trial' in query &&
-		typeof query.space_is_trial === 'string' &&
-		'user_lang' in query &&
-		typeof query.user_lang === 'string') ||
+		typeof query.user_id === 'string') ||
 		('spaceId' in query &&
 			typeof query.spaceId === 'string' &&
 			'userId' in query &&
@@ -37,10 +29,6 @@ type Query =
 	| {
 			space_id: string;
 			user_id: string;
-			user_is_admin: string;
-			space_name: string;
-			space_is_trial: string;
-			user_lang: string;
 	  }
 	| {
 			spaceId: string;
