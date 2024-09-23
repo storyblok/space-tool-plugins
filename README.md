@@ -10,8 +10,10 @@ Inside each project you will find a detailed README.md file that will provide in
 
 - Space Plugins
   - [Nuxt Starter](space-plugins/nuxt-starter/README.md)
-  - [Story Starter](space-plugins/story-starter/README.md)
+  - [Next.js Starter](space-plugins/nextjs-starter/README.md)
+  - [Story Starter](space-plugins/nuxt-story-starter/README.md)
 - Tool Plugins
+  - [Nuxt Starter](tool-plugins/nuxt-starter/README.md)
   - [Next.js Starter](tool-plugins/nextjs-starter/README.md)
 
 ## Glossary
