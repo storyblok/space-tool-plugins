@@ -9,12 +9,12 @@ This repository is a collection of starters to help developers quickly start bui
 Inside each project you will find a detailed README.md file that will provide instructions on how to clone and run the code. Here is a short list of all projects inside of this repository:
 
 - Space Plugins
-  - [Nuxt Starter](space-plugins/nuxt-starter/README.md)
-  - [Next.js Starter](space-plugins/nextjs-starter/README.md)
-  - [Story Starter](space-plugins/nuxt-story-starter/README.md)
+  - [Nuxt Starter](space-plugins/nuxt-starter/README.md): Basic Nuxt starter
+  - [Next.js Starter](space-plugins/nextjs-starter/README.md): Basic Next.js starter
+  - [Story Starter](space-plugins/nuxt-story-starter/README.md): Nuxt starter packed with implementations for story-related actions
 - Tool Plugins
-  - [Nuxt Starter](tool-plugins/nuxt-starter/README.md)
-  - [Next.js Starter](tool-plugins/nextjs-starter/README.md)
+  - [Nuxt Starter](tool-plugins/nuxt-starter/README.md): Basic Nuxt starter
+  - [Next.js Starter](tool-plugins/nextjs-starter/README.md): Basic Next.js starter
 
 ## Glossary
 
