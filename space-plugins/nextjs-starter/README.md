@@ -146,7 +146,7 @@ If you have trouble setting up the development environment, please review the fo
    - **Index to your page**: `{BASE_URL}`
    - **Redirection endpoint**: `{BASE_URL}/api/connect/callback`
 
-<img src="./docs/oauth.png" alt="App Bridge" width="600" />
+<img src="./docs/oauth-urls.png" alt="App Bridge" width="600" />
 
 4. Ensure that the extension settings inside Storyblok have the "Use App Bridge" option enabled.
 
