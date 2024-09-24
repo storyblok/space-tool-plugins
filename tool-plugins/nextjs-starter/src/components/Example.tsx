@@ -7,7 +7,7 @@ export default function Test() {
 	});
 	useEffect(() => {
 		const fetchTestInfo = async () => {
-			const response = await fetch('/api/test', {
+			const response = await fetch('/api/example', {
 				headers: {
 					[APP_BRIDGE_TOKEN_HEADER_KEY]:
 						sessionStorage.getItem(KEY_TOKEN) || '',
