@@ -130,22 +130,26 @@ For more detailed information on Storyblok extensions, read the following guides
 - [Space Plugin](https://www.storyblok.com/docs/plugins/custom-application)
 - [OAuth 2.0 Authorization Flow](https://www.storyblok.com/docs/plugins/authentication-apps)
 
-
 ## Troubleshooting
 
 If you have trouble setting up the development environment, please review the following:
 
 1. Ensure that the `.env.local` file is correctly set up with the following variables:
-  - `CLIENT_ID=`
-  - `CLIENT_SECRET=`
-  - `BASE_URL=`
+
+   - `CLIENT_ID=`
+   - `CLIENT_SECRET=`
+   - `BASE_URL=`
 
 2. Ensure that the tunnel is correctly set up with the `BASE_URL`.
 
 3. Ensure that the extension settings inside Storyblok are correctly set up with the following properties:
-  - **Index to your page**: `{BASE_URL}`
-  - **Redirection endpoint**: `{BASE_URL}/api/connect/callback`
+   - **Index to your page**: `{BASE_URL}`
+   - **Redirection endpoint**: `{BASE_URL}/api/connect/callback`
+
+<img src="./docs/oauth.png" alt="App Bridge" width="600" />
 
 4. Ensure that the extension settings inside Storyblok have the "Use App Bridge" option enabled.
+
+<img src="./docs/app-bridge.png" alt="App Bridge" width="600" />
 
 5. Ensure that the ad-blocker browser extensions are disabled when developing the extension.
