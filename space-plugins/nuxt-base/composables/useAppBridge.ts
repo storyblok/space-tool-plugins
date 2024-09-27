@@ -94,6 +94,8 @@ const useAppBridgeAuth = ({
 			sessionStorage.setItem(KEY_SLUG, slug || '');
 		} catch (err) {
 			sessionStorage.removeItem(KEY_PARENT_HOST);
+			sessionStorage.removeItem(KEY_SLUG);
+			error.value = 'Failed to request validation.';
 		}
 	};
 
