@@ -1,7 +1,7 @@
 import { APP_BRIDGE_TOKEN_HEADER_KEY, KEY_TOKEN } from '@/utils/const';
 import { useEffect, useState } from 'react';
 
-export default function Test() {
+export default function Example() {
 	const [testInfo, setTestInfo] = useState<{ verified: boolean }>({
 		verified: false,
 	});
