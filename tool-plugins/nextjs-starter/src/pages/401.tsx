@@ -9,5 +9,5 @@ export default function Error401() {
 		}
 	}, []);
 
-	return <span>Error: Unauthorized</span>;
+	return <div></div>;
 }

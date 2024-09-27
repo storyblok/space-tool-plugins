@@ -1,3 +1,21 @@
+import {
+	AppBridgeSession,
+	BeginOAuthMessagePayload,
+	CreateBeginOAuthMessagePayload,
+	CreateValidateMessagePayload,
+	PluginType,
+	PostMessageAction,
+	ValidateMessagePayload,
+} from '@/types';
+import {
+	APP_BRIDGE_ORIGIN,
+	KEY_PARENT_HOST,
+	KEY_SLUG,
+	KEY_TOKEN,
+	KEY_VALIDATED_PAYLOAD,
+} from '@/utils/const';
+import { useState, useEffect } from 'react';
+
 const getPostMessageAction = (type: PluginType): PostMessageAction => {
 	switch (type) {
 		case 'space-plugin':
@@ -37,23 +55,23 @@ const postMessageToParent = (payload: unknown) => {
 };
 
 const useAppBridgeAuth = ({
+	type,
 	authenticated,
 }: {
+	type: PluginType;
 	authenticated: () => Promise<void>;
 }) => {
-	const appConfig = useAppConfig();
-	const status = ref<'init' | 'authenticating' | 'authenticated' | 'error'>(
-		'init',
-	);
-	const error = ref<unknown>();
-	const origin = appConfig.appBridge.origin || 'https://app.storyblok.com';
+	const [status, setStatus] = useState<
+		'init' | 'authenticating' | 'authenticated' | 'error'
+	>('init');
+	const [error, setError] = useState<unknown>();
 
 	const init = async () => {
 		const isInIframe = window.top !== window.self;
 
 		if (!isInIframe) {
-			status.value = 'error';
-			error.value = 'not-in-iframe';
+			setStatus('error');
+			setError('not-in-iframe');
 			return;
 		}
 
@@ -62,8 +80,8 @@ const useAppBridgeAuth = ({
 			return;
 		}
 
-		status.value = 'authenticated';
-		error.value = undefined;
+		setStatus('authenticated');
+		setError(undefined);
 
 		await authenticated();
 	};
@@ -74,19 +92,18 @@ const useAppBridgeAuth = ({
 				sessionStorage.getItem(KEY_VALIDATED_PAYLOAD) || '',
 			);
 			return payload && new Date().getTime() / 1000 < payload.exp;
-		} catch (err) {
+		} catch (_err) {
 			return false;
 		}
 	};
 
 	const sendValidateMessageToParent = () => {
-		status.value = 'authenticating';
-		error.value = undefined;
+		setStatus('authenticating');
+		setError(undefined);
 		const host = getParentHost();
 		const slug = getSlug();
 
 		try {
-			const type = appConfig.type;
 			const payload = createValidateMessagePayload({ type, slug });
 
 			postMessageToParent(payload);
@@ -95,7 +112,7 @@ const useAppBridgeAuth = ({
 		} catch (err) {
 			sessionStorage.removeItem(KEY_PARENT_HOST);
 			sessionStorage.removeItem(KEY_SLUG);
-			error.value = 'Failed to request validation.';
+			setError('Failed to request validation.');
 		}
 	};
 
@@ -116,7 +133,7 @@ const useAppBridgeAuth = ({
 	};
 
 	const eventListener = async (event: MessageEvent) => {
-		if (event.origin !== origin) {
+		if (event.origin !== APP_BRIDGE_ORIGIN) {
 			// This can happen for many different reasons,
 			// like a React DevTools extension, etc.
 			return;
@@ -125,10 +142,12 @@ const useAppBridgeAuth = ({
 		if (event.data.action === 'validated') {
 			const token = event.data.token;
 			try {
-				const response = await $fetch('/api/_app_bridge', {
-					method: 'POST',
-					body: JSON.stringify({ token }),
-				});
+				const response = await (
+					await fetch('/api/_app_bridge', {
+						method: 'POST',
+						body: JSON.stringify({ token }),
+					})
+				).json();
 
 				if (response.ok) {
 					sessionStorage.setItem(KEY_TOKEN, token);
@@ -136,55 +155,56 @@ const useAppBridgeAuth = ({
 						KEY_VALIDATED_PAYLOAD,
 						JSON.stringify(response.result),
 					);
-					status.value = 'authenticated';
-					error.value = undefined;
+					setStatus('authenticated');
+					setError(undefined);
 					await authenticated();
 				} else {
 					sessionStorage.removeItem(KEY_TOKEN);
 					sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
-					status.value = 'error';
-					error.value = response.error;
+					setStatus('error');
+					setError(response.error);
 				}
 			} catch (err) {
 				sessionStorage.removeItem(KEY_TOKEN);
 				sessionStorage.removeItem(KEY_VALIDATED_PAYLOAD);
-				status.value = 'error';
-				error.value = err;
+				setStatus('error');
+				setError(err);
 			}
 		}
 	};
 
-	// Adds event listener to listen to events coming from Storyblok to Iframe (plugin)
-	onMounted(async () => {
+	useEffect(() => {
+		// Adds event listener to listen to events coming from Storyblok to Iframe (plugin)
 		window.addEventListener('message', eventListener);
-	});
 
-	onUnmounted(() => {
-		window.removeEventListener('message', eventListener);
-	});
+		return () => {
+			window.removeEventListener('message', eventListener);
+		};
+	}, []);
 
 	return { status, init, error };
 };
 
-const useOAuth = () => {
-	const appConfig = useAppConfig();
-	const status = ref<'disabled' | 'init' | 'authenticating' | 'authenticated'>(
-		appConfig.appBridge.oauth ? 'init' : 'disabled',
-	);
+const useOAuth = ({ type }: { type: PluginType }) => {
+	const [status, setStatus] = useState<
+		'init' | 'authenticating' | 'authenticated'
+	>('init');
 
 	const init = async () => {
-		status.value = 'authenticating';
+		setStatus('authenticating');
 
 		const initOAuth =
 			new URLSearchParams(location.search).get('init_oauth') === 'true';
 
-		const response = await $fetch('/api/_oauth', {
-			method: 'POST',
-			body: { initOAuth },
-		});
+		const response = await (
+			await fetch('/api/_oauth', {
+				method: 'POST',
+				body: JSON.stringify({ initOAuth }),
+			})
+		).json();
 
 		if (response.ok) {
-			status.value = 'authenticated';
+			setStatus('authenticated');
 			return;
 		}
 
@@ -197,7 +217,6 @@ const useOAuth = () => {
 
 	const sendBeginOAuthMessageToParent = (redirectTo: string) => {
 		const slug = getSlug();
-		const type = appConfig.type;
 		const payload = createOAuthInitMessagePayload({ type, slug, redirectTo });
 		postMessageToParent(payload);
 	};
@@ -223,41 +242,32 @@ const useOAuth = () => {
 	return { init, status };
 };
 
-export const useAppBridge = () => {
-	const nuxtApp = useNuxtApp();
-	const appConfig = useAppConfig();
-
-	if (appConfig.appBridge.enabled && nuxtApp.payload.serverRendered) {
-		throw new Error(
-			'To use App Bridge, you must configure `ssr: false` in your `nuxt.config.ts` file.',
-		);
-	}
-
-	const { init: initOAuth, status: oauthStatus } = useOAuth();
+export const useAppBridge = ({
+	type,
+	oauth,
+}: {
+	type: PluginType;
+	oauth: boolean;
+}) => {
+	const { init: initOAuth, status: oauthStatus } = useOAuth({ type });
 
 	const { init: initAppBridgeAuth, status: appBridgeAuthStatus } =
 		useAppBridgeAuth({
+			type,
 			authenticated: async () => {
-				if (appConfig.appBridge.oauth) {
+				if (oauth) {
 					await initOAuth();
 				}
 			},
 		});
 
-	const completed = computed(() => {
-		if (appConfig.appBridge.oauth) {
-			return (
-				appBridgeAuthStatus.value === 'authenticated' &&
-				oauthStatus.value === 'authenticated'
-			);
-		} else {
-			return appBridgeAuthStatus.value === 'authenticated';
-		}
-	});
+	const completed = oauth
+		? appBridgeAuthStatus === 'authenticated' && oauthStatus === 'authenticated'
+		: appBridgeAuthStatus === 'authenticated';
 
-	if (appConfig.appBridge.enabled) {
+	useEffect(() => {
 		initAppBridgeAuth();
-	}
+	}, [type, oauth]);
 
 	return {
 		completed,
