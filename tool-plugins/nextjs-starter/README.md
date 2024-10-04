@@ -90,7 +90,7 @@ return (
 		{completed && (
 			<div>
 				<UserInfo />
-				<Test />
+				<Example />
 			</div>
 		)}
 	</div>
