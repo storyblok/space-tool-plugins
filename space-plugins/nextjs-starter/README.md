@@ -89,7 +89,7 @@ return (
 		{completed && (
 			<div>
 				<UserInfo />
-				<Test />
+				<Example />
 			</div>
 		)}
 	</div>
@@ -104,7 +104,7 @@ After completing both authentications, the `<UserInfo />` component is rendered.
 
 2. If you don't need the Management API but still want to validate the request on the backend:
 
-When the `<Test />` component is rendered, it makes a request to `/api/test`. We attach the App Bridge token as a header. The endpoint verifies the token using `await verifyAppBridgeHeader(req)`. Only if the token is verified can you perform any desired action.
+When the `<Example />` component is rendered, it makes a request to `/api/example`. We attach the App Bridge token as a header. The endpoint verifies the token using `await verifyAppBridgeHeader(req)`. Only if the token is verified can you perform any desired action.
 
 ### Extension Installation
 

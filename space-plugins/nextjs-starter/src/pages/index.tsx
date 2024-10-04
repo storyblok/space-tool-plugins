@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useAppBridge } from '@/hooks';
 import UserInfo from '@/components/UserInfo';
-import Test from '@/components/Test';
+import Example from '@/components/Example';
 
 type User = {
 	id: number;
@@ -27,7 +27,7 @@ export default function Home() {
 					<div>
 						<p>Authenticated!</p>
 						<UserInfo />
-						<Test />
+						<Example />
 					</div>
 				)}
 			</main>
