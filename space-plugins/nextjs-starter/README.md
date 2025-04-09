@@ -2,6 +2,8 @@
 
 This is a starter template for Storyblok Space Plugins, created with Next.js (Pages Router) and [@storyblok/app-extension-auth](https://github.com/storyblok/app-extension-auth).
 
+> WARNING: App Bridge should be activated in the Extension for this template to work.
+
 ## Getting Started
 
 ```shell
@@ -15,7 +17,7 @@ Navigate to your project folder and install dependencies by running:
 ```shell
 cd YOUR-PROJECT-NAME
 
-yarn install # pnpm install or npm install
+pnpm install # yarn install or npm install
 ```
 
 Set up a secure tunnel to proxy your request to/from `localhost:3000`, for example, with [ngrok](https://ngrok.com/):
@@ -66,7 +68,7 @@ Rename the file `.env.local.example` to `.env.local`. Open the file and set the 
 Start the application by running:
 
 ```shell
-yarn dev # pnpm dev or npm run dev
+pnpm dev # yarn dev or npm run dev
 ```
 
 ### App Bridge

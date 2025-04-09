@@ -1,0 +1,30 @@
+name: 'ci-next-templates'
+on:
+  push:
+    paths:
+      - 'space-plugins/nextjs-starter'
+      - 'tool-plugins/nextjs-starter'
+jobs:
+  nextjs-starters-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+      - name: Build Space Plugin Starter
+        run: |
+          cd space-plugins/nextjs-starter
+          pnpm install
+          pnpm build
+      - name: Build Tool Plugin Starter
+        run: |
+          cd tool-plugins/nextjs-starter
+          pnpm install
+          pnpm build
