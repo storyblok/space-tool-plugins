@@ -75,21 +75,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storyblok/app-extension-auth@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@storyblok/app-extension-auth@npm:2.0.0"
+"@storyblok/app-extension-auth@npm:2.0.3":
+  version: 2.0.3
+  resolution: "@storyblok/app-extension-auth@npm:2.0.3"
   dependencies:
-    "@storyblok/region-helper": 0.1.0
+    "@storyblok/region-helper": 1.1.0
     jsonwebtoken: ^9.0.0
-    openid-client: ^5.4.2
-  checksum: 839bc19914e1a790e8d24db6d95e614aad0b21ef0919819a4e92f33f5be0fa7d21c51e4108ec47c94352d541ca4c3f48d5d615f33b617b44721f479116d82ad9
+    openid-client: ^5.7.1
+  checksum: 45f44d32a4cf6df49c052a55a8550e4587a5fc0b87bc9ee1ebc517657b9b3abbfdd3cdaa12b1ff6e5a3d321889f5bbda8d173bdbd888dd1bf5a814775118cee5
   languageName: node
   linkType: hard
 
-"@storyblok/region-helper@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@storyblok/region-helper@npm:0.1.0"
-  checksum: 602eb93f1081ed6e746751c1de4b24ff3c7d4b6aeb208449f5474c0bbf780e8257c46e892919b09374364597ab93a3084f903d6c8cda6f9a07e0d3df02e08f8b
+"@storyblok/region-helper@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@storyblok/region-helper@npm:1.1.0"
+  checksum: 2eca9a222a28699f858d2ca27d58016cbe164f26d5b55fdb0caa58525e2d8cadb9fafd4e8f4337e71d2a354297f41531fda7292e93b5cd26c074d444e6edecbf
   languageName: node
   linkType: hard
 
@@ -102,12 +102,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:^9.0.7":
-  version: 9.0.7
-  resolution: "@types/jsonwebtoken@npm:9.0.7"
+"@types/jsonwebtoken@npm:^9.0.9":
+  version: 9.0.9
+  resolution: "@types/jsonwebtoken@npm:9.0.9"
   dependencies:
+    "@types/ms": "*"
     "@types/node": "*"
-  checksum: 872b62e2a50ec399d695402ccddfeb5cd66a6c3d28511f27453b932b6b67eb82c2d0ecaa864939848b88b3a8276c2492647bf5707bc82a6ac7e420d3412b9047
+  checksum: 9d564fc09fc83f66e319754dee0b039ae23f28fc38a9227c35283e69311ddf5a7493a060c7f956df8cd856416747c515b51fec20b8656865eacebf23b3c6bc62
+  languageName: node
+  linkType: hard
+
+"@types/ms@npm:*":
+  version: 2.1.0
+  resolution: "@types/ms@npm:2.1.0"
+  checksum: 532d2ebb91937ccc4a89389715e5b47d4c66e708d15942fe6cc25add6dc37b2be058230a327dd50f43f89b8b6d5d52b74685a9e8f70516edfc9bdd6be910eff4
   languageName: node
   linkType: hard
 
@@ -120,10 +128,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.5.9":
-  version: 20.5.9
-  resolution: "@types/node@npm:20.5.9"
-  checksum: 717490e94131722144878b4ca1a963ede1673bb8f2ef78c2f5b50b918df6dc9b35e7f8283e5c2a7a9f137730f7c08dc6228e53d4494a94c9ee16881e6ce6caed
+"@types/node@npm:22.14.0":
+  version: 22.14.0
+  resolution: "@types/node@npm:22.14.0"
+  dependencies:
+    undici-types: ~6.21.0
+  checksum: 8bfae1d3c428b122d23750690bdc5b8295a53949823563ec60654a24ece98bde4fc0d2b5f06ddc6def6f01a08dfe62cece7c93e60964b74f736145dad5ee1302
   languageName: node
   linkType: hard
 
@@ -439,15 +449,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openid-client@npm:^5.4.2":
-  version: 5.7.0
-  resolution: "openid-client@npm:5.7.0"
+"openid-client@npm:^5.7.1":
+  version: 5.7.1
+  resolution: "openid-client@npm:5.7.1"
   dependencies:
     jose: ^4.15.9
     lru-cache: ^6.0.0
     object-hash: ^2.2.0
     oidc-token-hash: ^5.0.3
-  checksum: 63fc76918fc12f3d6e1456a0b170f417defccf6820acb4581ffc226cb8c9a18d50f76f0982d7a00cce2896c732eb2a6361ad6ea04b127b2603e56408b680ef9c
+  checksum: 497aad2c8a022cef112ade19ed88fba6c8ca0e79607ebe5efdcf75c4095d7924ca479085c1c94f689f6dbc9442c61aab3c2443eb347bcbc6ef51df68827c7c47
   languageName: node
   linkType: hard
 
@@ -549,16 +559,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tool-nextjs-starter@workspace:."
   dependencies:
-    "@storyblok/app-extension-auth": 2.0.0
-    "@types/jsonwebtoken": ^9.0.7
-    "@types/node": 20.5.9
+    "@storyblok/app-extension-auth": 2.0.3
+    "@types/jsonwebtoken": ^9.0.9
+    "@types/node": 22.14.0
     "@types/react": 18.2.21
     "@types/react-dom": 18.2.7
     jsonwebtoken: ^9.0.2
     next: 13.4.19
     react: 18.2.0
     react-dom: 18.2.0
-    typescript: 5.2.2
+    typescript: 5.8.3
   languageName: unknown
   linkType: soft
 
@@ -569,23 +579,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.2.2":
-  version: 5.2.2
-  resolution: "typescript@npm:5.2.2"
+"typescript@npm:5.8.3":
+  version: 5.8.3
+  resolution: "typescript@npm:5.8.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 7912821dac4d962d315c36800fe387cdc0a6298dba7ec171b350b4a6e988b51d7b8f051317786db1094bd7431d526b648aba7da8236607febb26cf5b871d2d3c
+  checksum: cb1d081c889a288b962d3c8ae18d337ad6ee88a8e81ae0103fa1fecbe923737f3ba1dbdb3e6d8b776c72bc73bfa6d8d850c0306eed1a51377d2fccdfd75d92c4
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.2.2#~builtin<compat/typescript>":
-  version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"
+"typescript@patch:typescript@5.8.3#~builtin<compat/typescript>":
+  version: 5.8.3
+  resolution: "typescript@patch:typescript@npm%3A5.8.3#~builtin<compat/typescript>::version=5.8.3&hash=f3b441"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 0f4da2f15e6f1245e49db15801dbee52f2bbfb267e1c39225afdab5afee1a72839cd86000e65ee9d7e4dfaff12239d28beaf5ee431357fcced15fb08583d72ca
+  checksum: 1b503525a88ff0ff5952e95870971c4fb2118c17364d60302c21935dedcd6c37e6a0a692f350892bafcef6f4a16d09073fe461158547978d2f16fbe4cb18581c
   languageName: node
   linkType: hard
 
@@ -593,6 +603,13 @@ __metadata:
   version: 6.19.8
   resolution: "undici-types@npm:6.19.8"
   checksum: de51f1b447d22571cf155dfe14ff6d12c5bdaec237c765085b439c38ca8518fc360e88c70f99469162bf2e14188a7b0bcb06e1ed2dc031042b984b0bb9544017
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~6.21.0":
+  version: 6.21.0
+  resolution: "undici-types@npm:6.21.0"
+  checksum: 46331c7d6016bf85b3e8f20c159d62f5ae471aba1eb3dc52fff35a0259d58dcc7d592d4cc4f00c5f9243fa738a11cfa48bd20203040d4a9e6bc25e807fab7ab3
   languageName: node
   linkType: hard
 

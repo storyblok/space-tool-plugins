@@ -5,8 +5,12 @@ on:
       - 'space-plugins/nextjs-starter'
       - 'tool-plugins/nextjs-starter'
 jobs:
-  nextjs-starters-checks:
+  nextjs-space-plugin-starter-checks:
     runs-on: ubuntu-latest
+    name: Build Space Plugin Starter
+    defaults:
+      run:
+        working-directory: ./space-plugins/nextjs-starter
     steps:
       - uses: actions/checkout@v4
       - name: Setup node
@@ -18,13 +22,24 @@ jobs:
         with:
           version: 10
           run_install: false
+      - name: Install dependencies
+        run: pnpm install
       - name: Build Space Plugin Starter
-        run: |
-          cd space-plugins/nextjs-starter
-          pnpm install
-          pnpm build
+        run: pnpm build
+  nextjs-tool-plugin-starter-checks:
+    runs-on: ubuntu-latest
+    name: Build Tool Plugin Starter
+    defaults:
+      run:
+        working-directory: ./tool-plugins/nextjs-starter
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn
       - name: Build Tool Plugin Starter
-        run: |
-          cd tool-plugins/nextjs-starter
-          pnpm install
-          pnpm build
+        run: yarn build

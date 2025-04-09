@@ -1,6 +1,8 @@
 # Storyblok Tool Starter x Next.js
 
-This is a starter template for Storyblok tools, created with Next.js (Pages Router) and [@storyblok/app-extension-auth](https://github.com/storyblok/app-extension-auth).
+This is a starter template for Storyblok Tool plugins, created with Next.js (Pages Router) and [@storyblok/app-extension-auth](https://github.com/storyblok/app-extension-auth).
+
+> WARNING: App Bridge should be activated in the Extension for this template to work.
 
 ## Getting Started
 
