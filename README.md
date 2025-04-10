@@ -1,8 +1,8 @@
 # Storyblok Space/Tool Plugins
 
-This repository is a collection of starters to help developers quickly start building their own Storyblok plugins.
+This repository is a collection of starters to help developers quickly start building their own Storyblok Tool plugins and Space plugins (legacy Custom Apps).
 
-> **Warning:** This repository is still considered as work in progress. While the team is actively developing and curating content to support your needs, it may not be in its final, polished state.
+> This is an active repository that will be updated whenever there is a change in the way plugins interact with the Storyblok ecosystem. You can use it as a reference for your own plugins.
 
 ## Introduction
 

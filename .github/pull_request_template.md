@@ -1,10 +1,10 @@
+Issue:
+
 ## What?
 
 <!-- Mention the changes that are included in the PR -->
 
 ## Why?
-
-JIRA: EXT-
 
 <!--
   Explain the **motivation** for making this change.
