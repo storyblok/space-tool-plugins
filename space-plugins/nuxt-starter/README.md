@@ -95,7 +95,7 @@ You should configure the same environment variables on the hosting platform as w
 
 If you have trouble setting up the development environment, please review the following:
 
-1. Ensure that the `.env.local` file is correctly set up with the following variables:
+1. Ensure that the `.env` file is correctly set up with the following variables:
 
    - `CLIENT_ID=`
    - `CLIENT_SECRET=`

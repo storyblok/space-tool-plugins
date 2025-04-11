@@ -50,7 +50,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 		if (err instanceof FetchError) {
 			error(err.data.message);
-		} else if (isNuxtError(err as any)) {
+		} else if (isNuxtError(err as unknown)) {
 			const nuxtError = err as NuxtError;
 			error(nuxtError.statusMessage || 'Unknown error');
 		} else {
