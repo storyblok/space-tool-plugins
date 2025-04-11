@@ -35,7 +35,7 @@ jobs:
         run: pnpm build
   nuxt-story-space-plugin-starter-checks:
     runs-on: ubuntu-latest
-    name: Build Nuxt Space Plugin Starter
+    name: Build Nuxt Story Starter
     defaults:
       run:
         working-directory: ./space-plugins/nuxt-story-starter
