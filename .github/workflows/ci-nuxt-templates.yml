@@ -1,0 +1,82 @@
+name: 'ci-nuxt-templates'
+on:
+  push:
+    paths:
+      - 'space-plugins/nuxt-*/**'
+      - 'tool-plugins/nuxt-starter/**'
+  pull_request:
+    paths:
+      - 'space-plugins/nuxt-*/**'
+      - 'tool-plugins/nuxt-starter/**'
+jobs:
+  nuxt-space-plugin-starter-checks:
+    runs-on: ubuntu-latest
+    name: Build Nuxt Space Plugin Starter
+    defaults:
+      run:
+        working-directory: ./space-plugins/nuxt-starter
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+      # TODO: change temporarily nuxt.config.ts to read ../nuxt-base and ../nuxt-base-ui for the build
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: Build
+        run: pnpm build
+  nuxt-story-space-plugin-starter-checks:
+    runs-on: ubuntu-latest
+    name: Build Nuxt Space Plugin Starter
+    defaults:
+      run:
+        working-directory: ./space-plugins/nuxt-story-starter
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+      # TODO: change temporarily nuxt.config.ts to read ../nuxt-base and ../nuxt-base-ui for the build
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: Build
+        run: pnpm build
+  nuxt-tool-plugin-starter-checks:
+    runs-on: ubuntu-latest
+    name: Build Nuxt Tool Plugin Starter
+    defaults:
+      run:
+        working-directory: ./tool-plugins/nuxt-starter
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: Build
+        run: pnpm build
