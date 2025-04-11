@@ -40,6 +40,7 @@ jobs:
         with:
           node-version: 22.14.0
           cache: 'yarn'
+          cache-dependency-path: tool-plugins/nextjs-starter/yarn.lock
       - name: Install dependencies
         run: yarn
       - name: Build Tool Plugin Starter
