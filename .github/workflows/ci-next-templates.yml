@@ -11,7 +11,7 @@ on:
 jobs:
   nextjs-space-plugin-starter-checks:
     runs-on: ubuntu-latest
-    name: Build Space Plugin Starter
+    name: Build Next Space Plugin Starter
     defaults:
       run:
         working-directory: ./space-plugins/nextjs-starter
@@ -32,7 +32,7 @@ jobs:
         run: pnpm build
   nextjs-tool-plugin-starter-checks:
     runs-on: ubuntu-latest
-    name: Build Tool Plugin Starter
+    name: Build Next Tool Plugin Starter
     defaults:
       run:
         working-directory: ./tool-plugins/nextjs-starter
