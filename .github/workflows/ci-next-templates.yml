@@ -2,12 +2,13 @@ name: 'ci-next-templates'
 on:
   push:
     paths:
-      - 'space-plugins/nextjs-starter'
-      - 'tool-plugins/nextjs-starter'
+      - 'space-plugins/nextjs-starter/**'
+      - 'tool-plugins/nextjs-starter/**'
+
 jobs:
   nextjs-space-plugin-starter-checks:
     runs-on: ubuntu-latest
-    name: Build Space Plugin Starter
+    name: Build Next Space Plugin Starter
     defaults:
       run:
         working-directory: ./space-plugins/nextjs-starter
@@ -28,7 +29,7 @@ jobs:
         run: pnpm build
   nextjs-tool-plugin-starter-checks:
     runs-on: ubuntu-latest
-    name: Build Tool Plugin Starter
+    name: Build Next Tool Plugin Starter
     defaults:
       run:
         working-directory: ./tool-plugins/nextjs-starter
@@ -39,6 +40,7 @@ jobs:
         with:
           node-version: 22.14.0
           cache: 'yarn'
+          cache-dependency-path: tool-plugins/nextjs-starter/yarn.lock
       - name: Install dependencies
         run: yarn
       - name: Build Tool Plugin Starter
