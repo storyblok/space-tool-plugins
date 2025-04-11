@@ -34,10 +34,10 @@ const alert = useAlert();
 				</ul>
 			</div>
 		</div>
+		<BaseAlert
+			v-if="alert.state.show"
+			:message="alert.state.message"
+			:type="alert.state.type"
+		/>
 	</div>
-	<BaseAlert
-		v-if="alert.state.show"
-		:message="alert.state.message"
-		:type="alert.state.type"
-	/>
 </template>
