@@ -4,10 +4,7 @@ on:
     paths:
       - 'space-plugins/nextjs-starter/**'
       - 'tool-plugins/nextjs-starter/**'
-  pull_request:
-    paths:
-      - 'space-plugins/nextjs-starter/**'
-      - 'tool-plugins/nextjs-starter/**'
+
 jobs:
   nextjs-space-plugin-starter-checks:
     runs-on: ubuntu-latest
