@@ -75,21 +75,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storyblok/app-extension-auth@npm:2.0.3":
-  version: 2.0.3
-  resolution: "@storyblok/app-extension-auth@npm:2.0.3"
+"@storyblok/app-extension-auth@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@storyblok/app-extension-auth@npm:2.1.0"
   dependencies:
-    "@storyblok/region-helper": 1.1.0
+    "@storyblok/region-helper": ^1.2.0
     jsonwebtoken: ^9.0.0
     openid-client: ^5.7.1
-  checksum: 45f44d32a4cf6df49c052a55a8550e4587a5fc0b87bc9ee1ebc517657b9b3abbfdd3cdaa12b1ff6e5a3d321889f5bbda8d173bdbd888dd1bf5a814775118cee5
+  checksum: 0d8c078c0a57089584ddf976d28dcdb4e470929cc1d477e1c003c7a987a548617c95bb0f29b99a530a5b5c8c4a940780c368df80436abcac8601bca8812709a1
   languageName: node
   linkType: hard
 
-"@storyblok/region-helper@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@storyblok/region-helper@npm:1.1.0"
-  checksum: 2eca9a222a28699f858d2ca27d58016cbe164f26d5b55fdb0caa58525e2d8cadb9fafd4e8f4337e71d2a354297f41531fda7292e93b5cd26c074d444e6edecbf
+"@storyblok/region-helper@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@storyblok/region-helper@npm:1.2.0"
+  checksum: 11c01eccc42e4d69edfe070f654be7b4756e2679df8f31ff9d6e3d2602208ed2b37ae93f64c107dbcdea6d6a6b76691e2a00b0a31335d0085926392e36a7d5b4
   languageName: node
   linkType: hard
 
@@ -443,9 +443,9 @@ __metadata:
   linkType: hard
 
 "oidc-token-hash@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "oidc-token-hash@npm:5.0.3"
-  checksum: 35fa19aea9ff2c509029ec569d74b778c8a215b92bd5e6e9bc4ebbd7ab035f44304ff02430a6397c3fb7c1d15ebfa467807ca0bcd31d06ba610b47798287d303
+  version: 5.1.0
+  resolution: "oidc-token-hash@npm:5.1.0"
+  checksum: b1ac3bf07315b1e26a8a33da714d1adee58f4aa488a5680cee49adb58e3b7fd7b00be5acca86d93215de1ce1a7d53720cbc7eba8347124f251703ede3abdbcb6
   languageName: node
   linkType: hard
 
@@ -559,7 +559,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tool-nextjs-starter@workspace:."
   dependencies:
-    "@storyblok/app-extension-auth": 2.0.3
+    "@storyblok/app-extension-auth": ^2.1.0
     "@types/jsonwebtoken": ^9.0.9
     "@types/node": 22.14.0
     "@types/react": 18.2.21
