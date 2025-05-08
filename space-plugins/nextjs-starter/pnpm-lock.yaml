@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: 2.0.3
-        version: 2.0.3
+        specifier: ^2.1.0
+        version: 2.1.0
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -99,12 +99,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@storyblok/app-extension-auth@2.0.3':
-    resolution: {integrity: sha512-NXqkAb1wcjANo4fVm23cRgGIzUr3xMfVZqiTa68x2M/E10GBduvoiEdK7oR5oN6Bz4lghbA03ctF4xTlBh1MoQ==}
+  '@storyblok/app-extension-auth@2.1.0':
+    resolution: {integrity: sha512-TPk4wK3WQpkoR1NRf3wAo3iZ3H3dUi2s9EY5gz12CbwMqbCtP3jarVNERCMfojJGO36wxhvTg3aOMVakBDZDNA==}
     engines: {node: '>=14.21.3'}
 
-  '@storyblok/region-helper@1.1.0':
-    resolution: {integrity: sha512-2NU/GHeaS9vFtkZJk/mNH6E5HvrV3vT3AN/Wrl44L3lwLIfcK4E0orjgCi7gvl0N3Ul5E+y6vJAVjD3bmjSZVg==}
+  '@storyblok/region-helper@1.2.0':
+    resolution: {integrity: sha512-Ew6okkK7vQvkk/jdjaM7f6szJXYtcBmPJXhl3zzh/rW9QdAaHKOodiIbvdkpvkcOrSNmUpXcx5d2gxYL5HRIzg==}
 
   '@swc/helpers@0.5.1':
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
@@ -227,8 +227,8 @@ packages:
     resolution: {integrity: sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==}
     engines: {node: '>= 6'}
 
-  oidc-token-hash@5.0.3:
-    resolution: {integrity: sha512-IF4PcGgzAr6XXSff26Sk/+P4KZFJVuHAJZj3wgO3vX2bMdNVp/QXTP3P7CEm9V1IdG8lDLY3HhiqpsE/nOwpPw==}
+  oidc-token-hash@5.1.0:
+    resolution: {integrity: sha512-y0W+X7Ppo7oZX6eovsRkuzcSM40Bicg2JEJkDJ4irIt1wsYAP5MLSNv+QAogO8xivMffw/9OvV3um1pxXgt1uA==}
     engines: {node: ^10.13.0 || >=12.0.0}
 
   openid-client@5.7.1:
@@ -334,13 +334,13 @@ snapshots:
   '@next/swc-win32-x64-msvc@13.4.19':
     optional: true
 
-  '@storyblok/app-extension-auth@2.0.3':
+  '@storyblok/app-extension-auth@2.1.0':
     dependencies:
-      '@storyblok/region-helper': 1.1.0
+      '@storyblok/region-helper': 1.2.0
       jsonwebtoken: 9.0.2
       openid-client: 5.7.1
 
-  '@storyblok/region-helper@1.1.0': {}
+  '@storyblok/region-helper@1.2.0': {}
 
   '@swc/helpers@0.5.1':
     dependencies:
@@ -473,14 +473,14 @@ snapshots:
 
   object-hash@2.2.0: {}
 
-  oidc-token-hash@5.0.3: {}
+  oidc-token-hash@5.1.0: {}
 
   openid-client@5.7.1:
     dependencies:
       jose: 4.15.9
       lru-cache: 6.0.0
       object-hash: 2.2.0
-      oidc-token-hash: 5.0.3
+      oidc-token-hash: 5.1.0
 
   picocolors@1.1.0: {}
 

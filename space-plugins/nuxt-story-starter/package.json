@@ -13,8 +13,8 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"@storyblok/app-extension-auth": "2.0.0",
-		"@storyblok/region-helper": "^1.1.0",
+		"@storyblok/app-extension-auth": "^2.1.0",
+		"@storyblok/region-helper": "^1.2.0",
 		"@types/nprogress": "^0.2.3",
 		"nprogress": "^0.2.0",
 		"storyblok-js-client": "^6.2.0",
