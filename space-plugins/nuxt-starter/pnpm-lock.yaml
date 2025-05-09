@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: ^2.1.0
+        version: 2.1.0
       '@storyblok/region-helper':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.2.0
+        version: 1.2.0
       storyblok-js-client:
         specifier: ^6.2.0
         version: 6.2.0
@@ -945,15 +945,12 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@storyblok/app-extension-auth@2.0.0':
-    resolution: {integrity: sha512-/hosbT8IhMODRy+Rxk10hG51m4WMrhmpl4LwO3g0JtSdAS+f6/Jl0f6CFDhlZ3FD1dQb3ncZyodSUpbiXxvBlw==}
+  '@storyblok/app-extension-auth@2.1.0':
+    resolution: {integrity: sha512-TPk4wK3WQpkoR1NRf3wAo3iZ3H3dUi2s9EY5gz12CbwMqbCtP3jarVNERCMfojJGO36wxhvTg3aOMVakBDZDNA==}
     engines: {node: '>=14.21.3'}
 
-  '@storyblok/region-helper@0.1.0':
-    resolution: {integrity: sha512-psDn8OrU9y1Y7qWXbUCeNQ1U+8XyumerE5MBTfN+06L/lRlR9DJ4BRWOlx/cjKF6RXd5CnUBjcg1BNM3IupIkA==}
-
-  '@storyblok/region-helper@1.1.0':
-    resolution: {integrity: sha512-2NU/GHeaS9vFtkZJk/mNH6E5HvrV3vT3AN/Wrl44L3lwLIfcK4E0orjgCi7gvl0N3Ul5E+y6vJAVjD3bmjSZVg==}
+  '@storyblok/region-helper@1.2.0':
+    resolution: {integrity: sha512-Ew6okkK7vQvkk/jdjaM7f6szJXYtcBmPJXhl3zzh/rW9QdAaHKOodiIbvdkpvkcOrSNmUpXcx5d2gxYL5HRIzg==}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -2413,8 +2410,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  jose@4.15.4:
-    resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
+  jose@4.15.9:
+    resolution: {integrity: sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2463,8 +2460,8 @@ packages:
     resolution: {integrity: sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==}
     engines: {node: '>=12', npm: '>=6'}
 
-  jwa@1.4.1:
-    resolution: {integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==}
+  jwa@1.4.2:
+    resolution: {integrity: sha512-eeH5JO+21J78qMvTIDdBXidBd6nG2kZjg5Ohz/1fpa28Z4CcsWUzJ1ZZyFq/3z3N17aZy+ZuBoHljASbL1WfOw==}
 
   jws@3.2.2:
     resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
@@ -2950,8 +2947,8 @@ packages:
   ohash@1.1.3:
     resolution: {integrity: sha512-zuHHiGTYTA1sYJ/wZN+t5HKZaH23i4yI1HMwbuXm24Nid7Dv0KcuRlKoNKS9UNfAVSBlnGLcuQrnOKWOZoEGaw==}
 
-  oidc-token-hash@5.0.3:
-    resolution: {integrity: sha512-IF4PcGgzAr6XXSff26Sk/+P4KZFJVuHAJZj3wgO3vX2bMdNVp/QXTP3P7CEm9V1IdG8lDLY3HhiqpsE/nOwpPw==}
+  oidc-token-hash@5.1.0:
+    resolution: {integrity: sha512-y0W+X7Ppo7oZX6eovsRkuzcSM40Bicg2JEJkDJ4irIt1wsYAP5MLSNv+QAogO8xivMffw/9OvV3um1pxXgt1uA==}
     engines: {node: ^10.13.0 || >=12.0.0}
 
   on-finished@2.4.1:
@@ -2984,8 +2981,8 @@ packages:
     resolution: {integrity: sha512-c/hfooPx+RBIOPM09GSxABOZhYPblDoyaGhqBkD/59vtpN21jEuWKDlM0KYTvqJVlSYjKs0tBcIdeXKChlSPtw==}
     hasBin: true
 
-  openid-client@5.6.4:
-    resolution: {integrity: sha512-T1h3B10BRPKfcObdBklX639tVz+xh34O7GjofqrqiAQdm7eHsQ00ih18x6wuJ/E6FxdtS2u3FmUGPDeEcMwzNA==}
+  openid-client@5.7.1:
+    resolution: {integrity: sha512-jDBPgSVfTnkIh71Hg9pRvtJc6wTwqjRkN88+gCFtYWrlP4Yx2Dsrow8uPi3qLr/aeymPF3o2+dS+wOpglK04ew==}
 
   optionator@0.9.3:
     resolution: {integrity: sha512-JjCoypp+jKn1ttEFExxhetCKeJt9zhAgAve5FXHixTvFDW/5aEktX9bufBKLRRMdU7bNtpLfcGu94B3cdEJgjg==}
@@ -5278,15 +5275,13 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@storyblok/app-extension-auth@2.0.0':
+  '@storyblok/app-extension-auth@2.1.0':
     dependencies:
-      '@storyblok/region-helper': 0.1.0
+      '@storyblok/region-helper': 1.2.0
       jsonwebtoken: 9.0.2
-      openid-client: 5.6.4
+      openid-client: 5.7.1
 
-  '@storyblok/region-helper@0.1.0': {}
-
-  '@storyblok/region-helper@1.1.0': {}
+  '@storyblok/region-helper@1.2.0': {}
 
   '@trysound/sax@0.2.0': {}
 
@@ -6942,7 +6937,7 @@ snapshots:
 
   jiti@1.21.0: {}
 
-  jose@4.15.4: {}
+  jose@4.15.9: {}
 
   js-tokens@4.0.0: {}
 
@@ -6987,7 +6982,7 @@ snapshots:
       ms: 2.1.3
       semver: 7.6.2
 
-  jwa@1.4.1:
+  jwa@1.4.2:
     dependencies:
       buffer-equal-constant-time: 1.0.1
       ecdsa-sig-formatter: 1.0.11
@@ -6995,7 +6990,7 @@ snapshots:
 
   jws@3.2.2:
     dependencies:
-      jwa: 1.4.1
+      jwa: 1.4.2
       safe-buffer: 5.2.1
 
   keygrip@1.1.0:
@@ -7685,7 +7680,7 @@ snapshots:
 
   ohash@1.1.3: {}
 
-  oidc-token-hash@5.0.3: {}
+  oidc-token-hash@5.1.0: {}
 
   on-finished@2.4.1:
     dependencies:
@@ -7728,12 +7723,12 @@ snapshots:
       undici: 5.28.4
       yargs-parser: 21.1.1
 
-  openid-client@5.6.4:
+  openid-client@5.7.1:
     dependencies:
-      jose: 4.15.4
+      jose: 4.15.9
       lru-cache: 6.0.0
       object-hash: 2.2.0
-      oidc-token-hash: 5.0.3
+      oidc-token-hash: 5.1.0
 
   optionator@0.9.3:
     dependencies:
