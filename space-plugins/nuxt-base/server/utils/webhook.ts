@@ -153,7 +153,9 @@ const upsertStoryblokWebhook: UpsertStoryblokWebhook = async (
 	} catch (err: any) {
 		if (
 			err.status === 422 &&
-			err.data?.base?.includes('Webhook limit exceeded')
+			err.data?.base?.some((errMessage: string) =>
+				errMessage.includes('reached the maximum number of webhooks'),
+			)
 		) {
 			return {
 				ok: false,
