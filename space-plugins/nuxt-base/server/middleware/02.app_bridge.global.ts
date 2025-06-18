@@ -7,12 +7,21 @@ export default defineEventHandler(async (event) => {
 		return;
 	}
 	const pathname = event.path.split('?')[0];
+
 	if (!pathname.startsWith('/api/')) {
 		return;
 	}
-	if (SKIP_AUTH_FOR.includes(pathname)) {
+
+	const shouldIgnorePath =
+		Array.isArray(appConfig.auth.middleware?.ignoredPaths) &&
+		appConfig.auth.middleware?.ignoredPaths.some((p: string) =>
+			pathname.startsWith(p),
+		);
+
+	if (SKIP_AUTH_FOR.includes(pathname) || shouldIgnorePath) {
 		return;
 	}
+
 	if (
 		[
 			appConfig.auth.initOauthFlowUrl,
