@@ -11,8 +11,8 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"@storyblok/app-extension-auth": "^2.1.0",
-		"@storyblok/region-helper": "^1.2.0",
+		"@storyblok/app-extension-auth": "^2.2.1",
+		"@storyblok/region-helper": "^1.3.0",
 		"jsonwebtoken": "^9.0.2"
 	},
 	"devDependencies": {

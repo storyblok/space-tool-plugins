@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@storyblok/app-extension-auth':
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^2.2.1
+        version: 2.2.1
       '@storyblok/region-helper':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.3.0
+        version: 1.3.0
       storyblok-js-client:
         specifier: ^6.2.0
         version: 6.8.1
@@ -920,12 +920,12 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@storyblok/app-extension-auth@2.1.0':
-    resolution: {integrity: sha512-TPk4wK3WQpkoR1NRf3wAo3iZ3H3dUi2s9EY5gz12CbwMqbCtP3jarVNERCMfojJGO36wxhvTg3aOMVakBDZDNA==}
+  '@storyblok/app-extension-auth@2.2.1':
+    resolution: {integrity: sha512-zc8fRY/gsuAETRD4joY8IvC52/mDt2d4BRW9w54N56hRm9q9C6pSHXVWaKgcGrS47XuzoRsUy9i2TzGF6LKBoA==}
     engines: {node: '>=14.21.3'}
 
-  '@storyblok/region-helper@1.2.0':
-    resolution: {integrity: sha512-Ew6okkK7vQvkk/jdjaM7f6szJXYtcBmPJXhl3zzh/rW9QdAaHKOodiIbvdkpvkcOrSNmUpXcx5d2gxYL5HRIzg==}
+  '@storyblok/region-helper@1.3.0':
+    resolution: {integrity: sha512-yzjeUApGbGGsSLdnFLWN3U53YgOslVuwgak/bZZ5bT0pFlseVcb9HNd9WgzgvWHqXrAW55fXayisQ//qnsCxYw==}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -4786,13 +4786,13 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@storyblok/app-extension-auth@2.1.0':
+  '@storyblok/app-extension-auth@2.2.1':
     dependencies:
-      '@storyblok/region-helper': 1.2.0
+      '@storyblok/region-helper': 1.3.0
       jsonwebtoken: 9.0.2
       openid-client: 5.7.1
 
-  '@storyblok/region-helper@1.2.0': {}
+  '@storyblok/region-helper@1.3.0': {}
 
   '@trysound/sax@0.2.0': {}
 
