@@ -75,21 +75,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storyblok/app-extension-auth@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@storyblok/app-extension-auth@npm:2.1.0"
+"@storyblok/app-extension-auth@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@storyblok/app-extension-auth@npm:2.2.1"
   dependencies:
-    "@storyblok/region-helper": ^1.2.0
+    "@storyblok/region-helper": ^1.3.0
     jsonwebtoken: ^9.0.0
     openid-client: ^5.7.1
-  checksum: 0d8c078c0a57089584ddf976d28dcdb4e470929cc1d477e1c003c7a987a548617c95bb0f29b99a530a5b5c8c4a940780c368df80436abcac8601bca8812709a1
+  checksum: c046f0d2bebdde25f47741904feab058373c846483c0c6c2e7361318b239ba9fcaf64517e9b540a3d9b9e72e781e81d0a5c2718138ab8e15ef111d4da8cf74dd
   languageName: node
   linkType: hard
 
-"@storyblok/region-helper@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@storyblok/region-helper@npm:1.2.0"
-  checksum: 11c01eccc42e4d69edfe070f654be7b4756e2679df8f31ff9d6e3d2602208ed2b37ae93f64c107dbcdea6d6a6b76691e2a00b0a31335d0085926392e36a7d5b4
+"@storyblok/region-helper@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@storyblok/region-helper@npm:1.3.0"
+  checksum: ce52d3d9122fb8cf8b3712187e61110cbb9a1c95955a9290c07a8c785206a74f4a063ec40b741fc3346e9e0510d40610c06c06005e7fb14edeec66f2cf619dc8
   languageName: node
   linkType: hard
 
@@ -559,7 +559,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tool-nextjs-starter@workspace:."
   dependencies:
-    "@storyblok/app-extension-auth": ^2.1.0
+    "@storyblok/app-extension-auth": ^2.2.1
     "@types/jsonwebtoken": ^9.0.9
     "@types/node": 22.14.0
     "@types/react": 18.2.21
